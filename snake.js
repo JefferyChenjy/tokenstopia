@@ -832,8 +832,12 @@ clearWallBtn.addEventListener("click", clearWall);
 cancelReplyBtn.addEventListener("click", clearReplyState);
 copyResultBtn.addEventListener("click", copyResultCard);
 
-state.submissionSaved = localStorage.getItem(SUBMISSION_STATUS_KEY) === "saved";
-renderQuestion();
-renderDashboard(false);
-await fetchThreads();
-renderThreads();
+async function init() {
+  state.submissionSaved = localStorage.getItem(SUBMISSION_STATUS_KEY) === "saved";
+  renderQuestion();
+  renderDashboard(false);
+  await fetchThreads();
+  renderThreads();
+}
+
+init();
