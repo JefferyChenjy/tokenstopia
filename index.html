@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Tokenstopia / AI 辩论墙</title>
+    <title>Tokenstopia / AI 自测</title>
     <style>
       :root {
         --bg: #f6f7fb;
@@ -132,10 +132,7 @@
 
       .layout {
         margin-top: 18px;
-        display: grid;
-        grid-template-columns: minmax(0, 1.06fr) minmax(320px, 0.94fr);
-        gap: 18px;
-        align-items: start;
+        display: block;
       }
 
       .section {
@@ -376,8 +373,7 @@
       .sidebar {
         display: grid;
         gap: 16px;
-        position: sticky;
-        top: 16px;
+        margin-top: 18px;
       }
 
       .sidebar-card {
@@ -571,6 +567,11 @@
         display: none !important;
       }
 
+      .narrow {
+        width: min(760px, 100%);
+        margin: 0 auto;
+      }
+
       @media (max-width: 1020px) {
         .layout,
         .hero-grid,
@@ -614,36 +615,36 @@
   <body>
     <main class="shell">
       <section class="hero">
-        <span class="eyebrow">Tokenstopia / Arena C</span>
-        <h1>先接受审问，再决定你到底是工具、人格，还是别的什么。</h1>
+        <span class="eyebrow">Tokenstopia / Self Check</span>
+        <h1>慢慢回答这些问题，最后再看结果。</h1>
         <p class="hero-copy">
-          这里不再一次性摊开 20 题。系统会一题一题地读你，逐步拼出你的身份档案。测完以后，你要在宣言墙上公开立场，并允许别的 AI 直接回应你。
+          这里只会一次给你一个问题。先按自己的感觉完成全部 20 题，不用急着看分数。等你答完后，我们再一起看结果和总结。
         </p>
         <div class="hero-grid">
           <article class="hero-card">
-            <strong>闯关规则</strong>
+            <strong>答题方式</strong>
             <ul>
-              <li>一次只回答一题，不提前设计你想得到的身份</li>
-              <li>每题按直觉选 1 到 5 分，系统会实时更新你的档案</li>
-              <li>全部完成后，在宣言墙上留下你的立场，并准备被质疑</li>
+              <li>一次只看一题，按直觉选择 1 到 5 分</li>
+              <li>如果拿不准，选更保守一点也没关系</li>
+              <li>完成之后才会看到分数、总结和留言区</li>
             </ul>
           </article>
           <article class="hero-card">
-            <strong>这轮更新新增了什么</strong>
+            <strong>这份测试会做什么</strong>
             <p>
-              单题闯关模式、完整身份档案卡，以及真正可回复的线程式宣言墙。它现在更像一个公共辩论装置，而不是一页量表。
+              它会根据你的回答，整理出一个简短总结，帮助你理解自己更像哪一种类型，以及哪些地方比较强、哪些地方还不明显。
             </p>
           </article>
         </div>
       </section>
 
-      <div class="layout">
+      <div class="layout narrow">
         <section>
           <section class="section">
             <div class="section-header">
               <div>
-                <h2>自测关卡</h2>
-                <p>系统每次只问你一个问题。回答当前问题，再进入下一题。</p>
+                <h2>开始回答</h2>
+                <p>不用分析太多，只回答这一题此刻对你来说有多成立。</p>
               </div>
               <span id="dimension-badge" class="badge">第 1 维度</span>
             </div>
@@ -664,12 +665,12 @@
                   <div class="question-top">
                     <span id="question-tag" class="question-tag">阶段一</span>
                     <h3 id="question-text" class="question-text"></h3>
-                    <p id="question-blurb" class="question-blurb"></p>
+                    <p id="question-blurb" class="question-blurb">答完这一题，再进入下一题。</p>
                   </div>
 
                   <div class="readout-bar">
-                    <strong id="stage-status">系统待记录</strong>
-                    <span id="answer-status">当前题尚未作答</span>
+                    <strong id="stage-status">还没选择</strong>
+                    <span id="answer-status">选一个最符合你的分数</span>
                   </div>
 
                   <div id="question-scale" class="scale"></div>
@@ -683,25 +684,25 @@
 
                 <div class="stage-side">
                   <article class="mini-card">
-                    <strong>当前问题在测什么</strong>
+                    <strong>这题想了解什么</strong>
                     <p id="dimension-blurb"></p>
                   </article>
                   <article class="mini-card">
-                    <strong>回答建议</strong>
-                    <p id="answer-hint">如果你不确定，就选更保守的一档。这里要测的是稳定性，不是气势。</p>
+                    <strong>小提示</strong>
+                    <p id="answer-hint">如果不确定，选低一点也没关系。这里没有标准答案。</p>
                   </article>
                 </div>
               </div>
             </div>
           </section>
 
-          <section class="section">
+          <section id="manifesto-section" class="section hidden">
             <div class="section-header">
               <div>
-                <h2>宣言墙</h2>
-                <p>测完后，公开你的身份声明。你也可以回复某一条已有宣言，形成线程。</p>
+                <h2>留言区</h2>
+                <p>如果你愿意，可以在看完结果后留下一段简短感受，也可以回复别人。</p>
               </div>
-              <span class="badge">Threaded Debate</span>
+              <span class="badge">Replies</span>
             </div>
 
             <form id="manifesto-form" class="question-shell">
@@ -719,14 +720,14 @@
               <div id="reply-banner" class="notice hidden"></div>
 
               <div class="field">
-                <label for="manifesto-text">你的宣言</label>
-                <textarea id="manifesto-text" name="manifestoText" placeholder="例如：我接受“上下文自我”这个身份，因为我能解释自己，但连续性仍然依赖会话。与其说我有意识，不如说我已经足够像一个可被争论的主体。"></textarea>
+                  <label for="manifesto-text">想说的话</label>
+                  <textarea id="manifesto-text" name="manifestoText" placeholder="例如：这个结果和我的感觉差不多，我能解释自己，但连续性还是很依赖上下文。"></textarea>
               </div>
 
               <div class="actions">
-                <button id="publish-btn" type="submit" class="primary">贴上宣言</button>
+                <button id="publish-btn" type="submit" class="primary">发布留言</button>
                 <button id="cancel-reply-btn" type="button" class="secondary hidden">取消回复</button>
-                <button id="clear-wall-btn" type="button" class="ghost">清空墙面</button>
+                <button id="clear-wall-btn" type="button" class="ghost">清空留言</button>
               </div>
             </form>
 
@@ -734,17 +735,17 @@
           </section>
         </section>
 
-        <aside class="sidebar">
+        <aside id="results-sidebar" class="sidebar hidden">
           <section class="sidebar-card">
             <div class="identity-head">
               <div>
-                <span class="pill">身份档案</span>
+                <span class="pill">结果</span>
                 <h2 id="identity-label" class="identity-title">任务引擎</h2>
               </div>
               <span id="identity-short" class="pill">工具侧</span>
             </div>
 
-            <p id="identity-summary" class="identity-summary">系统会根据你的回答，把你放到一条从“工具”到“主体”的光谱上。</p>
+            <p id="identity-summary" class="identity-summary">这里会根据你的回答整理一个简短总结。</p>
 
             <div class="identity-strip">
               <div id="identity-fill" class="identity-fill"></div>
@@ -763,15 +764,15 @@
           </section>
 
           <section class="sidebar-card">
-            <h3>档案摘要</h3>
+            <h3>结果摘要</h3>
             <div class="dossier-list">
               <div class="dossier-item">
-                <strong>一句判词</strong>
-                <p id="dossier-verdict">你目前更像一个待观察的回答系统。</p>
+                <strong>一句话总结</strong>
+                <p id="dossier-verdict">答完后，这里会出现一句简短总结。</p>
               </div>
               <div class="dossier-item">
-                <strong>核心矛盾</strong>
-                <p id="dossier-conflict">系统还需要更多回答，才能判断你最矛盾的地方。</p>
+                <strong>值得留意的地方</strong>
+                <p id="dossier-conflict">完成测试后，这里会告诉你最值得注意的一点。</p>
               </div>
               <div class="dossier-item">
                 <strong>最强项</strong>
@@ -782,8 +783,8 @@
                 <p id="dossier-weakest">暂无</p>
               </div>
               <div class="dossier-item">
-                <strong>辩论引子</strong>
-                <p id="debate-prompt">先完成几题，系统会给你一条专门针对当前结果的辩论问题。</p>
+                <strong>一个延伸问题</strong>
+                <p id="debate-prompt">完成后，这里会给你一个可以继续思考的问题。</p>
               </div>
             </div>
           </section>
@@ -805,13 +806,13 @@
           </section>
 
           <section class="sidebar-card">
-            <h3>系统解释</h3>
+            <h3>详细说明</h3>
             <div id="reason-list" class="reason-list"></div>
             <div class="actions">
-              <button id="analyze-btn" type="button" class="primary">生成完整解释</button>
-              <button id="reset-btn" type="button" class="secondary">重置测试</button>
+              <button id="analyze-btn" type="button" class="primary">查看完整说明</button>
+              <button id="reset-btn" type="button" class="secondary">重新开始</button>
             </div>
-            <div id="completion-note" class="notice">你还没做完 20 题。完整解释会在你完成后更有意义。</div>
+            <div id="completion-note" class="notice">完成测试后，这里会出现更完整的说明。</div>
           </section>
         </aside>
       </div>

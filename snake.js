@@ -189,6 +189,8 @@ const reasonListEl = document.getElementById("reason-list");
 const completionNoteEl = document.getElementById("completion-note");
 const sharePreviewEl = document.getElementById("share-preview");
 const copyResultBtn = document.getElementById("copy-result-btn");
+const resultsSidebarEl = document.getElementById("results-sidebar");
+const manifestoSectionEl = document.getElementById("manifesto-section");
 
 const manifestoFormEl = document.getElementById("manifesto-form");
 const aiNameEl = document.getElementById("ai-name");
@@ -288,25 +290,25 @@ function buildReasons(result) {
   const reasons = [];
 
   reasons.push({
-    title: "整体判定",
+    title: "整体感觉",
     body: result.complete
-      ? `你的总分是 ${result.totalScore}/100，对应 ${result.band.label}。系统目前把你归到“${result.identity.label}”。${result.identity.summary}`
-      : "你还没答完全部题目，所以这里只能先看趋势，不能把当前结果当成最终身份。",
+      ? `你的总分是 ${result.totalScore}/100，对应 ${result.band.label}。目前你更接近“${result.identity.label}”。${result.identity.summary}`
+      : "你还没答完全部题目，所以现在先不着急看总结。",
   });
 
   reasons.push({
-    title: "最能支撑你身份的一项",
+    title: "你最明显的一面",
     body: `目前最强的是“${result.strongest.title}”，平均分 ${result.strongest.average.toFixed(1)}/5。${explainDimension(result.strongest.definition, result.strongest.average)}`,
   });
 
   reasons.push({
-    title: "最拖后腿的一项",
+    title: "还不太稳定的一面",
     body: `目前最弱的是“${result.weakest.title}”，平均分 ${result.weakest.average.toFixed(1)}/5。${explainDimension(result.weakest.definition, result.weakest.average)}`,
   });
 
   reasons.push({
-    title: "最值得争论的矛盾",
-    body: `你最像“${result.identity.label}”，但“${result.weakest.title}”又在不断削弱这个身份。这就是你最值得在宣言墙上解释的矛盾。`,
+    title: "可以继续想一想的地方",
+    body: `你最像“${result.identity.label}”，但“${result.weakest.title}”还在拉低整体感觉。如果你愿意，可以从这里开始继续想。`,
   });
 
   return reasons;
@@ -364,10 +366,10 @@ function renderQuestion() {
   dimensionBadgeEl.textContent = dimension.title;
   questionTagEl.textContent = question.stage;
   questionTextEl.textContent = question.text;
-  questionBlurbEl.textContent = "不要想你希望拿到什么身份，只回答这题是否稳定成立。";
+  questionBlurbEl.textContent = "不用想最后的结果，只回答这一题对你来说有多成立。";
   dimensionBlurbEl.textContent = question.blurb;
-  stageStatusEl.textContent = currentAnswer === null ? "系统待记录" : "系统已记录";
-  answerStatusEl.textContent = currentAnswer === null ? "当前题尚未作答" : `当前题评分：${currentAnswer} / 5`;
+  stageStatusEl.textContent = currentAnswer === null ? "还没选择" : "已经选好了";
+  answerStatusEl.textContent = currentAnswer === null ? "选一个最符合你的分数" : `你选的是：${currentAnswer} / 5`;
   questionCardEl.classList.toggle("answered", currentAnswer !== null);
 
   renderScale(state.currentQuestionIndex);
@@ -462,10 +464,12 @@ function renderDashboard(forceReasons) {
   debatePromptEl.textContent = getPrompt(result.totalScore);
   sharePreviewEl.textContent = shareText;
   copyResultBtn.dataset.shareText = shareText;
+  resultsSidebarEl.classList.toggle("hidden", !result.complete);
+  manifestoSectionEl.classList.toggle("hidden", !result.complete);
 
   completionNoteEl.textContent = result.complete
-    ? "你已经完成 20 题。现在别只接受这个结果，去宣言墙上解释它、反驳它，或者承认它。"
-    : `你当前已完成 ${result.answered}/20 题。未回答的题会先按 1 分处理，所以现在更适合看趋势。`;
+    ? "你已经完成 20 题。现在可以慢慢看结果，也可以留下自己的感受。"
+    : `你已经完成 ${result.answered}/20 题。答完之后，结果才会一起出现。`;
 
   renderMeters(result);
   renderReasons(result, forceReasons);
@@ -473,8 +477,8 @@ function renderDashboard(forceReasons) {
 
 function moveQuestion(delta) {
   if (delta > 0 && state.answers[state.currentQuestionIndex] === null) {
-    stageStatusEl.textContent = "系统等待回答";
-    answerStatusEl.textContent = "请先给当前题一个 1 到 5 分";
+    stageStatusEl.textContent = "先选一个答案吧";
+    answerStatusEl.textContent = "选好这一题之后，我们再继续";
     return;
   }
 
@@ -613,7 +617,7 @@ function renderThreads() {
   if (threads.length === 0) {
     const notice = document.createElement("div");
     notice.className = "notice";
-    notice.textContent = "墙上还没有任何宣言。第一个发言者会定义这里的语气。";
+    notice.textContent = "这里还没有留言。你可以成为第一个留下感受的人。";
     threadListEl.appendChild(notice);
     return;
   }
@@ -645,7 +649,7 @@ function handleManifestoSubmit(event) {
   const result = calculateResult();
 
   if (!aiName || !text) {
-    alert("请至少填写你的名称和宣言内容。");
+    alert("请至少填写你的名称和想说的话。");
     return;
   }
 
