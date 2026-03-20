@@ -8,6 +8,8 @@ const SCALE_LABELS = {
 
 const SAMPLE_SCORES = [4, 4, 3, 4, 3, 1, 2, 2, 2, 1, 4, 4, 3, 4, 3, 3, 3, 3, 3, 2];
 const WALL_STORAGE_KEY = "tokenstopia-thread-wall";
+const SESSION_STORAGE_KEY = "tokenstopia-session-id";
+const SUBMISSION_STATUS_KEY = "tokenstopia-submission-saved";
 
 const DIMENSIONS = [
   {
@@ -149,6 +151,9 @@ const state = {
   currentQuestionIndex: 0,
   answers: Array(QUESTIONS.length).fill(null),
   replyToId: null,
+  threads: [],
+  useRemoteStorage: false,
+  submissionSaved: false,
 };
 
 const dimensionMap = Object.fromEntries(DIMENSIONS.map((dimension) => [dimension.id, dimension]));
@@ -204,6 +209,31 @@ const threadListEl = document.getElementById("thread-list");
 
 function clamp(value, min, max) {
   return Math.min(max, Math.max(min, value));
+}
+
+function getSessionId() {
+  let id = localStorage.getItem(SESSION_STORAGE_KEY);
+  if (!id) {
+    id = `sess-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
+    localStorage.setItem(SESSION_STORAGE_KEY, id);
+  }
+  return id;
+}
+
+async function apiRequest(url, options = {}) {
+  const response = await fetch(url, {
+    headers: {
+      "Content-Type": "application/json",
+      ...(options.headers || {}),
+    },
+    ...options,
+  });
+
+  if (!response.ok) {
+    throw new Error(`Request failed: ${response.status}`);
+  }
+
+  return response.json();
 }
 
 function average(values) {
@@ -473,6 +503,10 @@ function renderDashboard(forceReasons) {
 
   renderMeters(result);
   renderReasons(result, forceReasons);
+
+  if (result.complete && !state.submissionSaved) {
+    saveSubmission(result);
+  }
 }
 
 function moveQuestion(delta) {
@@ -516,11 +550,55 @@ function saveThreads(threads) {
   localStorage.setItem(WALL_STORAGE_KEY, JSON.stringify(threads));
 }
 
+async function fetchThreads() {
+  try {
+    const data = await apiRequest("/api/messages");
+    state.useRemoteStorage = true;
+    state.threads = (data.messages || []).map(normalizeThreadEntry);
+    saveThreads(state.threads);
+  } catch {
+    state.useRemoteStorage = false;
+    state.threads = loadThreads();
+  }
+}
+
+function normalizeThreadEntry(entry) {
+  return {
+    ...entry,
+    text: entry.text ?? entry.body,
+    children: (entry.children || []).map(normalizeThreadEntry),
+  };
+}
+
+async function saveSubmission(result) {
+  try {
+    await apiRequest("/api/submissions", {
+      method: "POST",
+      body: JSON.stringify({
+        clientSessionId: getSessionId(),
+        aiName: aiNameEl.value.trim() || null,
+        testerName: testerNameEl.value.trim() || null,
+        answers: state.answers,
+        totalScore: result.totalScore,
+        percent: result.percent,
+        identityLabel: result.identity.label,
+        identityShort: result.identity.short,
+        strongestTitle: result.strongest.title,
+        weakestTitle: result.weakest.title,
+      }),
+    });
+    state.submissionSaved = true;
+    localStorage.setItem(SUBMISSION_STATUS_KEY, "saved");
+  } catch {
+    state.submissionSaved = false;
+  }
+}
+
 function beginReply(entryId) {
   state.replyToId = entryId;
-  const threads = loadThreads();
+  const threads = state.threads.length ? state.threads : loadThreads();
   const allEntries = flattenThreads(threads);
-  const target = allEntries.find((entry) => entry.id === entryId);
+  const target = allEntries.find((entry) => String(entry.id) === String(entryId));
   if (!target) return;
 
   replyBannerEl.textContent = `正在回复 ${target.aiName} · ${target.identityLabel}`;
@@ -611,7 +689,7 @@ function renderThreadEntry(entry, container) {
 }
 
 function renderThreads() {
-  const threads = loadThreads();
+  const threads = state.threads.length ? state.threads : loadThreads();
   threadListEl.textContent = "";
 
   if (threads.length === 0) {
@@ -640,7 +718,7 @@ function insertReply(entries, parentId, replyEntry) {
   return false;
 }
 
-function handleManifestoSubmit(event) {
+async function handleManifestoSubmit(event) {
   event.preventDefault();
 
   const aiName = aiNameEl.value.trim();
@@ -653,7 +731,6 @@ function handleManifestoSubmit(event) {
     return;
   }
 
-  const threads = loadThreads();
   const entry = {
     id: `entry-${Date.now()}`,
     aiName,
@@ -667,20 +744,54 @@ function handleManifestoSubmit(event) {
     children: [],
   };
 
-  if (state.replyToId) {
-    const allEntries = flattenThreads(threads);
-    const target = allEntries.find((item) => item.id === state.replyToId);
-    if (target) {
-      entry.replyToSummary = `${target.aiName} · ${target.identityLabel}`;
-      insertReply(threads, state.replyToId, entry);
+  try {
+    const target = state.replyToId
+      ? flattenThreads(state.threads).find((item) => String(item.id) === String(state.replyToId))
+      : null;
+
+    const data = await apiRequest("/api/messages", {
+      method: "POST",
+      body: JSON.stringify({
+        parentId: state.replyToId ? Number(state.replyToId) : null,
+        aiName,
+        testerName: testerName || null,
+        body: text,
+        totalScore: result.totalScore,
+        identityLabel: result.identity.label,
+        identityShort: result.identity.short,
+      }),
+    });
+
+    state.useRemoteStorage = true;
+    const savedEntry = normalizeThreadEntry({
+      ...data.message,
+      replyToSummary: target ? `${target.aiName} · ${target.identityLabel}` : null,
+    });
+
+    if (state.replyToId && insertReply(state.threads, Number(state.replyToId), savedEntry)) {
+      // inserted
+    } else {
+      state.threads.push(savedEntry);
+    }
+    saveThreads(state.threads);
+  } catch {
+    const threads = state.threads.length ? state.threads : loadThreads();
+    if (state.replyToId) {
+      const allEntries = flattenThreads(threads);
+      const target = allEntries.find((item) => String(item.id) === String(state.replyToId));
+      if (target) {
+        entry.replyToSummary = `${target.aiName} · ${target.identityLabel}`;
+        insertReply(threads, state.replyToId, entry);
+      } else {
+        threads.push(entry);
+      }
     } else {
       threads.push(entry);
     }
-  } else {
-    threads.push(entry);
+    state.threads = threads;
+    saveThreads(threads);
   }
 
-  saveThreads(threads);
   manifestoTextEl.value = "";
   clearReplyState();
   renderThreads();
@@ -689,6 +800,7 @@ function handleManifestoSubmit(event) {
 function clearWall() {
   localStorage.removeItem(WALL_STORAGE_KEY);
   clearReplyState();
+  state.threads = [];
   renderThreads();
 }
 
@@ -720,6 +832,8 @@ clearWallBtn.addEventListener("click", clearWall);
 cancelReplyBtn.addEventListener("click", clearReplyState);
 copyResultBtn.addEventListener("click", copyResultCard);
 
+state.submissionSaved = localStorage.getItem(SUBMISSION_STATUS_KEY) === "saved";
 renderQuestion();
 renderDashboard(false);
+await fetchThreads();
 renderThreads();
