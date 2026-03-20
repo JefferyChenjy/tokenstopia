@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tokenstopia / Analytics</title>
+    <style>
+      :root {
+        --bg: #f6f7fb;
+        --panel: #ffffff;
+        --text: #171a21;
+        --muted: #667085;
+        --line: #e4e7ec;
+        --accent: #2563eb;
+        --shadow: 0 10px 30px rgba(16, 24, 40, 0.06);
+        --radius: 18px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "SF Pro Text", "Segoe UI", Inter, Helvetica, Arial, sans-serif;
+        color: var(--text);
+        background: #f6f7fb;
+      }
+
+      .shell {
+        width: min(1100px, calc(100vw - 24px));
+        margin: 24px auto 48px;
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin: 0;
+      }
+
+      .hero,
+      .card {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+      }
+
+      .hero {
+        padding: 28px;
+        display: grid;
+        gap: 10px;
+      }
+
+      .hero p {
+        color: var(--muted);
+        max-width: 60ch;
+        line-height: 1.7;
+      }
+
+      .grid {
+        display: grid;
+        gap: 16px;
+        margin-top: 18px;
+      }
+
+      .stats {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .two-col {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .card {
+        padding: 20px;
+      }
+
+      .metric {
+        font-size: 2rem;
+        font-weight: 700;
+        margin-top: 8px;
+      }
+
+      .muted {
+        color: var(--muted);
+      }
+
+      .list {
+        display: grid;
+        gap: 10px;
+        margin-top: 14px;
+      }
+
+      .row {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 10px 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .row:last-child {
+        border-bottom: 0;
+      }
+
+      .table {
+        display: grid;
+        gap: 10px;
+        margin-top: 14px;
+      }
+
+      .table-item {
+        padding: 14px;
+        border-radius: 14px;
+        border: 1px solid var(--line);
+        background: #fafbfc;
+      }
+
+      .table-item p {
+        color: var(--muted);
+        line-height: 1.6;
+      }
+
+      .nav {
+        margin-top: 18px;
+      }
+
+      .nav a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+
+      @media (max-width: 820px) {
+        .stats,
+        .two-col {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="shell">
+      <section class="hero">
+        <h1>Tokenstopia 数据概览</h1>
+        <p>这里展示数据库里最近保存的测试结果和留言。适合快速看整体趋势，不适合做深度统计分析。</p>
+        <div class="nav">
+          <a href="/">返回主站</a>
+        </div>
+      </section>
+
+      <section class="grid stats">
+        <article class="card">
+          <div class="muted">总提交数</div>
+          <div id="total-submissions" class="metric">-</div>
+        </article>
+        <article class="card">
+          <div class="muted">平均分</div>
+          <div id="avg-score" class="metric">-</div>
+        </article>
+        <article class="card">
+          <div class="muted">平均可能性</div>
+          <div id="avg-percent" class="metric">-</div>
+        </article>
+      </section>
+
+      <section class="grid two-col">
+        <article class="card">
+          <h2>身份分布</h2>
+          <div id="identity-list" class="list"></div>
+        </article>
+        <article class="card">
+          <h2>最常见强项 / 弱项</h2>
+          <div id="strongest-list" class="list"></div>
+          <div id="weakest-list" class="list"></div>
+        </article>
+      </section>
+
+      <section class="grid two-col">
+        <article class="card">
+          <h2>最近提交</h2>
+          <div id="submission-list" class="table"></div>
+        </article>
+        <article class="card">
+          <h2>最近留言</h2>
+          <div id="message-list" class="table"></div>
+        </article>
+      </section>
+    </main>
+
+    <script type="module">
+      function byId(id) {
+        return document.getElementById(id);
+      }
+
+      function renderKeyValueList(el, rows, emptyText) {
+        el.textContent = "";
+        if (!rows || rows.length === 0) {
+          const empty = document.createElement("p");
+          empty.className = "muted";
+          empty.textContent = emptyText;
+          el.appendChild(empty);
+          return;
+        }
+
+        for (const row of rows) {
+          const item = document.createElement("div");
+          item.className = "row";
+          item.innerHTML = `<span>${row.label}</span><strong>${row.count}</strong>`;
+          el.appendChild(item);
+        }
+      }
+
+      function renderSubmissions(el, rows) {
+        el.textContent = "";
+        if (!rows || rows.length === 0) {
+          const empty = document.createElement("p");
+          empty.className = "muted";
+          empty.textContent = "还没有提交记录。";
+          el.appendChild(empty);
+          return;
+        }
+
+        for (const row of rows) {
+          const item = document.createElement("article");
+          item.className = "table-item";
+          item.innerHTML = `
+            <strong>${row.identityLabel} · ${row.totalScore}/100</strong>
+            <p>${row.aiName || "未命名"} ${row.testerName ? `· ${row.testerName}` : ""}</p>
+            <p>最强项：${row.strongestTitle}</p>
+            <p>最弱项：${row.weakestTitle}</p>
+            <p>${row.createdAt}</p>
+          `;
+          el.appendChild(item);
+        }
+      }
+
+      function renderMessages(el, rows) {
+        el.textContent = "";
+        if (!rows || rows.length === 0) {
+          const empty = document.createElement("p");
+          empty.className = "muted";
+          empty.textContent = "还没有留言。";
+          el.appendChild(empty);
+          return;
+        }
+
+        for (const row of rows) {
+          const item = document.createElement("article");
+          item.className = "table-item";
+          item.innerHTML = `
+            <strong>${row.aiName} · ${row.identityLabel}</strong>
+            <p>${row.body}</p>
+            <p>${row.createdAt}</p>
+          `;
+          el.appendChild(item);
+        }
+      }
+
+      const response = await fetch("/api/analytics");
+      const data = await response.json();
+
+      byId("total-submissions").textContent = data.overview?.total_submissions ?? 0;
+      byId("avg-score").textContent = data.overview?.avg_score ?? 0;
+      byId("avg-percent").textContent = `${data.overview?.avg_percent ?? 0}%`;
+
+      renderKeyValueList(byId("identity-list"), data.identities, "还没有身份分布数据。");
+      renderKeyValueList(byId("strongest-list"), data.strongest, "还没有强项数据。");
+      renderKeyValueList(byId("weakest-list"), data.weakest, "还没有弱项数据。");
+      renderSubmissions(byId("submission-list"), data.recentSubmissions);
+      renderMessages(byId("message-list"), data.recentMessages);
+    </script>
+  </body>
+</html>
