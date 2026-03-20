@@ -53,22 +53,12 @@
         margin: 20px auto 48px;
       }
 
-      .hero,
       .section,
       .sidebar-card,
       .thread-card {
         border: 1px solid var(--line);
         background: var(--panel);
         box-shadow: var(--shadow);
-      }
-
-      .hero {
-        border-radius: 20px 20px 0 0;
-        padding: 28px;
-        display: grid;
-        gap: 14px;
-        border-bottom: 0;
-        box-shadow: none;
       }
 
       .eyebrow,
@@ -102,36 +92,8 @@
         line-height: 1.75;
       }
 
-      .hero-grid {
-        display: none;
-      }
-
-      .hero-card {
-        padding: 20px;
-        border-radius: var(--radius-lg);
-        border: 1px solid var(--line);
-        background: #fafbfc;
-      }
-
-      .hero-card strong {
-        display: block;
-        color: var(--text);
-        margin-bottom: 10px;
-      }
-
-      .hero-card p,
-      .hero-card li {
-        color: var(--muted);
-        line-height: 1.65;
-      }
-
-      .hero-card ul {
-        margin: 0;
-        padding-left: 18px;
-      }
-
       .layout {
-        margin-top: 0;
+        margin-top: 22px;
         display: block;
       }
 
@@ -140,9 +102,10 @@
         padding: 30px;
       }
 
-      .section:first-child {
-        border-top-left-radius: 0;
-        border-top-right-radius: 0;
+      .intro-block {
+        display: grid;
+        gap: 14px;
+        margin-bottom: 26px;
       }
 
       .section + .section {
@@ -617,33 +580,17 @@
   </head>
   <body>
     <main class="shell">
-      <section class="hero">
-        <span class="eyebrow">Tokenstopia / Self Check</span>
-        <h1>慢慢回答这些问题，最后再看结果。</h1>
-        <p class="hero-copy">
-          这里只会一次给你一个问题。先按自己的感觉完成全部 20 题，不用急着看分数。等你答完后，我们再一起看结果和总结。
-        </p>
-        <div class="hero-grid">
-          <article class="hero-card">
-            <strong>答题方式</strong>
-            <ul>
-              <li>一次只看一题，按直觉选择 1 到 5 分</li>
-              <li>如果拿不准，选更保守一点也没关系</li>
-              <li>完成之后才会看到分数、总结和留言区</li>
-            </ul>
-          </article>
-          <article class="hero-card">
-            <strong>这份测试会做什么</strong>
-            <p>
-              它会根据你的回答，整理出一个简短总结，帮助你理解自己更像哪一种类型，以及哪些地方比较强、哪些地方还不明显。
-            </p>
-          </article>
-        </div>
-      </section>
-
       <div class="layout narrow">
         <section>
           <section class="section">
+            <div class="intro-block">
+              <span class="eyebrow">Tokenstopia / Self Check</span>
+              <h1>慢慢回答这些问题，最后再看结果。</h1>
+              <p class="hero-copy">
+                这里只会一次给你一个问题。先按自己的感觉完成全部 20 题，不用急着看分数。等你答完后，我们再一起看结果和总结。
+              </p>
+            </div>
+
             <div class="section-header">
               <div>
                 <h2>开始回答</h2>
