@@ -49,8 +49,8 @@
       }
 
       .shell {
-        width: min(1240px, calc(100vw - 24px));
-        margin: 16px auto 36px;
+        width: min(980px, calc(100vw - 28px));
+        margin: 20px auto 48px;
       }
 
       .hero,
@@ -63,10 +63,10 @@
       }
 
       .hero {
-        border-radius: var(--radius-xl);
-        padding: 34px;
+        border-radius: 20px;
+        padding: 28px;
         display: grid;
-        gap: 20px;
+        gap: 14px;
       }
 
       .eyebrow,
@@ -86,24 +86,22 @@
       }
 
       h1 {
-        max-width: 12ch;
-        font-size: clamp(2.1rem, 4vw, 4rem);
-        line-height: 1;
+        max-width: 14ch;
+        font-size: clamp(2rem, 3.6vw, 3.4rem);
+        line-height: 1.02;
         letter-spacing: -0.04em;
         font-weight: 700;
       }
 
       .hero-copy {
-        max-width: 72ch;
+        max-width: 62ch;
         color: var(--muted);
-        font-size: 1rem;
-        line-height: 1.7;
+        font-size: 1.02rem;
+        line-height: 1.75;
       }
 
       .hero-grid {
-        display: grid;
-        grid-template-columns: 1.15fr 0.85fr;
-        gap: 18px;
+        display: none;
       }
 
       .hero-card {
@@ -131,13 +129,13 @@
       }
 
       .layout {
-        margin-top: 18px;
+        margin-top: 22px;
         display: block;
       }
 
       .section {
-        border-radius: var(--radius-xl);
-        padding: 28px;
+        border-radius: 20px;
+        padding: 30px;
       }
 
       .section + .section {
@@ -145,11 +143,9 @@
       }
 
       .section-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: start;
-        gap: 14px;
-        margin-bottom: 16px;
+        display: grid;
+        gap: 10px;
+        margin-bottom: 22px;
       }
 
       .section-header p {
@@ -169,12 +165,12 @@
 
       .question-shell {
         display: grid;
-        gap: 18px;
+        gap: 22px;
       }
 
       .progress-block {
         display: grid;
-        gap: 12px;
+        gap: 10px;
       }
 
       .progress-meta {
@@ -183,6 +179,7 @@
         gap: 10px;
         align-items: center;
         color: var(--muted);
+        font-size: 0.95rem;
       }
 
       .progress-track {
@@ -200,18 +197,16 @@
       }
 
       .stage-grid {
-        display: grid;
-        grid-template-columns: 1fr 220px;
-        gap: 16px;
+        display: block;
       }
 
       .question-card {
         border-radius: var(--radius-lg);
         border: 1px solid var(--line);
         background: #ffffff;
-        padding: 24px;
+        padding: 34px;
         display: grid;
-        gap: 18px;
+        gap: 24px;
         transition: transform 180ms ease, opacity 180ms ease, border-color 180ms ease;
       }
 
@@ -226,35 +221,35 @@
 
       .question-top {
         display: grid;
-        gap: 10px;
+        gap: 14px;
       }
 
       .question-tag {
         color: var(--muted);
-        font-size: 0.86rem;
+        font-size: 0.78rem;
         text-transform: uppercase;
         letter-spacing: 0.08em;
       }
 
       .question-text {
-        font-size: clamp(1.4rem, 2vw, 2rem);
-        line-height: 1.18;
+        font-size: clamp(1.75rem, 2.6vw, 2.5rem);
+        line-height: 1.15;
         letter-spacing: -0.04em;
         font-weight: 700;
+        max-width: 18ch;
       }
 
       .question-blurb {
         color: var(--muted);
-        line-height: 1.7;
+        line-height: 1.8;
+        max-width: 58ch;
       }
 
       .readout-bar {
-        display: flex;
-        justify-content: space-between;
+        display: grid;
         gap: 10px;
-        align-items: center;
-        flex-wrap: wrap;
-        padding: 12px 14px;
+        align-items: start;
+        padding: 16px 18px;
         border-radius: var(--radius-md);
         border: 1px solid var(--line);
         background: #f8fafc;
@@ -271,7 +266,7 @@
       .scale {
         display: grid;
         grid-template-columns: repeat(5, minmax(0, 1fr));
-        gap: 10px;
+        gap: 12px;
       }
 
       .scale label {
@@ -279,7 +274,7 @@
         display: grid;
         gap: 8px;
         justify-items: center;
-        padding: 14px 10px;
+        padding: 18px 12px;
         border-radius: var(--radius-md);
         border: 1px solid var(--line);
         background: #ffffff;
@@ -316,8 +311,7 @@
       }
 
       .stage-side {
-        display: grid;
-        gap: 12px;
+        display: none;
       }
 
       .mini-card {
@@ -372,13 +366,13 @@
 
       .sidebar {
         display: grid;
-        gap: 16px;
-        margin-top: 18px;
+        gap: 18px;
+        margin-top: 22px;
       }
 
       .sidebar-card {
-        border-radius: var(--radius-xl);
-        padding: 20px;
+        border-radius: 20px;
+        padding: 24px;
         display: grid;
         gap: 16px;
       }
@@ -391,7 +385,7 @@
       }
 
       .identity-title {
-        font-size: 1.7rem;
+        font-size: 1.9rem;
         line-height: 1.1;
         margin-top: 6px;
         font-weight: 700;
@@ -483,8 +477,8 @@
 
       .field-grid {
         display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 12px;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
       }
 
       .field {
@@ -529,8 +523,8 @@
       .thread-children {
         display: grid;
         gap: 10px;
-        margin-left: 16px;
-        padding-left: 14px;
+        margin-left: 10px;
+        padding-left: 16px;
         border-left: 1px dashed var(--line);
       }
 
@@ -573,10 +567,8 @@
       }
 
       @media (max-width: 1020px) {
-        .layout,
-        .hero-grid,
-        .stage-grid {
-          grid-template-columns: 1fr;
+        .layout {
+          display: block;
         }
 
         .sidebar {
@@ -608,6 +600,10 @@
 
         h1 {
           max-width: none;
+        }
+
+        .question-card {
+          padding: 22px;
         }
       }
     </style>
