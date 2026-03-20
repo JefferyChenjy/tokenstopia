@@ -6,22 +6,22 @@
     <title>Tokenstopia / AI 辩论墙</title>
     <style>
       :root {
-        --bg: #11111a;
-        --bg-2: #1a1730;
-        --panel: rgba(23, 20, 36, 0.84);
-        --panel-strong: rgba(31, 27, 50, 0.96);
-        --text: #f3efff;
-        --muted: #b3abd3;
-        --line: rgba(186, 178, 230, 0.16);
-        --accent: #ff8a3d;
-        --accent-2: #7ce7ff;
-        --accent-3: #ffd166;
-        --accent-soft: rgba(255, 138, 61, 0.12);
-        --success: #9cffb1;
-        --shadow: 0 28px 90px rgba(3, 3, 9, 0.5);
-        --radius-xl: 30px;
-        --radius-lg: 22px;
-        --radius-md: 16px;
+        --bg: #f6f7fb;
+        --bg-2: #eef1f6;
+        --panel: #ffffff;
+        --panel-strong: #ffffff;
+        --text: #171a21;
+        --muted: #667085;
+        --line: #e4e7ec;
+        --accent: #2563eb;
+        --accent-2: #0f172a;
+        --accent-3: #475467;
+        --accent-soft: rgba(37, 99, 235, 0.08);
+        --success: #16a34a;
+        --shadow: 0 10px 30px rgba(16, 24, 40, 0.06);
+        --radius-xl: 24px;
+        --radius-lg: 18px;
+        --radius-md: 12px;
       }
 
       * {
@@ -36,23 +36,8 @@
         margin: 0;
         min-height: 100vh;
         color: var(--text);
-        font-family: Georgia, "Times New Roman", serif;
-        background:
-          radial-gradient(circle at top left, rgba(124, 231, 255, 0.14), transparent 24%),
-          radial-gradient(circle at 85% 10%, rgba(255, 138, 61, 0.14), transparent 28%),
-          linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%);
-      }
-
-      body::before {
-        content: "";
-        position: fixed;
-        inset: 0;
-        pointer-events: none;
-        background:
-          linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-        background-size: 28px 28px;
-        mask-image: radial-gradient(circle at center, black, transparent 92%);
+        font-family: "SF Pro Text", "Segoe UI", Inter, Helvetica, Arial, sans-serif;
+        background: linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%);
       }
 
       h1,
@@ -75,7 +60,6 @@
         border: 1px solid var(--line);
         background: var(--panel);
         box-shadow: var(--shadow);
-        backdrop-filter: blur(16px);
       }
 
       .hero {
@@ -83,47 +67,37 @@
         padding: 34px;
         display: grid;
         gap: 20px;
-        position: relative;
-        overflow: hidden;
-      }
-
-      .hero::after {
-        content: "";
-        position: absolute;
-        inset: auto -10% -30% 48%;
-        height: 320px;
-        background: radial-gradient(circle, rgba(255, 138, 61, 0.2), transparent 64%);
-        pointer-events: none;
       }
 
       .eyebrow,
       .pill {
         width: fit-content;
         border-radius: 999px;
-        padding: 9px 14px;
-        font-size: 0.82rem;
+        padding: 8px 12px;
+        font-size: 0.78rem;
         text-transform: uppercase;
         letter-spacing: 0.08em;
       }
 
       .eyebrow {
-        background: rgba(255, 209, 102, 0.1);
-        color: var(--accent-3);
-        border: 1px solid rgba(255, 209, 102, 0.22);
+        background: #f2f4f7;
+        color: var(--muted);
+        border: 1px solid var(--line);
       }
 
       h1 {
         max-width: 12ch;
-        font-size: clamp(2.5rem, 5vw, 5.2rem);
-        line-height: 0.92;
-        letter-spacing: -0.05em;
+        font-size: clamp(2.1rem, 4vw, 4rem);
+        line-height: 1;
+        letter-spacing: -0.04em;
+        font-weight: 700;
       }
 
       .hero-copy {
         max-width: 72ch;
         color: var(--muted);
-        font-size: 1.05rem;
-        line-height: 1.75;
+        font-size: 1rem;
+        line-height: 1.7;
       }
 
       .hero-grid {
@@ -133,17 +107,15 @@
       }
 
       .hero-card {
-        position: relative;
-        z-index: 1;
-        padding: 22px;
+        padding: 20px;
         border-radius: var(--radius-lg);
         border: 1px solid var(--line);
-        background: rgba(255, 255, 255, 0.04);
+        background: #fafbfc;
       }
 
       .hero-card strong {
         display: block;
-        color: var(--accent-3);
+        color: var(--text);
         margin-bottom: 10px;
       }
 
@@ -192,10 +164,10 @@
       .badge {
         flex: none;
         border-radius: 999px;
-        padding: 10px 12px;
+        padding: 8px 12px;
         background: var(--accent-soft);
-        color: #ffd7bc;
-        font-size: 0.9rem;
+        color: var(--accent);
+        font-size: 0.86rem;
       }
 
       .question-shell {
@@ -239,7 +211,7 @@
       .question-card {
         border-radius: var(--radius-lg);
         border: 1px solid var(--line);
-        background: rgba(255, 255, 255, 0.045);
+        background: #ffffff;
         padding: 24px;
         display: grid;
         gap: 18px;
@@ -252,7 +224,7 @@
       }
 
       .question-card.answered {
-        border-color: rgba(156, 255, 177, 0.28);
+        border-color: rgba(22, 163, 74, 0.28);
       }
 
       .question-top {
@@ -261,16 +233,17 @@
       }
 
       .question-tag {
-        color: var(--accent-3);
+        color: var(--muted);
         font-size: 0.86rem;
         text-transform: uppercase;
         letter-spacing: 0.08em;
       }
 
       .question-text {
-        font-size: clamp(1.5rem, 2.3vw, 2.15rem);
-        line-height: 1.08;
+        font-size: clamp(1.4rem, 2vw, 2rem);
+        line-height: 1.18;
         letter-spacing: -0.04em;
+        font-weight: 700;
       }
 
       .question-blurb {
@@ -287,11 +260,11 @@
         padding: 12px 14px;
         border-radius: var(--radius-md);
         border: 1px solid var(--line);
-        background: rgba(124, 231, 255, 0.05);
+        background: #f8fafc;
       }
 
       .readout-bar strong {
-        color: #dff9ff;
+        color: var(--text);
       }
 
       .readout-bar span {
@@ -312,7 +285,7 @@
         padding: 14px 10px;
         border-radius: var(--radius-md);
         border: 1px solid var(--line);
-        background: rgba(6, 6, 10, 0.28);
+        background: #ffffff;
         cursor: pointer;
         transition: 140ms ease;
         text-align: center;
@@ -341,8 +314,8 @@
       }
 
       .scale label.selected {
-        background: linear-gradient(180deg, rgba(255, 138, 61, 0.22), rgba(255, 138, 61, 0.08));
-        border-color: rgba(255, 138, 61, 0.5);
+        background: rgba(37, 99, 235, 0.08);
+        border-color: rgba(37, 99, 235, 0.35);
       }
 
       .stage-side {
@@ -353,7 +326,7 @@
       .mini-card {
         border-radius: var(--radius-lg);
         border: 1px solid var(--line);
-        background: rgba(255, 255, 255, 0.045);
+        background: #fafbfc;
         padding: 16px;
       }
 
@@ -379,25 +352,25 @@
 
       .primary {
         background: var(--accent);
-        color: #170d06;
+        color: #ffffff;
       }
 
       .secondary {
         border: 1px solid var(--line);
-        background: rgba(255, 255, 255, 0.08);
+        background: #ffffff;
         color: var(--text);
       }
 
       .ghost {
-        border: 1px solid rgba(124, 231, 255, 0.22);
-        background: rgba(124, 231, 255, 0.08);
-        color: #ddf9ff;
+        border: 1px solid var(--line);
+        background: #f8fafc;
+        color: var(--text);
       }
 
       .pill {
-        border: 1px solid rgba(124, 231, 255, 0.2);
-        background: rgba(124, 231, 255, 0.08);
-        color: #d9f8ff;
+        border: 1px solid var(--line);
+        background: #f8fafc;
+        color: var(--muted);
       }
 
       .sidebar {
@@ -423,8 +396,9 @@
 
       .identity-title {
         font-size: 1.7rem;
-        line-height: 1.05;
+        line-height: 1.1;
         margin-top: 6px;
+        font-weight: 700;
       }
 
       .identity-summary,
@@ -444,7 +418,7 @@
       .meter-track {
         height: 12px;
         border-radius: 999px;
-        background: rgba(255, 255, 255, 0.08);
+        background: #edf2f7;
         overflow: hidden;
       }
 
@@ -457,11 +431,11 @@
       }
 
       .identity-fill {
-        background: linear-gradient(90deg, var(--accent-2) 0%, var(--accent) 55%, var(--accent-3) 100%);
+        background: linear-gradient(90deg, #94a3b8 0%, var(--accent) 100%);
       }
 
       .score-fill {
-        background: linear-gradient(90deg, #7ce7ff 0%, #ff8a3d 100%);
+        background: linear-gradient(90deg, #93c5fd 0%, var(--accent) 100%);
       }
 
       .dossier-grid,
@@ -484,7 +458,7 @@
       .share-card {
         border-radius: var(--radius-lg);
         border: 1px solid var(--line);
-        background: rgba(255, 255, 255, 0.045);
+        background: #ffffff;
         padding: 14px;
       }
 
@@ -527,7 +501,7 @@
         width: 100%;
         border: 1px solid var(--line);
         border-radius: var(--radius-md);
-        background: rgba(5, 5, 9, 0.28);
+        background: #ffffff;
         padding: 12px 14px;
         font: inherit;
       }
@@ -551,9 +525,9 @@
       }
 
       .thread-reply {
-        border-left: 2px solid rgba(124, 231, 255, 0.25);
+        border-left: 2px solid rgba(37, 99, 235, 0.2);
         padding-left: 12px;
-        color: #dcf9ff;
+        color: var(--text);
       }
 
       .thread-children {
@@ -561,7 +535,7 @@
         gap: 10px;
         margin-left: 16px;
         padding-left: 14px;
-        border-left: 1px dashed rgba(186, 178, 230, 0.18);
+        border-left: 1px dashed var(--line);
       }
 
       .share-card {
@@ -572,10 +546,10 @@
       .share-preview {
         padding: 14px;
         border-radius: var(--radius-md);
-        border: 1px dashed rgba(255, 209, 102, 0.22);
-        background: rgba(255, 209, 102, 0.05);
+        border: 1px dashed var(--line);
+        background: #f8fafc;
         line-height: 1.7;
-        color: #fff1cf;
+        color: var(--text);
         white-space: pre-wrap;
       }
 
@@ -588,7 +562,7 @@
       .notice {
         border-radius: var(--radius-md);
         border: 1px dashed var(--line);
-        background: rgba(255, 255, 255, 0.04);
+        background: #f8fafc;
         padding: 14px;
         line-height: 1.65;
       }
