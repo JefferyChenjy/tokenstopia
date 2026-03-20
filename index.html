@@ -63,10 +63,12 @@
       }
 
       .hero {
-        border-radius: 20px;
+        border-radius: 20px 20px 0 0;
         padding: 28px;
         display: grid;
         gap: 14px;
+        border-bottom: 0;
+        box-shadow: none;
       }
 
       .eyebrow,
@@ -129,13 +131,18 @@
       }
 
       .layout {
-        margin-top: 22px;
+        margin-top: 0;
         display: block;
       }
 
       .section {
         border-radius: 20px;
         padding: 30px;
+      }
+
+      .section:first-child {
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
       }
 
       .section + .section {
