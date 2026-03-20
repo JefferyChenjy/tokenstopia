@@ -7,16 +7,42 @@ function sendJson(res, status, body) {
 }
 
 export default async function handler(req, res) {
-  if (req.method !== "POST") {
-    return sendJson(res, 405, { error: "Method not allowed" });
-  }
-
   if (!process.env.DATABASE_URL) {
     return sendJson(res, 503, { error: "Database not configured" });
   }
 
   try {
     await ensureSchema();
+
+    if (req.method === "GET") {
+      const limit = Math.min(Number(req.query?.recent || 10) || 10, 50);
+      const result = await query(
+        `
+          select
+            id,
+            client_session_id as "clientSessionId",
+            ai_name as "aiName",
+            tester_name as "testerName",
+            total_score as "totalScore",
+            percent,
+            identity_label as "identityLabel",
+            identity_short as "identityShort",
+            strongest_title as "strongestTitle",
+            weakest_title as "weakestTitle",
+            to_char(created_at at time zone 'utc', 'YYYY-MM-DD HH24:MI UTC') as "createdAt"
+          from test_submissions
+          order by created_at desc, id desc
+          limit $1
+        `,
+        [limit],
+      );
+
+      return sendJson(res, 200, { submissions: result.rows });
+    }
+
+    if (req.method !== "POST") {
+      return sendJson(res, 405, { error: "Method not allowed" });
+    }
 
     const {
       clientSessionId,
