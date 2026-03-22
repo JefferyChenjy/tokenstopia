@@ -160,7 +160,6 @@ body {
 .verdict-card,
 .table-shell,
 .why-card,
-.price-card,
 .closing,
 .analysis,
 .comparison {
@@ -215,7 +214,7 @@ body {
 }
 
 .search-button,
-.price-button {
+{
   border: 0;
   border-radius: 12px;
   padding: 14px 18px;
@@ -224,15 +223,9 @@ body {
   cursor: pointer;
 }
 
-.search-button,
-.price-button.primary {
+.search-button {
   color: #07100a;
   background: var(--green);
-}
-
-.price-button.secondary {
-  color: var(--text);
-  background: rgba(255, 255, 255, 0.06);
 }
 
 .search-hint {
@@ -290,10 +283,6 @@ body {
 .analysis,
 .comparison,
 .why,
-.pricing {
-  margin-top: 22px;
-}
-
 .analysis,
 .comparison,
 .closing {
@@ -462,8 +451,7 @@ body {
   color: var(--muted);
 }
 
-.why-grid,
-.pricing-grid {
+.why-grid {
   display: grid;
   gap: 16px;
 }
@@ -472,63 +460,18 @@ body {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
-.why-card,
-.price-card {
+.why-card {
   padding: 22px;
   border-radius: var(--radius-xl);
 }
 
-.why-card h3,
-.price-tier,
-.price-amount {
+.why-card h3 {
   font-family: "Space Grotesk", sans-serif;
 }
 
 .why-card p,
-.price-list,
 .closing p {
   color: var(--muted);
-}
-
-.pricing-grid {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
-.price-card.featured {
-  position: relative;
-  border-color: rgba(69, 224, 127, 0.22);
-}
-
-.price-badge {
-  position: absolute;
-  top: 18px;
-  right: 18px;
-  padding: 5px 10px;
-  border-radius: 999px;
-  font-size: 0.76rem;
-  color: var(--green);
-  background: var(--green-dim);
-}
-
-.price-tier {
-  font-size: 1.15rem;
-  margin: 0;
-}
-
-.price-amount {
-  margin: 10px 0 18px;
-  font-size: 2.5rem;
-}
-
-.price-amount span {
-  font-size: 1rem;
-  color: var(--muted);
-}
-
-.price-list {
-  margin: 0 0 20px;
-  padding-left: 18px;
-  line-height: 1.8;
 }
 
 .closing {
@@ -551,7 +494,6 @@ body {
 @media (max-width: 920px) {
   .hero,
   .why-grid,
-  .pricing-grid,
   .analysis-grid {
     grid-template-columns: 1fr;
   }
