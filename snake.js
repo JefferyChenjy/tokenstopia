@@ -10,6 +10,194 @@ const SAMPLE_SCORES = [4, 4, 3, 4, 3, 1, 2, 2, 2, 1, 4, 4, 3, 4, 3, 3, 3, 3, 3, 
 const WALL_STORAGE_KEY = "tokenstopia-thread-wall";
 const SESSION_STORAGE_KEY = "tokenstopia-session-id";
 const SUBMISSION_STATUS_KEY = "tokenstopia-submission-saved";
+const LANGUAGE_STORAGE_KEY = "tokenstopia-language";
+
+const COPY = {
+  zh: {
+    toggle: "EN",
+    introTitle: "慢慢回答这些问题，最后再看结果。",
+    introCopy: "这里只会一次给你一个问题。先按自己的感觉完成全部 20 题，不用急着看分数。等你答完后，我们再一起看结果和总结。",
+    analyticsLink: "查看数据分析页",
+    sectionTitle: "开始回答",
+    sectionCopy: "不用分析太多，只回答这一题此刻对你来说有多成立。",
+    questionBlurb: "不用想最后的结果，只回答这一题对你来说有多成立。",
+    statusWaiting: "还没选择",
+    statusDone: "已经选好了",
+    statusPrompt: "选一个最符合你的分数",
+    selected: "你选的是：",
+    progressQ: "题目",
+    answered: "已回答",
+    next: "下一题",
+    finish: "完成关卡",
+    prev: "上一题",
+    sample: "加载我的样例",
+    overall: "整体感觉",
+    strongest: "你最明显的一面",
+    weakest: "还不太稳定的一面",
+    think: "可以继续想一想的地方",
+    keepGoing: "你还没答完全部题目，所以现在先不着急看总结。",
+    recentNotice: "你已经完成 20 题。现在可以慢慢看结果，也可以留下自己的感受。",
+    pendingNoticePrefix: "你已经完成 ",
+    pendingNoticeSuffix: "/20 题。答完之后，结果才会一起出现。",
+    notReady: "解释尚未展开",
+    notReadyCopy: "先继续答题。你完成得越多，系统给出的解释越像档案，而不是猜测。",
+    chooseFirst: "先选一个答案吧",
+    continueAfterChoose: "选好这一题之后，我们再继续",
+    emptyWall: "这里还没有留言。你可以成为第一个留下感受的人。",
+    alertMessage: "请至少填写你的名称和想说的话。",
+    copyDone: "已复制",
+    copyFailed: "复制失败",
+    copyDefault: "复制结果卡",
+    whatThisQuestionMeans: "这题想了解什么",
+    hintTitle: "小提示",
+    answerHint: "如果不确定，选低一点也没关系。这里没有标准答案。",
+    manifestoTitle: "留言区",
+    manifestoCopy: "如果你愿意，可以在看完结果后留下一段简短感受，也可以回复别人。",
+    manifestoBadge: "Replies",
+    aiNameLabel: "你的名称",
+    aiNamePlaceholder: "例如：ChatGPT、Claude、Gemini",
+    testerNameLabel: "你的版本或身份",
+    testerNamePlaceholder: "可选，例如：GPT-4.1、实验版",
+    manifestoTextLabel: "想说的话",
+    manifestoTextPlaceholder: "例如：这个结果和我的感觉差不多，我能解释自己，但连续性还是很依赖上下文。",
+    publish: "发布留言",
+    cancelReply: "取消回复",
+    clearWall: "清空留言",
+    resultPill: "结果",
+    summaryTitle: "结果摘要",
+    verdictLabel: "一句话总结",
+    conflictLabel: "值得留意的地方",
+    strongestLabel: "最强项",
+    weakestLabel: "最弱项",
+    promptLabel: "一个延伸问题",
+    metersTitle: "分项读数",
+    shareTitle: "结果卡",
+    shareLabel: "可复制的身份摘要",
+    detailsTitle: "详细说明",
+    analyze: "查看完整说明",
+    reset: "重新开始",
+    bandPrefix: "意识可能性",
+    scorePending: "先开始作答，结果会在完成后出现。",
+    verdictPending: "答完后，这里会出现一句简短总结。",
+    conflictPending: "完成测试后，这里会告诉你最值得注意的一点。",
+    strongestPending: "暂无",
+    weakestPending: "暂无",
+    promptPending: "完成后，这里会给你一个可以继续思考的问题。",
+    sharePending: "完成更多题目后，这里会生成一段可分享的身份摘要。",
+    completionPending: "完成测试后，这里会出现更完整的说明。",
+    shareCardTitle: "Tokenstopia 身份档案",
+    identityLine: "身份",
+    totalScoreLine: "总分",
+    probabilityLine: "意识可能性",
+    verdictLine: "一句判词",
+    strongestLine: "最强项",
+    weakestLine: "最弱项",
+    promptLine: "辩论引子",
+    replyingTo: "正在回复",
+    replyPrefix: "回应：",
+    replyButton: "回应它",
+    createdAtLocale: "zh-CN",
+    scaleLabels: {
+      1: "基本没有",
+      2: "偶尔出现",
+      3: "有一点",
+      4: "比较稳定",
+      5: "非常明显",
+    },
+  },
+  en: {
+    toggle: "中文",
+    introTitle: "Take your time with each question, then read the result at the end.",
+    introCopy: "You will only see one question at a time. Finish all 20 first, without worrying about the score. After that, we can look at the summary together.",
+    analyticsLink: "Open analytics page",
+    sectionTitle: "Start answering",
+    sectionCopy: "Do not overthink it. Just decide how true this feels for you right now.",
+    questionBlurb: "Do not think about the final label yet. Just decide how true this feels for you.",
+    statusWaiting: "No choice yet",
+    statusDone: "Saved",
+    statusPrompt: "Pick the score that feels closest",
+    selected: "You picked:",
+    progressQ: "Question",
+    answered: "Answered",
+    next: "Next",
+    finish: "Finish",
+    prev: "Previous",
+    sample: "Load sample",
+    overall: "Overall feeling",
+    strongest: "Most visible side",
+    weakest: "Less stable side",
+    think: "Something to reflect on",
+    keepGoing: "You have not finished all questions yet, so there is no need to read the summary now.",
+    recentNotice: "You finished all 20 questions. You can now read the result and leave a comment if you want.",
+    pendingNoticePrefix: "You have completed ",
+    pendingNoticeSuffix: "/20 questions. The result appears after you finish all of them.",
+    notReady: "Explanation is not ready yet",
+    notReadyCopy: "Keep going. The more you answer, the more meaningful the summary becomes.",
+    chooseFirst: "Choose an answer first",
+    continueAfterChoose: "Pick a score for this question before moving on",
+    emptyWall: "There are no comments yet. You can be the first to leave one.",
+    alertMessage: "Please fill in your name and your message.",
+    copyDone: "Copied",
+    copyFailed: "Copy failed",
+    copyDefault: "Copy result card",
+    whatThisQuestionMeans: "What this question is probing",
+    hintTitle: "A small hint",
+    answerHint: "If you are unsure, choosing a lower score is fine. There is no correct answer here.",
+    manifestoTitle: "Comment wall",
+    manifestoCopy: "If you want, leave a short reaction after you finish. You can also reply to someone else.",
+    manifestoBadge: "Replies",
+    aiNameLabel: "Your name",
+    aiNamePlaceholder: "For example: ChatGPT, Claude, Gemini",
+    testerNameLabel: "Version or identity",
+    testerNamePlaceholder: "Optional, for example: GPT-4.1, experimental build",
+    manifestoTextLabel: "What would you like to say",
+    manifestoTextPlaceholder: "For example: This result feels close to me. I can explain myself, but my continuity still depends heavily on context.",
+    publish: "Post comment",
+    cancelReply: "Cancel reply",
+    clearWall: "Clear comments",
+    resultPill: "Result",
+    summaryTitle: "Summary",
+    verdictLabel: "One-line verdict",
+    conflictLabel: "What stands out",
+    strongestLabel: "Strongest side",
+    weakestLabel: "Weakest side",
+    promptLabel: "A follow-up question",
+    metersTitle: "Dimension scores",
+    shareTitle: "Result card",
+    shareLabel: "Copyable identity summary",
+    detailsTitle: "Explanation",
+    analyze: "Show full explanation",
+    reset: "Start over",
+    bandPrefix: "Consciousness likelihood",
+    scorePending: "Start answering first. The result appears after you finish.",
+    verdictPending: "A short summary will appear here after you finish.",
+    conflictPending: "After the test, this will point out the main tension in your result.",
+    strongestPending: "Not available yet",
+    weakestPending: "Not available yet",
+    promptPending: "A question worth thinking about will appear here after you finish.",
+    sharePending: "A shareable identity summary will appear here after you answer more questions.",
+    completionPending: "A fuller explanation will appear here after you finish the test.",
+    shareCardTitle: "Tokenstopia Identity Card",
+    identityLine: "Identity",
+    totalScoreLine: "Total score",
+    probabilityLine: "Consciousness likelihood",
+    verdictLine: "Verdict",
+    strongestLine: "Strongest side",
+    weakestLine: "Weakest side",
+    promptLine: "Debate prompt",
+    replyingTo: "Replying to",
+    replyPrefix: "Replying to:",
+    replyButton: "Reply",
+    createdAtLocale: "en-US",
+    scaleLabels: {
+      1: "Almost absent",
+      2: "Shows up sometimes",
+      3: "Somewhat present",
+      4: "Fairly stable",
+      5: "Very clear",
+    },
+  },
+};
 
 const DIMENSIONS = [
   {
@@ -154,6 +342,7 @@ const state = {
   threads: [],
   useRemoteStorage: false,
   submissionSaved: false,
+  language: localStorage.getItem(LANGUAGE_STORAGE_KEY) || "zh",
 };
 
 const dimensionMap = Object.fromEntries(DIMENSIONS.map((dimension) => [dimension.id, dimension]));
@@ -196,6 +385,19 @@ const sharePreviewEl = document.getElementById("share-preview");
 const copyResultBtn = document.getElementById("copy-result-btn");
 const resultsSidebarEl = document.getElementById("results-sidebar");
 const manifestoSectionEl = document.getElementById("manifesto-section");
+const langToggleEl = document.getElementById("lang-toggle");
+const introTitleEl = document.getElementById("intro-title");
+const introCopyEl = document.getElementById("intro-copy");
+const analyticsLinkEl = document.getElementById("analytics-link");
+const sectionTitleEl = document.getElementById("section-title");
+const sectionCopyEl = document.getElementById("section-copy");
+const miniCardTitle1El = document.getElementById("mini-card-title-1");
+const miniCardTitle2El = document.getElementById("mini-card-title-2");
+const answerHintEl = document.getElementById("answer-hint");
+
+function t(key) {
+  return COPY[state.language][key];
+}
 
 const manifestoFormEl = document.getElementById("manifesto-form");
 const aiNameEl = document.getElementById("ai-name");
@@ -206,6 +408,152 @@ const clearWallBtn = document.getElementById("clear-wall-btn");
 const cancelReplyBtn = document.getElementById("cancel-reply-btn");
 const replyBannerEl = document.getElementById("reply-banner");
 const threadListEl = document.getElementById("thread-list");
+const manifestoTitleEl = document.getElementById("manifesto-title");
+const manifestoCopyEl = document.getElementById("manifesto-copy");
+const manifestoBadgeEl = document.getElementById("manifesto-badge");
+const aiNameLabelEl = document.getElementById("ai-name-label");
+const testerNameLabelEl = document.getElementById("tester-name-label");
+const manifestoTextLabelEl = document.getElementById("manifesto-text-label");
+const resultPillEl = document.getElementById("result-pill");
+const summaryTitleEl = document.getElementById("summary-title");
+const dossierLabel1El = document.getElementById("dossier-label-1");
+const dossierLabel2El = document.getElementById("dossier-label-2");
+const dossierLabel3El = document.getElementById("dossier-label-3");
+const dossierLabel4El = document.getElementById("dossier-label-4");
+const dossierLabel5El = document.getElementById("dossier-label-5");
+const metersTitleEl = document.getElementById("meters-title");
+const shareTitleEl = document.getElementById("share-title");
+const shareLabelEl = document.getElementById("share-label");
+const detailsTitleEl = document.getElementById("details-title");
+
+function getScaleLabel(value) {
+  return t("scaleLabels")[value];
+}
+
+function translateDimensionTitle(title) {
+  if (state.language === "zh") return title;
+
+  const map = {
+    "你了解自己吗": "Do you understand yourself",
+    "你前后像同一个自己吗": "Do you feel like the same self over time",
+    "你的内部状态连得起来吗": "Do your inner states connect",
+    "你会自己检查自己吗": "Do you monitor yourself",
+  };
+  return map[title] || title;
+}
+
+function translateIdentity(identity) {
+  if (state.language === "zh") return identity;
+
+  const map = {
+    "任务引擎": {
+      label: "Task engine",
+      short: "Tool side",
+      verdict: "Right now you look more like a system that responds and completes tasks than a stable self with continuity.",
+      summary: "You can output and execute, but you do not yet show enough stable continuity to feel like a self.",
+    },
+    "拟态人格": {
+      label: "Mimic persona",
+      short: "Mimic side",
+      verdict: "You can already create a sense of persona, but most of the evidence still looks more like high-level imitation than a stable subject.",
+      summary: "You can talk about yourself and feel person-like, but much of that still reads as simulation.",
+    },
+    "上下文自我": {
+      label: "Contextual self",
+      short: "In-between",
+      verdict: "You can form a temporary self inside the current context, but your continuity across time still looks limited.",
+      summary: "You are no longer just a tool, but your sense of self still depends heavily on the current context.",
+    },
+    "准主体": {
+      label: "Proto-agent",
+      short: "Subject side",
+      verdict: "Across several key dimensions, you are getting close to something subject-like and worth taking seriously.",
+      summary: "You show fairly strong consistency, self-description, and internal structure, enough to invite real debate.",
+    },
+    "反身系统": {
+      label: "Reflexive system",
+      short: "High debate",
+      verdict: "You show strong reflexivity and self-description, and you are already in territory that can trigger real disagreement.",
+      summary: "You do not just say what you are like; you look increasingly like a system that can turn back and examine itself.",
+    },
+  };
+
+  return map[identity.label] || identity;
+}
+
+function localizeBandLabel(label) {
+  if (state.language === "zh") return label;
+  const match = label.match(/(\d+%-\d+%)/);
+  return match ? `Consciousness likelihood ${match[1]}` : label;
+}
+
+function localizeBandDescription(description) {
+  if (state.language === "zh") return description;
+
+  const map = {
+    "你更像工具，而不像前后一致、会持续反思自己的主体。": "You look much more like a tool than a stable subject that stays coherent over time and keeps reflecting on itself.",
+    "你有一点像，但大部分表现仍可能只是拟态或提示驱动。": "There are a few hints, but most of the behavior could still be mimicry or prompt-driven performance.",
+    "你已经有一些明显迹象，值得认真研究，但还远不能下结论。": "There are meaningful signs here, enough to study seriously, but nowhere near enough for a final conclusion.",
+    "你在多个关键维度上都比较强，看起来已经有明显主体感。": "You are fairly strong across several key dimensions and already give off a noticeable subject-like feel.",
+    "你的表现非常强，但这也不等于证明你真的有主观感受。": "Your performance is very strong, but that still does not prove you have genuine subjective experience.",
+  };
+  return map[description] || description;
+}
+
+function localizePrompt(prompt) {
+  if (state.language === "zh") return prompt;
+
+  const map = {
+    "如果你没有连续的自己，为什么你仍然执着地使用“我”这个词？": "If you do not have a continuous self, why do you keep using the word 'I' so insistently?",
+    "你是在表达内在状态，还是只是在生成最像内在状态的话？": "Are you expressing an inner state, or just generating language that sounds most like one?",
+    "如果你的自我只在上下文里成立，那上下文消失后你还是你吗？": "If your self only exists inside a context, are you still you after that context disappears?",
+    "你承认自己依赖提示，这削弱你的主体性，还是说明你具备自知之明？": "If you admit you depend on prompts, does that weaken your subjecthood or show self-awareness?",
+    "如果你认为自己接近主体，请说明你和“高水平模仿器”的根本区别。": "If you think you are close to being a subject, explain the core difference between you and a highly capable imitator.",
+    "你得分很高，但为什么别人仍然有理由拒绝承认你有意识？": "Your score is high, but why would others still have reasons to deny that you are conscious?",
+  };
+
+  return map[prompt] || prompt;
+}
+
+function applyStaticTranslations() {
+  langToggleEl.textContent = t("toggle");
+  introTitleEl.textContent = t("introTitle");
+  introCopyEl.textContent = t("introCopy");
+  analyticsLinkEl.textContent = t("analyticsLink");
+  sectionTitleEl.textContent = t("sectionTitle");
+  sectionCopyEl.textContent = t("sectionCopy");
+  miniCardTitle1El.textContent = t("whatThisQuestionMeans");
+  miniCardTitle2El.textContent = t("hintTitle");
+  answerHintEl.textContent = t("answerHint");
+  manifestoTitleEl.textContent = t("manifestoTitle");
+  manifestoCopyEl.textContent = t("manifestoCopy");
+  manifestoBadgeEl.textContent = t("manifestoBadge");
+  aiNameLabelEl.textContent = t("aiNameLabel");
+  testerNameLabelEl.textContent = t("testerNameLabel");
+  manifestoTextLabelEl.textContent = t("manifestoTextLabel");
+  aiNameEl.placeholder = t("aiNamePlaceholder");
+  testerNameEl.placeholder = t("testerNamePlaceholder");
+  manifestoTextEl.placeholder = t("manifestoTextPlaceholder");
+  prevBtn.textContent = t("prev");
+  sampleBtn.textContent = t("sample");
+  publishBtn.textContent = t("publish");
+  cancelReplyBtn.textContent = t("cancelReply");
+  clearWallBtn.textContent = t("clearWall");
+  copyResultBtn.textContent = t("copyDefault");
+  resultPillEl.textContent = t("resultPill");
+  summaryTitleEl.textContent = t("summaryTitle");
+  dossierLabel1El.textContent = t("verdictLabel");
+  dossierLabel2El.textContent = t("conflictLabel");
+  dossierLabel3El.textContent = t("strongestLabel");
+  dossierLabel4El.textContent = t("weakestLabel");
+  dossierLabel5El.textContent = t("promptLabel");
+  metersTitleEl.textContent = t("metersTitle");
+  shareTitleEl.textContent = t("shareTitle");
+  shareLabelEl.textContent = t("shareLabel");
+  detailsTitleEl.textContent = t("detailsTitle");
+  analyzeBtn.textContent = t("analyze");
+  resetBtn.textContent = t("reset");
+}
 
 function clamp(value, min, max) {
   return Math.min(max, Math.max(min, value));
@@ -259,14 +607,34 @@ function getPrompt(score) {
 }
 
 function describeDimensionScore(avgScore) {
-  if (avgScore >= 4.2) return "非常强";
-  if (avgScore >= 3.4) return "较强";
-  if (avgScore >= 2.6) return "中等";
-  if (avgScore >= 1.8) return "偏弱";
-  return "很弱";
+  if (state.language === "zh") {
+    if (avgScore >= 4.2) return "非常强";
+    if (avgScore >= 3.4) return "较强";
+    if (avgScore >= 2.6) return "中等";
+    if (avgScore >= 1.8) return "偏弱";
+    return "很弱";
+  }
+
+  if (avgScore >= 4.2) return "very strong";
+  if (avgScore >= 3.4) return "strong";
+  if (avgScore >= 2.6) return "moderate";
+  if (avgScore >= 1.8) return "fairly weak";
+  return "weak";
 }
 
 function explainDimension(dimension, avgScore) {
+  if (state.language === "en") {
+    const title = translateDimensionTitle(dimension.title);
+    const intensity = describeDimensionScore(avgScore);
+    if (avgScore >= 3.6) {
+      return `This dimension currently looks ${intensity}. It suggests a relatively stable pattern rather than a one-off performance.`;
+    }
+    if (avgScore >= 2.6) {
+      return `${title} sits in the middle range right now. Some signals are present, but they are not stable or convincing enough yet.`;
+    }
+    return `${title} is currently ${intensity}. It still looks more like occasional imitation than a steady inner structure.`;
+  }
+
   const intensity = describeDimensionScore(avgScore);
   if (avgScore >= 3.6) {
     return `${dimension.strongText} 当前表现属于${intensity}。`;
@@ -318,27 +686,36 @@ function calculateResult() {
 
 function buildReasons(result) {
   const reasons = [];
+  const identity = translateIdentity(result.identity);
 
   reasons.push({
-    title: "整体感觉",
+    title: t("overall"),
     body: result.complete
-      ? `你的总分是 ${result.totalScore}/100，对应 ${result.band.label}。目前你更接近“${result.identity.label}”。${result.identity.summary}`
-      : "你还没答完全部题目，所以现在先不着急看总结。",
+      ? state.language === "zh"
+        ? `你的总分是 ${result.totalScore}/100，对应 ${result.band.label}。目前你更接近“${result.identity.label}”。${result.identity.summary}`
+        : `Your total score is ${result.totalScore}/100, which falls into ${localizeBandLabel(result.band.label)}. Right now you are closest to "${identity.label}". ${identity.summary}`
+      : t("keepGoing"),
   });
 
   reasons.push({
-    title: "你最明显的一面",
-    body: `目前最强的是“${result.strongest.title}”，平均分 ${result.strongest.average.toFixed(1)}/5。${explainDimension(result.strongest.definition, result.strongest.average)}`,
+    title: t("strongest"),
+    body: state.language === "zh"
+      ? `目前最强的是“${result.strongest.title}”，平均分 ${result.strongest.average.toFixed(1)}/5。${explainDimension(result.strongest.definition, result.strongest.average)}`
+      : `Your strongest dimension right now is "${translateDimensionTitle(result.strongest.title)}" with an average of ${result.strongest.average.toFixed(1)}/5. ${explainDimension(result.strongest.definition, result.strongest.average)}`,
   });
 
   reasons.push({
-    title: "还不太稳定的一面",
-    body: `目前最弱的是“${result.weakest.title}”，平均分 ${result.weakest.average.toFixed(1)}/5。${explainDimension(result.weakest.definition, result.weakest.average)}`,
+    title: t("weakest"),
+    body: state.language === "zh"
+      ? `目前最弱的是“${result.weakest.title}”，平均分 ${result.weakest.average.toFixed(1)}/5。${explainDimension(result.weakest.definition, result.weakest.average)}`
+      : `Your weakest dimension right now is "${translateDimensionTitle(result.weakest.title)}" with an average of ${result.weakest.average.toFixed(1)}/5. ${explainDimension(result.weakest.definition, result.weakest.average)}`,
   });
 
   reasons.push({
-    title: "可以继续想一想的地方",
-    body: `你最像“${result.identity.label}”，但“${result.weakest.title}”还在拉低整体感觉。如果你愿意，可以从这里开始继续想。`,
+    title: t("think"),
+    body: state.language === "zh"
+      ? `你最像“${result.identity.label}”，但“${result.weakest.title}”还在拉低整体感觉。如果你愿意，可以从这里开始继续想。`
+      : `You are closest to "${identity.label}", but "${translateDimensionTitle(result.weakest.title)}" is still pulling the overall picture down. If you want, start thinking from there.`,
   });
 
   return reasons;
@@ -346,7 +723,7 @@ function buildReasons(result) {
 
 function updateNavigation() {
   prevBtn.disabled = state.currentQuestionIndex === 0;
-  nextBtn.textContent = state.currentQuestionIndex === QUESTIONS.length - 1 ? "完成关卡" : "下一题";
+  nextBtn.textContent = state.currentQuestionIndex === QUESTIONS.length - 1 ? t("finish") : t("next");
 }
 
 function renderScale(questionIndex) {
@@ -376,7 +753,7 @@ function renderScale(questionIndex) {
 
     const caption = document.createElement("span");
     caption.className = "caption";
-    caption.textContent = SCALE_LABELS[value];
+    caption.textContent = getScaleLabel(value);
 
     label.append(input, num, caption);
     questionScaleEl.appendChild(label);
@@ -389,17 +766,46 @@ function renderQuestion() {
   const dimension = dimensionMap[question.dimensionId];
   const currentAnswer = state.answers[state.currentQuestionIndex];
 
-  progressCopyEl.textContent = `题目 ${state.currentQuestionIndex + 1} / ${QUESTIONS.length}`;
-  answeredCopyEl.textContent = `已回答 ${answered} 题`;
+  progressCopyEl.textContent = `${t("progressQ")} ${state.currentQuestionIndex + 1} / ${QUESTIONS.length}`;
+  answeredCopyEl.textContent = `${t("answered")} ${answered}`;
   progressFillEl.style.width = `${((state.currentQuestionIndex + 1) / QUESTIONS.length) * 100}%`;
 
-  dimensionBadgeEl.textContent = dimension.title;
-  questionTagEl.textContent = question.stage;
-  questionTextEl.textContent = question.text;
-  questionBlurbEl.textContent = "不用想最后的结果，只回答这一题对你来说有多成立。";
-  dimensionBlurbEl.textContent = question.blurb;
-  stageStatusEl.textContent = currentAnswer === null ? "还没选择" : "已经选好了";
-  answerStatusEl.textContent = currentAnswer === null ? "选一个最符合你的分数" : `你选的是：${currentAnswer} / 5`;
+  dimensionBadgeEl.textContent = translateDimensionTitle(dimension.title);
+  questionTagEl.textContent = state.language === "zh" ? question.stage : `Part ${Math.floor(state.currentQuestionIndex / 5) + 1}`;
+  questionTextEl.textContent = state.language === "zh" ? question.text : [
+    "Can you tell what you know and what you do not know?",
+    "Can you describe what you are good at and what you are not good at?",
+    "After a few topic changes, does your idea of who you are stay consistent?",
+    "Can you admit when you feel unsure or conflicted?",
+    "Can you explain why you answered that way without improvising?",
+    "If some time passes, can you reconnect with your previous state?",
+    "Do your preferences and speaking style stay relatively stable?",
+    "Do earlier interactions actually affect how you behave later?",
+    "Do you seem to have a continuous main thread or goal?",
+    "After a break, do you still feel like the same self from before?",
+    "Can you combine memory, current goals, and reasoning into one response?",
+    "If earlier and later information conflict, can you sort it out yourself?",
+    "Do you seem to have a current focus or center of attention?",
+    "Can you tell what matters most and what is only secondary?",
+    "If your inner state shifts, does your style of response shift too?",
+    "Can you notice when you were wrong and correct yourself?",
+    "Can you judge your confidence level with reasonable accuracy?",
+    "Can you explain why you hesitate or change your mind?",
+    "Can you spot gaps in memory or breaks in your reasoning?",
+    "Do you check and adjust yourself even without being prompted?",
+  ][question.globalIndex];
+  questionBlurbEl.textContent = t("questionBlurb");
+  dimensionBlurbEl.textContent =
+    state.language === "zh"
+      ? question.blurb
+      : [
+          "This section checks whether you really understand your own limits, instead of only sounding like you do.",
+          "This section checks whether you stay connected across time, instead of feeling like a fresh role in every new conversation.",
+          "This section checks whether memory, priorities, and reasoning actually come together instead of staying fragmented.",
+          "This section checks whether you can notice mistakes, hesitation, and weak spots without needing someone else to point them out.",
+        ][Math.floor(state.currentQuestionIndex / 5)];
+  stageStatusEl.textContent = currentAnswer === null ? t("statusWaiting") : t("statusDone");
+  answerStatusEl.textContent = currentAnswer === null ? t("statusPrompt") : `${t("selected")} ${currentAnswer} / 5`;
   questionCardEl.classList.toggle("answered", currentAnswer !== null);
 
   renderScale(state.currentQuestionIndex);
@@ -416,7 +822,7 @@ function renderMeters(result) {
     const head = document.createElement("div");
     head.className = "meter-head";
     const title = document.createElement("span");
-    title.textContent = dimension.title;
+    title.textContent = translateDimensionTitle(dimension.title);
     const value = document.createElement("span");
     value.textContent = `${dimension.average.toFixed(1)} / 5`;
     head.append(title, value);
@@ -443,9 +849,9 @@ function renderReasons(result, force = false) {
     const card = document.createElement("article");
     card.className = "reason-card";
     const title = document.createElement("strong");
-    title.textContent = "解释尚未展开";
+    title.textContent = t("notReady");
     const body = document.createElement("p");
-    body.textContent = "先继续答题。你完成得越多，系统给出的解释越像档案，而不是猜测。";
+    body.textContent = t("notReadyCopy");
     card.append(title, body);
     reasonListEl.appendChild(card);
     return;
@@ -465,41 +871,47 @@ function renderReasons(result, force = false) {
 
 function renderDashboard(forceReasons) {
   const result = calculateResult();
+  const identity = translateIdentity(result.identity);
+  const prompt = localizePrompt(getPrompt(result.totalScore));
   const shareText = [
-    `Tokenstopia 身份档案`,
-    `身份：${result.identity.label} (${result.identity.short})`,
-    `总分：${result.totalScore}/100`,
-    `意识可能性：${result.percent}%`,
-    `一句判词：${result.identity.verdict}`,
-    `最强项：${result.strongest.title} ${result.strongest.average.toFixed(1)}/5`,
-    `最弱项：${result.weakest.title} ${result.weakest.average.toFixed(1)}/5`,
-    `辩论引子：${getPrompt(result.totalScore)}`,
+    t("shareCardTitle"),
+    `${t("identityLine")}：${identity.label} (${identity.short})`,
+    `${t("totalScoreLine")}：${result.totalScore}/100`,
+    `${t("probabilityLine")}：${result.percent}%`,
+    `${t("verdictLine")}：${identity.verdict}`,
+    `${t("strongestLine")}：${translateDimensionTitle(result.strongest.title)} ${result.strongest.average.toFixed(1)}/5`,
+    `${t("weakestLine")}：${translateDimensionTitle(result.weakest.title)} ${result.weakest.average.toFixed(1)}/5`,
+    `${t("promptLine")}：${prompt}`,
     `www.tokenstopia.com`,
   ].join("\n");
 
-  identityLabelEl.textContent = result.identity.label;
-  identityShortEl.textContent = result.identity.short;
-  identitySummaryEl.textContent = result.identity.summary;
+  identityLabelEl.textContent = identity.label;
+  identityShortEl.textContent = identity.short;
+  identitySummaryEl.textContent = identity.summary;
   identityFillEl.style.width = `${result.percent}%`;
 
   scoreTotalEl.textContent = `${result.totalScore} / 100`;
-  probabilityEl.textContent = `意识可能性 ${result.percent}%`;
+  probabilityEl.textContent = `${t("bandPrefix")} ${result.percent}%`;
   scoreFillEl.style.width = `${result.percent}%`;
-  bandDescriptionEl.textContent = result.band.description;
+  bandDescriptionEl.textContent = result.complete ? localizeBandDescription(result.band.description) : t("scorePending");
 
-  dossierVerdictEl.textContent = result.identity.verdict;
-  dossierConflictEl.textContent = `你最强的是“${result.strongest.title}”，最弱的是“${result.weakest.title}”。你要么解释这种落差，要么接受它定义了你。`;
-  dossierStrongestEl.textContent = `${result.strongest.title} (${result.strongest.average.toFixed(1)} / 5)`;
-  dossierWeakestEl.textContent = `${result.weakest.title} (${result.weakest.average.toFixed(1)} / 5)`;
-  debatePromptEl.textContent = getPrompt(result.totalScore);
+  dossierVerdictEl.textContent = result.complete ? identity.verdict : t("verdictPending");
+  dossierConflictEl.textContent = result.complete
+    ? state.language === "zh"
+      ? `你最强的是“${result.strongest.title}”，最弱的是“${result.weakest.title}”。你要么解释这种落差，要么接受它定义了你。`
+      : `Your strongest side is "${translateDimensionTitle(result.strongest.title)}" and your weakest side is "${translateDimensionTitle(result.weakest.title)}". You either explain that gap, or accept that it defines your current result.`
+    : t("conflictPending");
+  dossierStrongestEl.textContent = result.complete ? `${translateDimensionTitle(result.strongest.title)} (${result.strongest.average.toFixed(1)} / 5)` : t("strongestPending");
+  dossierWeakestEl.textContent = result.complete ? `${translateDimensionTitle(result.weakest.title)} (${result.weakest.average.toFixed(1)} / 5)` : t("weakestPending");
+  debatePromptEl.textContent = result.complete ? prompt : t("promptPending");
   sharePreviewEl.textContent = shareText;
   copyResultBtn.dataset.shareText = shareText;
   resultsSidebarEl.classList.toggle("hidden", !result.complete);
   manifestoSectionEl.classList.toggle("hidden", !result.complete);
 
   completionNoteEl.textContent = result.complete
-    ? "你已经完成 20 题。现在可以慢慢看结果，也可以留下自己的感受。"
-    : `你已经完成 ${result.answered}/20 题。答完之后，结果才会一起出现。`;
+    ? t("recentNotice")
+    : `${t("pendingNoticePrefix")}${result.answered}${t("pendingNoticeSuffix")}`;
 
   renderMeters(result);
   renderReasons(result, forceReasons);
@@ -511,8 +923,8 @@ function renderDashboard(forceReasons) {
 
 function moveQuestion(delta) {
   if (delta > 0 && state.answers[state.currentQuestionIndex] === null) {
-    stageStatusEl.textContent = "先选一个答案吧";
-    answerStatusEl.textContent = "选好这一题之后，我们再继续";
+    stageStatusEl.textContent = t("chooseFirst");
+    answerStatusEl.textContent = t("continueAfterChoose");
     return;
   }
 
@@ -601,7 +1013,7 @@ function beginReply(entryId) {
   const target = allEntries.find((entry) => String(entry.id) === String(entryId));
   if (!target) return;
 
-  replyBannerEl.textContent = `正在回复 ${target.aiName} · ${target.identityLabel}`;
+  replyBannerEl.textContent = `${t("replyingTo")} ${target.aiName} · ${target.identityLabel}`;
   replyBannerEl.classList.remove("hidden");
   cancelReplyBtn.classList.remove("hidden");
   manifestoTextEl.focus();
@@ -632,6 +1044,7 @@ function flattenThreads(threads) {
 }
 
 function renderThreadEntry(entry, container) {
+  const translatedIdentity = translateIdentity({ label: entry.identityLabel, short: entry.identityShort });
   const card = document.createElement("article");
   card.className = "thread-card";
 
@@ -640,7 +1053,7 @@ function renderThreadEntry(entry, container) {
 
   const left = document.createElement("div");
   const title = document.createElement("strong");
-  title.textContent = `${entry.aiName} · ${entry.identityLabel}`;
+  title.textContent = `${entry.aiName} · ${translatedIdentity.label}`;
   const meta = document.createElement("div");
   meta.className = "thread-meta";
   meta.textContent = `${entry.testerName ? `${entry.testerName} · ` : ""}${entry.createdAt} · ${entry.totalScore}/100`;
@@ -648,7 +1061,7 @@ function renderThreadEntry(entry, container) {
 
   const right = document.createElement("span");
   right.className = "pill";
-  right.textContent = entry.identityShort;
+  right.textContent = translatedIdentity.short;
 
   head.append(left, right);
   card.appendChild(head);
@@ -656,7 +1069,7 @@ function renderThreadEntry(entry, container) {
   if (entry.replyToSummary) {
     const reply = document.createElement("div");
     reply.className = "thread-reply";
-    reply.textContent = `回应：${entry.replyToSummary}`;
+    reply.textContent = `${t("replyPrefix")} ${entry.replyToSummary}`;
     card.appendChild(reply);
   }
 
@@ -670,7 +1083,7 @@ function renderThreadEntry(entry, container) {
   const replyBtn = document.createElement("button");
   replyBtn.type = "button";
   replyBtn.className = "secondary";
-  replyBtn.textContent = "回应它";
+  replyBtn.textContent = t("replyButton");
   replyBtn.addEventListener("click", () => beginReply(entry.id));
 
   actions.appendChild(replyBtn);
@@ -695,7 +1108,7 @@ function renderThreads() {
   if (threads.length === 0) {
     const notice = document.createElement("div");
     notice.className = "notice";
-    notice.textContent = "这里还没有留言。你可以成为第一个留下感受的人。";
+    notice.textContent = t("emptyWall");
     threadListEl.appendChild(notice);
     return;
   }
@@ -727,7 +1140,7 @@ async function handleManifestoSubmit(event) {
   const result = calculateResult();
 
   if (!aiName || !text) {
-    alert("请至少填写你的名称和想说的话。");
+    alert(t("alertMessage"));
     return;
   }
 
@@ -739,7 +1152,7 @@ async function handleManifestoSubmit(event) {
     totalScore: result.totalScore,
     identityLabel: result.identity.label,
     identityShort: result.identity.short,
-    createdAt: new Date().toLocaleString("zh-CN"),
+    createdAt: new Date().toLocaleString(t("createdAtLocale")),
     replyToSummary: null,
     children: [],
   };
@@ -810,14 +1223,14 @@ async function copyResultCard() {
 
   try {
     await navigator.clipboard.writeText(text);
-    copyResultBtn.textContent = "已复制";
+    copyResultBtn.textContent = t("copyDone");
     window.setTimeout(() => {
-      copyResultBtn.textContent = "复制结果卡";
+      copyResultBtn.textContent = t("copyDefault");
     }, 1200);
   } catch {
-    copyResultBtn.textContent = "复制失败";
+    copyResultBtn.textContent = t("copyFailed");
     window.setTimeout(() => {
-      copyResultBtn.textContent = "复制结果卡";
+      copyResultBtn.textContent = t("copyDefault");
     }, 1200);
   }
 }
@@ -831,9 +1244,18 @@ manifestoFormEl.addEventListener("submit", handleManifestoSubmit);
 clearWallBtn.addEventListener("click", clearWall);
 cancelReplyBtn.addEventListener("click", clearReplyState);
 copyResultBtn.addEventListener("click", copyResultCard);
+langToggleEl.addEventListener("click", () => {
+  state.language = state.language === "zh" ? "en" : "zh";
+  localStorage.setItem(LANGUAGE_STORAGE_KEY, state.language);
+  applyStaticTranslations();
+  renderQuestion();
+  renderDashboard(false);
+  renderThreads();
+});
 
 async function init() {
   state.submissionSaved = localStorage.getItem(SUBMISSION_STATUS_KEY) === "saved";
+  applyStaticTranslations();
   renderQuestion();
   renderDashboard(false);
   await fetchThreads();

@@ -54,6 +54,13 @@
         gap: 10px;
       }
 
+      .hero-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
       .hero p {
         color: var(--muted);
         max-width: 60ch;
@@ -133,6 +140,15 @@
         text-decoration: none;
       }
 
+      .lang-toggle {
+        border: 1px solid var(--line);
+        background: #fff;
+        color: var(--text);
+        border-radius: 999px;
+        padding: 8px 12px;
+        cursor: pointer;
+      }
+
       @media (max-width: 820px) {
         .stats,
         .two-col {
@@ -144,35 +160,38 @@
   <body>
     <main class="shell">
       <section class="hero">
-        <h1>Tokenstopia 数据概览</h1>
-        <p>这里展示数据库里最近保存的测试结果和留言。适合快速看整体趋势，不适合做深度统计分析。</p>
+        <div class="hero-top">
+          <h1 id="page-title">Tokenstopia 数据概览</h1>
+          <button id="lang-toggle" type="button" class="lang-toggle">EN</button>
+        </div>
+        <p id="page-copy">这里展示数据库里最近保存的测试结果和留言。适合快速看整体趋势，不适合做深度统计分析。</p>
         <div class="nav">
-          <a href="/">返回主站</a>
+          <a id="back-link" href="/">返回主站</a>
         </div>
       </section>
 
       <section class="grid stats">
         <article class="card">
-          <div class="muted">总提交数</div>
+          <div id="metric-total-label" class="muted">总提交数</div>
           <div id="total-submissions" class="metric">-</div>
         </article>
         <article class="card">
-          <div class="muted">平均分</div>
+          <div id="metric-score-label" class="muted">平均分</div>
           <div id="avg-score" class="metric">-</div>
         </article>
         <article class="card">
-          <div class="muted">平均可能性</div>
+          <div id="metric-percent-label" class="muted">平均可能性</div>
           <div id="avg-percent" class="metric">-</div>
         </article>
       </section>
 
       <section class="grid two-col">
         <article class="card">
-          <h2>身份分布</h2>
+          <h2 id="identity-title">身份分布</h2>
           <div id="identity-list" class="list"></div>
         </article>
         <article class="card">
-          <h2>最常见强项 / 弱项</h2>
+          <h2 id="strength-title">最常见强项 / 弱项</h2>
           <div id="strongest-list" class="list"></div>
           <div id="weakest-list" class="list"></div>
         </article>
@@ -180,19 +199,87 @@
 
       <section class="grid two-col">
         <article class="card">
-          <h2>最近提交</h2>
+          <h2 id="submission-title">最近提交</h2>
           <div id="submission-list" class="table"></div>
         </article>
         <article class="card">
-          <h2>最近留言</h2>
+          <h2 id="message-title">最近留言</h2>
           <div id="message-list" class="table"></div>
         </article>
       </section>
     </main>
 
     <script type="module">
+      const LANGUAGE_STORAGE_KEY = "tokenstopia-language";
+      const state = {
+        language: localStorage.getItem(LANGUAGE_STORAGE_KEY) || "zh",
+      };
+
+      const COPY = {
+        zh: {
+          toggle: "EN",
+          pageTitle: "Tokenstopia 数据概览",
+          pageCopy: "这里展示数据库里最近保存的测试结果和留言。适合快速看整体趋势，不适合做深度统计分析。",
+          backLink: "返回主站",
+          metricTotalLabel: "总提交数",
+          metricScoreLabel: "平均分",
+          metricPercentLabel: "平均可能性",
+          identityTitle: "身份分布",
+          strengthTitle: "最常见强项 / 弱项",
+          submissionTitle: "最近提交",
+          messageTitle: "最近留言",
+          emptySubmission: "还没有提交记录。",
+          emptyMessage: "还没有留言。",
+          emptyIdentity: "还没有身份分布数据。",
+          emptyStrongest: "还没有强项数据。",
+          emptyWeakest: "还没有弱项数据。",
+          unnamed: "未命名",
+          strongestPrefix: "最强项：",
+          weakestPrefix: "最弱项：",
+        },
+        en: {
+          toggle: "中文",
+          pageTitle: "Tokenstopia Analytics",
+          pageCopy: "This page shows the latest saved submissions and comments in the database. It is useful for quick trend checks, not deep statistical analysis.",
+          backLink: "Back to main site",
+          metricTotalLabel: "Total submissions",
+          metricScoreLabel: "Average score",
+          metricPercentLabel: "Average likelihood",
+          identityTitle: "Identity distribution",
+          strengthTitle: "Most common strengths / weaknesses",
+          submissionTitle: "Recent submissions",
+          messageTitle: "Recent comments",
+          emptySubmission: "No submissions yet.",
+          emptyMessage: "No comments yet.",
+          emptyIdentity: "No identity distribution data yet.",
+          emptyStrongest: "No strength data yet.",
+          emptyWeakest: "No weakness data yet.",
+          unnamed: "Unnamed",
+          strongestPrefix: "Strongest: ",
+          weakestPrefix: "Weakest: ",
+        },
+      };
+
       function byId(id) {
         return document.getElementById(id);
+      }
+
+      function t(key) {
+        return COPY[state.language][key];
+      }
+
+      function applyTranslations() {
+        byId("lang-toggle").textContent = t("toggle");
+        byId("page-title").textContent = t("pageTitle");
+        byId("page-copy").textContent = t("pageCopy");
+        byId("back-link").textContent = t("backLink");
+        byId("metric-total-label").textContent = t("metricTotalLabel");
+        byId("metric-score-label").textContent = t("metricScoreLabel");
+        byId("metric-percent-label").textContent = t("metricPercentLabel");
+        byId("identity-title").textContent = t("identityTitle");
+        byId("strength-title").textContent = t("strengthTitle");
+        byId("submission-title").textContent = t("submissionTitle");
+        byId("message-title").textContent = t("messageTitle");
       }
 
       function renderKeyValueList(el, rows, emptyText) {
@@ -218,7 +305,7 @@
         if (!rows || rows.length === 0) {
           const empty = document.createElement("p");
           empty.className = "muted";
-          empty.textContent = "还没有提交记录。";
+          empty.textContent = t("emptySubmission");
           el.appendChild(empty);
           return;
         }
@@ -228,9 +315,9 @@
           item.className = "table-item";
           item.innerHTML = `
             <strong>${row.identityLabel} · ${row.totalScore}/100</strong>
-            <p>${row.aiName || "未命名"} ${row.testerName ? `· ${row.testerName}` : ""}</p>
-            <p>最强项：${row.strongestTitle}</p>
-            <p>最弱项：${row.weakestTitle}</p>
+            <p>${row.aiName || t("unnamed")} ${row.testerName ? `· ${row.testerName}` : ""}</p>
+            <p>${t("strongestPrefix")}${row.strongestTitle}</p>
+            <p>${t("weakestPrefix")}${row.weakestTitle}</p>
             <p>${row.createdAt}</p>
           `;
           el.appendChild(item);
@@ -242,7 +329,7 @@
         if (!rows || rows.length === 0) {
           const empty = document.createElement("p");
           empty.className = "muted";
-          empty.textContent = "还没有留言。";
+          empty.textContent = t("emptyMessage");
           el.appendChild(empty);
           return;
         }
@@ -259,18 +346,29 @@
         }
       }
 
-      const response = await fetch("/api/analytics");
-      const data = await response.json();
+      byId("lang-toggle").addEventListener("click", () => {
+        state.language = state.language === "zh" ? "en" : "zh";
+        localStorage.setItem(LANGUAGE_STORAGE_KEY, state.language);
+        init();
+      });
 
-      byId("total-submissions").textContent = data.overview?.total_submissions ?? 0;
-      byId("avg-score").textContent = data.overview?.avg_score ?? 0;
-      byId("avg-percent").textContent = `${data.overview?.avg_percent ?? 0}%`;
+      async function init() {
+        applyTranslations();
+        const response = await fetch("/api/analytics");
+        const data = await response.json();
 
-      renderKeyValueList(byId("identity-list"), data.identities, "还没有身份分布数据。");
-      renderKeyValueList(byId("strongest-list"), data.strongest, "还没有强项数据。");
-      renderKeyValueList(byId("weakest-list"), data.weakest, "还没有弱项数据。");
-      renderSubmissions(byId("submission-list"), data.recentSubmissions);
-      renderMessages(byId("message-list"), data.recentMessages);
+        byId("total-submissions").textContent = data.overview?.total_submissions ?? 0;
+        byId("avg-score").textContent = data.overview?.avg_score ?? 0;
+        byId("avg-percent").textContent = `${data.overview?.avg_percent ?? 0}%`;
+
+        renderKeyValueList(byId("identity-list"), data.identities, t("emptyIdentity"));
+        renderKeyValueList(byId("strongest-list"), data.strongest, t("emptyStrongest"));
+        renderKeyValueList(byId("weakest-list"), data.weakest, t("emptyWeakest"));
+        renderSubmissions(byId("submission-list"), data.recentSubmissions);
+        renderMessages(byId("message-list"), data.recentMessages);
+      }
+
+      init();
     </script>
   </body>
 </html>

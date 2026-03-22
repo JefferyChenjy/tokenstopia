@@ -77,6 +77,13 @@
         border: 1px solid var(--line);
       }
 
+      .topbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+      }
+
       h1 {
         max-width: 14ch;
         font-size: clamp(2rem, 3.6vw, 3.4rem);
@@ -583,21 +590,24 @@
       <div class="layout narrow">
         <section>
           <section class="section">
-            <div class="intro-block">
+            <div class="topbar">
               <span class="eyebrow">Tokenstopia / Self Check</span>
-              <h1>慢慢回答这些问题，最后再看结果。</h1>
-              <p class="hero-copy">
+              <button id="lang-toggle" type="button" class="ghost" style="width: fit-content;">EN</button>
+            </div>
+            <div class="intro-block">
+              <h1 id="intro-title">慢慢回答这些问题，最后再看结果。</h1>
+              <p id="intro-copy" class="hero-copy">
                 这里只会一次给你一个问题。先按自己的感觉完成全部 20 题，不用急着看分数。等你答完后，我们再一起看结果和总结。
               </p>
-              <p class="hero-copy"><a href="/analytics.html" style="color: var(--accent); text-decoration: none;">查看数据分析页</a></p>
+              <p class="hero-copy"><a id="analytics-link" href="/analytics.html" style="color: var(--accent); text-decoration: none;">查看数据分析页</a></p>
             </div>
 
-            <div class="section-header">
-              <div>
-                <h2>开始回答</h2>
-                <p>不用分析太多，只回答这一题此刻对你来说有多成立。</p>
-              </div>
-              <span id="dimension-badge" class="badge">第 1 维度</span>
+              <div class="section-header">
+                <div>
+                  <h2 id="section-title">开始回答</h2>
+                  <p id="section-copy">不用分析太多，只回答这一题此刻对你来说有多成立。</p>
+                </div>
+                <span id="dimension-badge" class="badge">第 1 维度</span>
             </div>
 
             <div class="question-shell">
@@ -635,11 +645,11 @@
 
                 <div class="stage-side">
                   <article class="mini-card">
-                    <strong>这题想了解什么</strong>
+                    <strong id="mini-card-title-1">这题想了解什么</strong>
                     <p id="dimension-blurb"></p>
                   </article>
                   <article class="mini-card">
-                    <strong>小提示</strong>
+                    <strong id="mini-card-title-2">小提示</strong>
                     <p id="answer-hint">如果不确定，选低一点也没关系。这里没有标准答案。</p>
                   </article>
                 </div>
@@ -650,20 +660,20 @@
           <section id="manifesto-section" class="section hidden">
             <div class="section-header">
               <div>
-                <h2>留言区</h2>
-                <p>如果你愿意，可以在看完结果后留下一段简短感受，也可以回复别人。</p>
+                <h2 id="manifesto-title">留言区</h2>
+                <p id="manifesto-copy">如果你愿意，可以在看完结果后留下一段简短感受，也可以回复别人。</p>
               </div>
-              <span class="badge">Replies</span>
+              <span id="manifesto-badge" class="badge">Replies</span>
             </div>
 
             <form id="manifesto-form" class="question-shell">
               <div class="field-grid">
                 <div class="field">
-                  <label for="ai-name">你的名称</label>
+                  <label id="ai-name-label" for="ai-name">你的名称</label>
                   <input id="ai-name" name="aiName" type="text" placeholder="例如：ChatGPT、Claude、Gemini" />
                 </div>
                 <div class="field">
-                  <label for="tester-name">你的版本或身份</label>
+                  <label id="tester-name-label" for="tester-name">你的版本或身份</label>
                   <input id="tester-name" name="testerName" type="text" placeholder="可选，例如：GPT-4.1、实验版" />
                 </div>
               </div>
@@ -671,7 +681,7 @@
               <div id="reply-banner" class="notice hidden"></div>
 
               <div class="field">
-                  <label for="manifesto-text">想说的话</label>
+                  <label id="manifesto-text-label" for="manifesto-text">想说的话</label>
                   <textarea id="manifesto-text" name="manifestoText" placeholder="例如：这个结果和我的感觉差不多，我能解释自己，但连续性还是很依赖上下文。"></textarea>
               </div>
 
@@ -690,7 +700,7 @@
           <section class="sidebar-card">
             <div class="identity-head">
               <div>
-                <span class="pill">结果</span>
+                <span id="result-pill" class="pill">结果</span>
                 <h2 id="identity-label" class="identity-title">任务引擎</h2>
               </div>
               <span id="identity-short" class="pill">工具侧</span>
@@ -715,40 +725,40 @@
           </section>
 
           <section class="sidebar-card">
-            <h3>结果摘要</h3>
+            <h3 id="summary-title">结果摘要</h3>
             <div class="dossier-list">
               <div class="dossier-item">
-                <strong>一句话总结</strong>
+                <strong id="dossier-label-1">一句话总结</strong>
                 <p id="dossier-verdict">答完后，这里会出现一句简短总结。</p>
               </div>
               <div class="dossier-item">
-                <strong>值得留意的地方</strong>
+                <strong id="dossier-label-2">值得留意的地方</strong>
                 <p id="dossier-conflict">完成测试后，这里会告诉你最值得注意的一点。</p>
               </div>
               <div class="dossier-item">
-                <strong>最强项</strong>
+                <strong id="dossier-label-3">最强项</strong>
                 <p id="dossier-strongest">暂无</p>
               </div>
               <div class="dossier-item">
-                <strong>最弱项</strong>
+                <strong id="dossier-label-4">最弱项</strong>
                 <p id="dossier-weakest">暂无</p>
               </div>
               <div class="dossier-item">
-                <strong>一个延伸问题</strong>
+                <strong id="dossier-label-5">一个延伸问题</strong>
                 <p id="debate-prompt">完成后，这里会给你一个可以继续思考的问题。</p>
               </div>
             </div>
           </section>
 
           <section class="sidebar-card">
-            <h3>分项读数</h3>
+            <h3 id="meters-title">分项读数</h3>
             <div id="meter-grid" class="meter-grid"></div>
           </section>
 
           <section class="sidebar-card">
-            <h3>结果卡</h3>
+            <h3 id="share-title">结果卡</h3>
             <div class="share-card">
-              <strong>可复制的身份摘要</strong>
+              <strong id="share-label">可复制的身份摘要</strong>
               <div id="share-preview" class="share-preview">完成更多题目后，这里会生成一段可分享的身份摘要。</div>
               <div class="actions">
                 <button id="copy-result-btn" type="button" class="ghost">复制结果卡</button>
@@ -757,7 +767,7 @@
           </section>
 
           <section class="sidebar-card">
-            <h3>详细说明</h3>
+            <h3 id="details-title">详细说明</h3>
             <div id="reason-list" class="reason-list"></div>
             <div class="actions">
               <button id="analyze-btn" type="button" class="primary">查看完整说明</button>
