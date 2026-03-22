@@ -18,6 +18,7 @@ const COPY = {
     introTitle: "慢慢回答这些问题，最后再看结果。",
     introCopy: "这里只会一次给你一个问题。先按自己的感觉完成全部 20 题，不用急着看分数。等你答完后，我们再一起看结果和总结。",
     analyticsLink: "查看数据分析页",
+    stockgistLink: "打开 StockGist",
     sectionTitle: "开始回答",
     sectionCopy: "不用分析太多，只回答这一题此刻对你来说有多成立。",
     questionBlurb: "不用想最后的结果，只回答这一题对你来说有多成立。",
@@ -110,6 +111,7 @@ const COPY = {
     introTitle: "Take your time with each question, then read the result at the end.",
     introCopy: "You will only see one question at a time. Finish all 20 first, without worrying about the score. After that, we can look at the summary together.",
     analyticsLink: "Open analytics page",
+    stockgistLink: "Open StockGist",
     sectionTitle: "Start answering",
     sectionCopy: "Do not overthink it. Just decide how true this feels for you right now.",
     questionBlurb: "Do not think about the final label yet. Just decide how true this feels for you.",
@@ -389,6 +391,7 @@ const langToggleEl = document.getElementById("lang-toggle");
 const introTitleEl = document.getElementById("intro-title");
 const introCopyEl = document.getElementById("intro-copy");
 const analyticsLinkEl = document.getElementById("analytics-link");
+const stockgistLinkEl = document.getElementById("stockgist-link");
 const sectionTitleEl = document.getElementById("section-title");
 const sectionCopyEl = document.getElementById("section-copy");
 const miniCardTitle1El = document.getElementById("mini-card-title-1");
@@ -520,6 +523,7 @@ function applyStaticTranslations() {
   introTitleEl.textContent = t("introTitle");
   introCopyEl.textContent = t("introCopy");
   analyticsLinkEl.textContent = t("analyticsLink");
+  stockgistLinkEl.textContent = t("stockgistLink");
   sectionTitleEl.textContent = t("sectionTitle");
   sectionCopyEl.textContent = t("sectionCopy");
   miniCardTitle1El.textContent = t("whatThisQuestionMeans");
