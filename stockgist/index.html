@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>StockGist</title>
+    <meta
+      name="description"
+      content="Understand any stock in plain language with a fast, structured AI-style breakdown."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=DM+Sans:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="noise"></div>
+    <main class="shell">
+      <nav class="nav">
+        <div class="logo">Stock<span>Gist</span></div>
+        <div class="nav-actions">
+          <span class="nav-pill" data-i18n="navPill">Fast stock brief</span>
+          <button id="lang-toggle" class="lang-toggle" type="button">中文</button>
+        </div>
+      </nav>
+
+      <section class="hero">
+        <div class="hero-copy">
+          <div class="eyebrow" data-i18n="eyebrow">AI stock summary in minutes</div>
+          <h1 data-i18n="heroTitle">Understand a stock before you read 200 pages.</h1>
+          <p data-i18n="heroDesc">
+            Enter a ticker and get a clear, structured read on the business model, moat,
+            risks, financial health, and a plain-English verdict.
+          </p>
+        </div>
+
+        <div class="search-card">
+          <label class="search-label" for="ticker-input" data-i18n="searchLabel">Ticker</label>
+          <div class="search-box">
+            <span class="search-icon">⌕</span>
+            <input id="ticker-input" class="search-input" type="text" placeholder="AAPL, NVDA, MSFT..." />
+            <button id="analyze-btn" class="search-button" type="button" data-i18n="searchButton">Analyze</button>
+          </div>
+          <p class="search-hint" data-i18n="searchHint">Try: AAPL, NVDA, MSFT, AMZN, TSLA, GOOGL</p>
+          <div id="quick-tickers" class="quick-tickers"></div>
+          <div id="loading-strip" class="loading-strip hidden">
+            <div class="spinner"></div>
+            <span id="loading-text">Analyzing the business...</span>
+          </div>
+        </div>
+      </section>
+
+      <section id="analysis-section" class="analysis hidden">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker" data-i18n="analysisKicker">Structured analysis</p>
+            <h2 id="analysis-title">AAPL · Apple Inc.</h2>
+          </div>
+          <span id="analysis-meta" class="meta-pill">Fresh demo</span>
+        </div>
+
+        <article class="verdict-card" id="verdict-card">
+          <div id="verdict-icon" class="verdict-icon">↑</div>
+          <div class="verdict-copy">
+            <p class="mini-label" data-i18n="verdictLabel">Verdict</p>
+            <h3 id="verdict-title">High-quality business, not always a cheap stock</h3>
+            <p id="verdict-description">
+              Apple is durable, profitable, and disciplined, but returns depend on whether you
+              are paying a fair price for that quality.
+            </p>
+          </div>
+        </article>
+
+        <div class="analysis-grid">
+          <article class="panel">
+            <p class="mini-label" data-i18n="businessLabel">Business model</p>
+            <p id="business-model"></p>
+          </article>
+          <article class="panel">
+            <div class="panel-head">
+              <p class="mini-label" data-i18n="moatLabel">Competitive moat</p>
+              <div id="moat-tags" class="tag-row"></div>
+            </div>
+            <p id="competitive-moat"></p>
+          </article>
+          <article class="panel">
+            <div class="panel-head">
+              <p class="mini-label" data-i18n="risksLabel">Key risks</p>
+              <div id="risk-tags" class="tag-row"></div>
+            </div>
+            <p id="key-risks"></p>
+          </article>
+          <article class="panel">
+            <p class="mini-label" data-i18n="financialsLabel">Financial health</p>
+            <p id="financial-health"></p>
+          </article>
+        </div>
+      </section>
+
+      <section id="comparison-section" class="comparison hidden">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker" data-i18n="comparisonKicker">Peer snapshot</p>
+            <h2 data-i18n="comparisonTitle">How it stacks up</h2>
+          </div>
+        </div>
+
+        <div class="table-shell">
+          <table class="comparison-table">
+            <thead>
+              <tr>
+                <th data-i18n="colCompany">Company</th>
+                <th data-i18n="colGrowth">Growth</th>
+                <th data-i18n="colMargin">Margin</th>
+                <th data-i18n="colMoat">Moat</th>
+                <th data-i18n="colTake">Take</th>
+              </tr>
+            </thead>
+            <tbody id="comparison-body"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="why">
+        <div class="section-head compact">
+          <div>
+            <p class="section-kicker" data-i18n="whyKicker">Why this format works</p>
+            <h2 data-i18n="whyTitle">Built for speed, not noise</h2>
+          </div>
+        </div>
+
+        <div class="why-grid">
+          <article class="why-card">
+            <h3 data-i18n="why1Title">Plain language</h3>
+            <p data-i18n="why1Desc">No finance-speak wall. Every answer reads like a sharp operator briefing you fast.</p>
+          </article>
+          <article class="why-card">
+            <h3 data-i18n="why2Title">Same checklist, every time</h3>
+            <p data-i18n="why2Desc">Business, moat, risks, financials, verdict. The structure stays stable so comparisons are easy.</p>
+          </article>
+          <article class="why-card">
+            <h3 data-i18n="why3Title">Good first pass</h3>
+            <p data-i18n="why3Desc">This is not a replacement for deep research. It is the fastest way to know if a stock deserves it.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="pricing">
+        <div class="section-head compact">
+          <div>
+            <p class="section-kicker" data-i18n="pricingKicker">Pricing</p>
+            <h2 data-i18n="pricingTitle">Start free, go deeper later</h2>
+          </div>
+        </div>
+
+        <div class="pricing-grid">
+          <article class="price-card">
+            <p class="price-tier" data-i18n="freeTier">Free</p>
+            <p class="price-amount" data-i18n="freePrice">$0</p>
+            <ul class="price-list">
+              <li data-i18n="free1">Quick stock brief</li>
+              <li data-i18n="free2">Core verdict card</li>
+              <li data-i18n="free3">Peer comparison preview</li>
+            </ul>
+            <button class="price-button secondary" type="button" data-scroll-top data-i18n="freeCta">Try a ticker</button>
+          </article>
+
+          <article class="price-card featured">
+            <p class="price-badge" data-i18n="popular">Popular</p>
+            <p class="price-tier" data-i18n="proTier">Pro</p>
+            <p class="price-amount" data-i18n="proPrice">$12<span>/mo</span></p>
+            <ul class="price-list">
+              <li data-i18n="pro1">Longer financial breakdowns</li>
+              <li data-i18n="pro2">Watchlists and saved briefs</li>
+              <li data-i18n="pro3">More competitor context</li>
+            </ul>
+            <button class="price-button primary" type="button" data-i18n="proCta">Join waitlist</button>
+          </article>
+        </div>
+      </section>
+
+      <section class="closing">
+        <h2 data-i18n="closingTitle">A useful stock app should reduce homework, not add more.</h2>
+        <p data-i18n="closingDesc">
+          Use StockGist as a fast first read. If the business is interesting, then do the deep work.
+        </p>
+      </section>
+    </main>
+
+    <script src="./app.js"></script>
+  </body>
+  </html>
