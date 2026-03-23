@@ -1,5 +1,5 @@
 import { buildReportFromOverview, getSampleReport } from "../stockgist/analysis.js";
-import { resolveTickerInput } from "../stockgist/reports.js";
+import { resolveTickerInput } from "../stockgist/core/resolver/ticker-resolver.js";
 
 function sendJson(res, status, body) {
   res.statusCode = status;
