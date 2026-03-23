@@ -9,7 +9,7 @@ const translations = {
       "The agent reads the ticker you enter, then analyzes the business model, moat, risks, financial health, and a plain-English verdict.",
     searchLabel: "Ticker",
     searchButton: "Analyze",
-    searchHint: "Try: AAPL, NVDA, MSFT, AMZN, TSLA, GOOGL",
+    searchHint: "Try: AAPL, NVDA, MSFT, Xiaomi, 1810.HK, TSLA",
     analysisKicker: "Structured analysis",
     verdictLabel: "Verdict",
     businessLabel: "Business model",
@@ -44,7 +44,7 @@ const translations = {
     liveMeta: "Live snapshot",
     sampleMeta: "Sample profile",
     errorUnknown: "This ticker is not available yet. Add ALPHAVANTAGE_API_KEY to enable live analysis for arbitrary stocks.",
-    errorFallback: "Live fetch failed. Sample mode currently supports AAPL, NVDA, MSFT, and TSLA.",
+    errorFallback: "Live fetch failed. Sample mode currently supports AAPL, NVDA, MSFT, TSLA, and Xiaomi.",
   },
   zh: {
     navPill: "快速股票简报",
@@ -54,7 +54,7 @@ const translations = {
       "输入股票代码后，agent 会从商业模式、护城河、关键风险、财务健康度等不同角度分析它，最后给出一句人话结论。",
     searchLabel: "股票代码",
     searchButton: "开始分析",
-    searchHint: "试试：AAPL、NVDA、MSFT、AMZN、TSLA、GOOGL",
+    searchHint: "试试：AAPL、NVDA、MSFT、小米、1810.HK、TSLA",
     analysisKicker: "结构化分析",
     verdictLabel: "结论",
     businessLabel: "商业模式",
@@ -89,7 +89,7 @@ const translations = {
     liveMeta: "实时快照",
     sampleMeta: "示例档案",
     errorUnknown: "这个 ticker 目前还不能直接分析。配置 ALPHAVANTAGE_API_KEY 后，就可以支持任意股票。",
-    errorFallback: "实时抓取失败。当前示例模式只支持 AAPL、NVDA、MSFT、TSLA。",
+    errorFallback: "实时抓取失败。当前示例模式支持 AAPL、NVDA、MSFT、TSLA 和小米。",
   },
 };
 
@@ -137,7 +137,7 @@ function renderStaticText() {
 
 function renderQuickTickers() {
   quickTickersEl.textContent = "";
-  Object.keys(SAMPLE_REPORTS).forEach((ticker) => {
+  ["AAPL", "NVDA", "MSFT", "TSLA", "1810.HK"].forEach((ticker) => {
     const button = document.createElement("button");
     button.type = "button";
     button.className = "quick-ticker";

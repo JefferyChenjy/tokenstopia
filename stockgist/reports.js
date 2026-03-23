@@ -155,4 +155,83 @@ export const SAMPLE_REPORTS = {
     ],
     source: "sample",
   },
+  "1810.HK": {
+    ticker: "1810.HK",
+    company: "Xiaomi Corporation",
+    verdictClass: "neutral",
+    verdictIcon: "•",
+    verdictTitle: {
+      en: "Strong consumer-tech reach, but the story is still mixed",
+      zh: "消费科技触达很强，但投资逻辑仍然偏混合",
+    },
+    verdictDescription: {
+      en: "Xiaomi has real scale in smartphones, IoT, and brand reach, but margins and long-term differentiation still need to keep proving themselves.",
+      zh: "小米在手机、IoT 和品牌触达上有真实规模，但利润率和长期差异化仍需要持续证明。",
+    },
+    businessModel: {
+      en: "Xiaomi sells smartphones, smart devices, and internet services. The hardware expands reach, while the broader ecosystem is supposed to improve user retention and monetization over time.",
+      zh: "小米卖手机、智能设备和互联网服务。硬件先扩张用户基础，生态再试图提高留存和长期变现能力。",
+    },
+    moat: {
+      en: "Its moat is not as deep as the very best consumer tech firms, but brand familiarity, supply-chain execution, and ecosystem breadth still matter.",
+      zh: "它的护城河不像顶级消费科技公司那么深，但品牌认知、供应链执行和生态广度仍然有价值。",
+    },
+    moatTags: ["Medium"],
+    risks: {
+      en: "Smartphone competition is brutal, margins can be thin, and investor expectations often move ahead of the company’s actual operating progress.",
+      zh: "手机竞争非常激烈，利润率容易偏薄，而且市场预期常常会先于公司经营进展上升。",
+    },
+    riskTags: ["Competition", "Margin"],
+    financials: {
+      en: "The business has meaningful scale, but the key question is how much of that scale can convert into durable, high-quality earnings instead of volume alone.",
+      zh: "公司已经有不小规模，但关键问题是这些规模能不能持续转化成高质量利润，而不只是销量。",
+    },
+    peers: [
+      { ticker: "1810.HK", company: "Xiaomi", growth: "Mid", margin: "Medium", moat: "Medium", take: { en: "Current subject", zh: "当前分析对象" }, subject: true },
+      { ticker: "AAPL", company: "Apple", growth: "Mid", margin: "Very high", moat: "Strong", take: { en: "Higher quality benchmark", zh: "更高质量对照组" } },
+      { ticker: "BYDDF", company: "BYD", growth: "High", margin: "Medium", moat: "Medium", take: { en: "Broader hardware execution", zh: "硬件执行更强" } },
+      { ticker: "TSLA", company: "Tesla", growth: "Mid", margin: "Medium", moat: "Medium", take: { en: "Different narrative premium", zh: "不同叙事溢价" } },
+    ],
+    source: "sample",
+  },
 };
+
+const TICKER_INPUT_ALIASES = {
+  aapl: "AAPL",
+  apple: "AAPL",
+  苹果: "AAPL",
+  nvda: "NVDA",
+  nvidia: "NVDA",
+  英伟达: "NVDA",
+  msft: "MSFT",
+  microsoft: "MSFT",
+  微软: "MSFT",
+  tsla: "TSLA",
+  tesla: "TSLA",
+  特斯拉: "TSLA",
+  xiaomi: "1810.HK",
+  xiaomicorporation: "1810.HK",
+  小米: "1810.HK",
+  小米集团: "1810.HK",
+  小米集团公司: "1810.HK",
+  "1810": "1810.HK",
+  "1810hk": "1810.HK",
+  "1810.hk": "1810.HK",
+  xiacy: "1810.HK",
+  xiacf: "1810.HK",
+};
+
+function normalizeAliasKey(input) {
+  return String(input || "")
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, "")
+    .replace(/[-_/]/g, "")
+    .replace(/[()]/g, "");
+}
+
+export function resolveTickerInput(input) {
+  const raw = String(input || "").trim();
+  const alias = TICKER_INPUT_ALIASES[normalizeAliasKey(raw)];
+  return alias || raw.toUpperCase();
+}

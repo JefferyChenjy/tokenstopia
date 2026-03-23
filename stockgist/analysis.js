@@ -1,4 +1,4 @@
-import { SAMPLE_REPORTS } from "./reports.js";
+import { SAMPLE_REPORTS, resolveTickerInput } from "./reports.js";
 
 function toNumber(value) {
   if (value === undefined || value === null || value === "" || value === "None") return null;
@@ -280,5 +280,6 @@ export function buildReportFromOverview({ ticker, overview, quote, language = "e
 }
 
 export function getSampleReport(ticker) {
-  return SAMPLE_REPORTS[ticker] || null;
+  const resolvedTicker = resolveTickerInput(ticker);
+  return SAMPLE_REPORTS[resolvedTicker] || null;
 }

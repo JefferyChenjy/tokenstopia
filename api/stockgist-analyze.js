@@ -1,4 +1,5 @@
 import { buildReportFromOverview, getSampleReport } from "../stockgist/analysis.js";
+import { resolveTickerInput } from "../stockgist/reports.js";
 
 function sendJson(res, status, body) {
   res.statusCode = status;
@@ -32,11 +33,12 @@ export default async function handler(req, res) {
     return sendJson(res, 405, { error: "Method not allowed" });
   }
 
-  const ticker = String(req.query?.ticker || "").trim().toUpperCase();
+  const rawTicker = String(req.query?.ticker || "").trim();
+  const ticker = resolveTickerInput(rawTicker);
   const language = String(req.query?.lang || "en").trim().toLowerCase() === "zh" ? "zh" : "en";
   const debug = String(req.query?.debug || "") === "1";
 
-  if (!ticker) {
+  if (!rawTicker) {
     return sendJson(res, 400, { error: "Ticker is required" });
   }
 
@@ -66,6 +68,7 @@ export default async function handler(req, res) {
                 debug: {
                   hasAlphaVantageKey: true,
                   keyLength: apiKey.length,
+                  resolvedTicker: ticker,
                 },
               }
             : {}),
@@ -83,6 +86,7 @@ export default async function handler(req, res) {
                 debug: {
                   hasAlphaVantageKey: true,
                   keyLength: apiKey.length,
+                  resolvedTicker: ticker,
                   fetchError: error.message || "unknown",
                 },
               }
@@ -96,6 +100,7 @@ export default async function handler(req, res) {
               debug: {
                 hasAlphaVantageKey: true,
                 keyLength: apiKey.length,
+                resolvedTicker: ticker,
               },
             }
           : {}),
@@ -114,6 +119,7 @@ export default async function handler(req, res) {
             debug: {
               hasAlphaVantageKey: false,
               keyLength: 0,
+              resolvedTicker: ticker,
             },
           }
         : {}),
@@ -127,6 +133,7 @@ export default async function handler(req, res) {
           debug: {
             hasAlphaVantageKey: false,
             keyLength: 0,
+            resolvedTicker: ticker,
           },
         }
       : {}),
