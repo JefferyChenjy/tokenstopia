@@ -1,0 +1,25 @@
+export function getAppElements() {
+  return {
+    inputEl: document.getElementById("ticker-input"),
+    analyzeBtn: document.getElementById("analyze-btn"),
+    quickTickersEl: document.getElementById("quick-tickers"),
+    langToggleEl: document.getElementById("lang-toggle"),
+    loadingStripEl: document.getElementById("loading-strip"),
+    loadingTextEl: document.getElementById("loading-text"),
+    analysisSectionEl: document.getElementById("analysis-section"),
+    comparisonSectionEl: document.getElementById("comparison-section"),
+    analysisTitleEl: document.getElementById("analysis-title"),
+    analysisMetaEl: document.getElementById("analysis-meta"),
+    verdictCardEl: document.getElementById("verdict-card"),
+    verdictIconEl: document.getElementById("verdict-icon"),
+    verdictTitleEl: document.getElementById("verdict-title"),
+    verdictDescriptionEl: document.getElementById("verdict-description"),
+    businessModelEl: document.getElementById("business-model"),
+    competitiveMoatEl: document.getElementById("competitive-moat"),
+    moatTagsEl: document.getElementById("moat-tags"),
+    keyRisksEl: document.getElementById("key-risks"),
+    riskTagsEl: document.getElementById("risk-tags"),
+    financialHealthEl: document.getElementById("financial-health"),
+    comparisonBodyEl: document.getElementById("comparison-body"),
+  };
+}

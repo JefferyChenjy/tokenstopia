@@ -1,30 +1,34 @@
 import { SAMPLE_REPORTS } from "./reports.js";
 import { createTranslator } from "./ui/i18n/translations.js";
+import { getAppElements } from "./ui/dom/elements.js";
 import { renderReportPresentation } from "./ui/presenters/report-presenter.js";
 import { loadStockAnalysis } from "./ui/services/analysis-client.js";
 import { createAppState } from "./ui/state/app-state.js";
 
-const inputEl = document.getElementById("ticker-input");
-const analyzeBtn = document.getElementById("analyze-btn");
-const quickTickersEl = document.getElementById("quick-tickers");
-const langToggleEl = document.getElementById("lang-toggle");
-const loadingStripEl = document.getElementById("loading-strip");
-const loadingTextEl = document.getElementById("loading-text");
-const analysisSectionEl = document.getElementById("analysis-section");
-const comparisonSectionEl = document.getElementById("comparison-section");
-const analysisTitleEl = document.getElementById("analysis-title");
-const analysisMetaEl = document.getElementById("analysis-meta");
-const verdictCardEl = document.getElementById("verdict-card");
-const verdictIconEl = document.getElementById("verdict-icon");
-const verdictTitleEl = document.getElementById("verdict-title");
-const verdictDescriptionEl = document.getElementById("verdict-description");
-const businessModelEl = document.getElementById("business-model");
-const competitiveMoatEl = document.getElementById("competitive-moat");
-const moatTagsEl = document.getElementById("moat-tags");
-const keyRisksEl = document.getElementById("key-risks");
-const riskTagsEl = document.getElementById("risk-tags");
-const financialHealthEl = document.getElementById("financial-health");
-const comparisonBodyEl = document.getElementById("comparison-body");
+const elements = getAppElements();
+const {
+  inputEl,
+  analyzeBtn,
+  quickTickersEl,
+  langToggleEl,
+  loadingStripEl,
+  loadingTextEl,
+  analysisSectionEl,
+  comparisonSectionEl,
+  analysisTitleEl,
+  analysisMetaEl,
+  verdictCardEl,
+  verdictIconEl,
+  verdictTitleEl,
+  verdictDescriptionEl,
+  businessModelEl,
+  competitiveMoatEl,
+  moatTagsEl,
+  keyRisksEl,
+  riskTagsEl,
+  financialHealthEl,
+  comparisonBodyEl,
+} = elements;
 
 const state = createAppState({
   language: "en",
@@ -68,23 +72,7 @@ function renderReport(report) {
     report,
     language: state.getLanguage(),
     t,
-    elements: {
-      analysisSectionEl,
-      comparisonSectionEl,
-      analysisTitleEl,
-      analysisMetaEl,
-      verdictCardEl,
-      verdictIconEl,
-      verdictTitleEl,
-      verdictDescriptionEl,
-      businessModelEl,
-      competitiveMoatEl,
-      moatTagsEl,
-      keyRisksEl,
-      riskTagsEl,
-      financialHealthEl,
-      comparisonBodyEl,
-    },
+    elements,
   });
 }
 
