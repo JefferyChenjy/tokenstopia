@@ -185,6 +185,59 @@ function summarizeCatalysts(name, revenueGrowth, analystTargetPrice, price, lang
   return `${name} likely needs more specific triggers such as product wins, margin improvement, or better-than-expected execution to drive the next rerating.`;
 }
 
+function summarizeBullCase(name, moatScore, revenueGrowth, operatingMargin, language) {
+  const moatLabel = ratingLabel(moatScore);
+  if (language === "zh") {
+    if (moatLabel === "Strong" && revenueGrowth !== null && revenueGrowth > 0.1) {
+      return `多头逻辑是：${name} 既有较强竞争位置，又还保持可观增长。如果护城河和增长同时成立，市场愿意长期给更高质量溢价。`;
+    }
+    return `多头逻辑是：${name} 还有继续变好的空间，只要需求、利润率或市场份额中有两项能持续改善，估值就有上修基础。`;
+  }
+
+  if (moatLabel === "Strong" && revenueGrowth !== null && revenueGrowth > 0.1) {
+    return `The bull case is that ${name} combines a real competitive position with still-credible growth. If moat and growth hold together, the market will usually keep paying up for quality.`;
+  }
+  return `The bull case is that ${name} still has room to improve. If demand, margins, or market share keep moving in the right direction together, the stock can rerate higher.`;
+}
+
+function summarizeBearCase(name, peRatio, debtToEquity, beta, language) {
+  const richValuation = peRatio !== null && peRatio > 30;
+  const leveraged = debtToEquity !== null && debtToEquity > 120;
+  const volatile = beta !== null && beta > 1.4;
+
+  if (language === "zh") {
+    if (richValuation || leveraged || volatile) {
+      return `空头逻辑是：${name} 对好结果的要求已经不低，一旦增长放缓、杠杆压力上来，或者市场情绪转弱，估值和预期会一起压缩。`;
+    }
+    return `空头逻辑是：${name} 也许没有看上去那么稳。只要经营证明略低于预期，市场就可能重新质疑它的盈利质量和竞争位置。`;
+  }
+
+  if (richValuation || leveraged || volatile) {
+    return `The bear case is that ${name} already needs a lot to go right. If growth slows, leverage bites, or sentiment softens, valuation and expectations can compress at the same time.`;
+  }
+  return `The bear case is that ${name} may not be as stable as it looks. Even a modest miss can reopen doubts about earnings quality and competitive durability.`;
+}
+
+function summarizeMindChange(name, revenueGrowth, profitMargin, language) {
+  if (language === "zh") {
+    if (revenueGrowth !== null && revenueGrowth > 0.12) {
+      return `我会改观的关键是：如果 ${name} 的增长开始明显掉速，而且利润率没有同步改善，那原本更乐观的判断就需要收回来。`;
+    }
+    if (profitMargin !== null && profitMargin < 0.08) {
+      return `我会改观的关键是：如果 ${name} 能持续证明利润率改善，同时收入质量更稳定，那当前偏谨慎的看法就应该上调。`;
+    }
+    return `我会改观的关键是：看经营数据有没有连续几个季度朝同一方向改善，或反过来出现持续恶化。单季噪音不够，连续趋势才够。`;
+  }
+
+  if (revenueGrowth !== null && revenueGrowth > 0.12) {
+    return `What would change my mind is a clear slowdown in ${name}'s growth without offsetting improvement in margins. If that happens, the optimistic case needs to come down.`;
+  }
+  if (profitMargin !== null && profitMargin < 0.08) {
+    return `What would change my mind is sustained proof that ${name} can lift margins while keeping revenue quality intact. That would justify a less cautious stance.`;
+  }
+  return `What would change my mind is a multi-quarter trend, not a single noisy print. If operating data keeps improving in the same direction, or clearly deteriorates, the thesis should move with it.`;
+}
+
 function buildVerdict(score, name, peRatio, revenueGrowth, language) {
   const direction = verdictDirection(score);
   const valuationRich = peRatio !== null && peRatio > 30;
@@ -359,6 +412,18 @@ export function buildReportFromOverview({ ticker, overview, quote, language = "e
       en: summarizeCatalysts(name, revenueGrowth, analystTargetPrice, price, "en"),
       zh: summarizeCatalysts(name, revenueGrowth, analystTargetPrice, price, "zh"),
     },
+    bullCase: {
+      en: summarizeBullCase(name, moatScore, revenueGrowth, operatingMargin, "en"),
+      zh: summarizeBullCase(name, moatScore, revenueGrowth, operatingMargin, "zh"),
+    },
+    bearCase: {
+      en: summarizeBearCase(name, peRatio, debtToEquity, beta, "en"),
+      zh: summarizeBearCase(name, peRatio, debtToEquity, beta, "zh"),
+    },
+    mindChange: {
+      en: summarizeMindChange(name, revenueGrowth, profitMargin, "en"),
+      zh: summarizeMindChange(name, revenueGrowth, profitMargin, "zh"),
+    },
     peers: buildPeerSnapshot(ticker, name, revenueGrowth, profitMargin, moatScore, "en").map((row, index) => ({
       ...row,
       take: {
@@ -370,4 +435,3 @@ export function buildReportFromOverview({ ticker, overview, quote, language = "e
     quote: quote || null,
   };
 }
-

@@ -42,6 +42,18 @@ export const SAMPLE_REPORTS = {
       en: "The next rerating usually comes from services mix, new device cycles, or proof that ecosystem monetization can keep expanding despite size.",
       zh: "下一轮重估通常来自服务业务占比提升、新设备周期，或者生态变现能力在大体量下仍能继续扩张的证据。",
     },
+    bullCase: {
+      en: "The bull case is that Apple keeps monetizing its installed base better than skeptics expect, while services and ecosystem depth keep raising lifetime value.",
+      zh: "多头逻辑是：苹果对装机量的变现能力继续超出怀疑者预期，同时服务和生态深度不断抬高单个用户的长期价值。",
+    },
+    bearCase: {
+      en: "The bear case is that Apple looks safer than it really is, and a mature hardware cycle plus regulatory pressure could make the stock feel expensive very quickly.",
+      zh: "空头逻辑是：苹果看起来比实际更安全，一旦硬件周期成熟叠加监管压力，市场会很快觉得它估值偏贵。",
+    },
+    mindChange: {
+      en: "What would change my mind is a real break in ecosystem stickiness or evidence that services growth can no longer offset slower hardware cycles.",
+      zh: "会让我改观的是：如果生态粘性真的开始松动，或者服务增长不再足以对冲硬件周期放缓，那原本更稳的判断就需要下修。",
+    },
     peers: [
       { ticker: "AAPL", company: "Apple", growth: "Mid", margin: "Very high", moat: "Strong", take: { en: "Quality leader", zh: "质量标杆" }, subject: true },
       { ticker: "MSFT", company: "Microsoft", growth: "Mid-high", margin: "Very high", moat: "Strong", take: { en: "Closest peer", zh: "最接近的同级" } },
@@ -92,6 +104,18 @@ export const SAMPLE_REPORTS = {
     catalysts: {
       en: "Big catalysts remain enterprise AI demand, sovereign compute spending, and any sign that software and networking deepen the platform story beyond chips.",
       zh: "主要催化剂仍然是企业 AI 需求、主权算力开支，以及软件和网络业务是否能把平台逻辑从芯片进一步做深。",
+    },
+    bullCase: {
+      en: "The bull case is that NVIDIA remains the default AI infrastructure layer for longer than the market expects, with software making the moat even deeper.",
+      zh: "多头逻辑是：英伟达作为默认 AI 基础设施层的地位持续时间比市场预期更久，而且软件让护城河进一步加深。",
+    },
+    bearCase: {
+      en: "The bear case is that capex waves cool faster than expected, customers diversify, and a stock priced for dominance gets punished for merely being excellent.",
+      zh: "空头逻辑是：资本开支热潮降温比预期更快，客户开始分散，而一只按“统治级”定价的股票，会因为只是优秀而不是完美而被惩罚。",
+    },
+    mindChange: {
+      en: "What would change my mind is a few quarters of slowing growth without clear evidence that software, networking, and platform breadth are offsetting that deceleration.",
+      zh: "会让我改观的是：如果连续几个季度增长放缓，而软件、网络和平台广度又没有明显接上这个减速，那当前更强的乐观看法就要收回来。",
     },
     peers: [
       { ticker: "NVDA", company: "NVIDIA", growth: "Extreme", margin: "Very high", moat: "Strong", take: { en: "AI leader", zh: "AI 龙头" }, subject: true },
@@ -144,6 +168,18 @@ export const SAMPLE_REPORTS = {
       en: "The cleanest catalysts are Azure share gains, better AI monetization in enterprise software, and continued operating leverage in cloud.",
       zh: "最干净的催化剂包括 Azure 份额提升、企业软件里的 AI 变现更清晰，以及云业务持续释放经营杠杆。",
     },
+    bullCase: {
+      en: "The bull case is that Microsoft keeps compounding through enterprise lock-in, cloud scale, and AI upsell without needing heroic assumptions.",
+      zh: "多头逻辑是：微软依靠企业锁定、云规模和 AI 追加销售继续复利，而且不需要非常激进的假设。",
+    },
+    bearCase: {
+      en: "The bear case is not collapse but complacency: the stock can still be too expensive if AI monetization disappoints or cloud growth matures faster than expected.",
+      zh: "空头逻辑不是崩塌，而是过度乐观：如果 AI 变现不及预期，或者云增长成熟得比预想更快，股价仍然可能显得不便宜。",
+    },
+    mindChange: {
+      en: "What would change my mind is a sustained weakening in enterprise demand or evidence that Microsoft’s AI layer is generating far less economic value than the market assumes.",
+      zh: "会让我改观的是：企业需求持续走弱，或者微软的 AI 层创造的真实经济价值明显低于市场预期。",
+    },
     peers: [
       { ticker: "MSFT", company: "Microsoft", growth: "Mid-high", margin: "Very high", moat: "Strong", take: { en: "Balanced giant", zh: "平衡型巨头" }, subject: true },
       { ticker: "AAPL", company: "Apple", growth: "Mid", margin: "Very high", moat: "Strong", take: { en: "More consumer-heavy", zh: "更偏消费" } },
@@ -195,6 +231,18 @@ export const SAMPLE_REPORTS = {
       en: "Catalysts are mostly tied to autonomy progress, margin stabilization, new models, and proof that the energy and software angle is more than optionality.",
       zh: "催化剂主要来自自动驾驶进展、利润率企稳、新车型，以及储能和软件逻辑是否能从可选项变成更实在的业务。",
     },
+    bullCase: {
+      en: "The bull case is that Tesla is still earlier in becoming a broader platform company than the market's recent fatigue implies.",
+      zh: "多头逻辑是：特斯拉成为更广平台型公司的进程，可能比市场最近的疲惫情绪所反映的更早期、更有空间。",
+    },
+    bearCase: {
+      en: "The bear case is that too much of the valuation still rests on optionality, while the core auto business is facing harder competition and lower margin comfort.",
+      zh: "空头逻辑是：估值里仍有太多部分建立在未来可选项上，而核心汽车业务正面对更激烈竞争和更低的利润率舒适度。",
+    },
+    mindChange: {
+      en: "What would change my mind is clearer evidence that autonomy, software, or energy can become profit engines rather than staying mostly narrative support.",
+      zh: "会让我改观的是：自动驾驶、软件或储能能更清楚地变成利润引擎，而不是继续主要停留在叙事支撑层面。",
+    },
     peers: [
       { ticker: "TSLA", company: "Tesla", growth: "Mid", margin: "Medium", moat: "Medium", take: { en: "Narrative heavy", zh: "叙事权重大" }, subject: true },
       { ticker: "BYDDF", company: "BYD", growth: "High", margin: "Medium", moat: "Medium", take: { en: "Execution threat", zh: "执行型对手" } },
@@ -245,6 +293,18 @@ export const SAMPLE_REPORTS = {
     catalysts: {
       en: "The next leg likely depends on better monetization of the ecosystem, stronger margin proof, and evidence that new categories can add profit instead of only attention.",
       zh: "下一阶段更依赖生态变现改善、利润率证明增强，以及新品类是否能带来利润而不是只带来关注度。",
+    },
+    bullCase: {
+      en: "The bull case is that Xiaomi keeps converting scale into a broader consumer-tech platform, with ecosystem monetization and newer categories lifting quality over time.",
+      zh: "多头逻辑是：小米持续把规模转成更广的消费科技平台，生态变现和新品类让它的盈利质量逐步抬升。",
+    },
+    bearCase: {
+      en: "The bear case is that Xiaomi remains easier to admire than to underwrite, because competition is fierce and margin durability is still not fully proven.",
+      zh: "空头逻辑是：小米也许更容易让人欣赏，而不是让人下重注，因为竞争太激烈，而利润率耐久性还没有被充分证明。",
+    },
+    mindChange: {
+      en: "What would change my mind is sustained proof that Xiaomi can improve margin quality while expanding into new categories without diluting returns.",
+      zh: "会让我改观的是：小米能持续证明自己在拓新品类的同时提升利润质量，而不是把回报率稀释掉。",
     },
     peers: [
       { ticker: "1810.HK", company: "Xiaomi", growth: "Mid", margin: "Medium", moat: "Medium", take: { en: "Current subject", zh: "当前分析对象" }, subject: true },

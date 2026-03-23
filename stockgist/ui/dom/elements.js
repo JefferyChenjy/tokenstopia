@@ -23,6 +23,9 @@ export function getAppElements() {
     valuationEl: document.getElementById("valuation"),
     capitalAllocationEl: document.getElementById("capital-allocation"),
     catalystsEl: document.getElementById("catalysts"),
+    bullCaseEl: document.getElementById("bull-case"),
+    bearCaseEl: document.getElementById("bear-case"),
+    mindChangeEl: document.getElementById("mind-change"),
     comparisonBodyEl: document.getElementById("comparison-body"),
   };
 }
