@@ -107,6 +107,84 @@ function summarizeFinancials(marketCap, margin, revenueGrowth, debtToEquity, lan
     .join(", ");
 }
 
+function summarizeValuation(name, peRatio, marketCap, revenueGrowth, language) {
+  const peText = peRatio !== null ? peRatio.toFixed(1) : null;
+  const marketCapText =
+    marketCap === null
+      ? null
+      : marketCap >= 1e12
+        ? `${(marketCap / 1e12).toFixed(2)}T`
+        : marketCap >= 1e9
+          ? `${(marketCap / 1e9).toFixed(1)}B`
+          : `${(marketCap / 1e6).toFixed(1)}M`;
+
+  if (language === "zh") {
+    if (peRatio !== null && peRatio > 30) {
+      return `${name} 当前估值不便宜${peText ? `，PE 大约 ${peText}` : ""}。如果未来增长不能持续兑现，高估值会先压回报。`;
+    }
+    if (peRatio !== null && peRatio < 18) {
+      return `${name} 的估值看起来不算激进${peText ? `，PE 大约 ${peText}` : ""}${marketCapText ? `，当前市值约 ${marketCapText}` : ""}，关键在于基本面是否足够稳。`;
+    }
+    return `${name} 的估值处在需要结合增长一起看的区间${peText ? `，PE 大约 ${peText}` : ""}${revenueGrowth !== null ? `，收入增速约 ${formatPercent(revenueGrowth)}` : ""}。`;
+  }
+
+  if (peRatio !== null && peRatio > 30) {
+    return `${name} is not trading like a cheap stock${peText ? ` with a P/E around ${peText}` : ""}. If growth slips, valuation can become the first source of pain.`;
+  }
+  if (peRatio !== null && peRatio < 18) {
+    return `${name} does not look aggressively priced${peText ? ` at roughly ${peText}x earnings` : ""}${marketCapText ? ` on a market cap near ${marketCapText}` : ""}. The real question is whether the business deserves more trust.`;
+  }
+  return `${name} sits in a valuation range that still needs context${peText ? ` with a P/E around ${peText}` : ""}${revenueGrowth !== null ? ` and revenue growth near ${formatPercent(revenueGrowth)}` : ""}.`;
+}
+
+function summarizeCapitalAllocation(name, freeCashFlow, roe, dividendYield, language) {
+  const fcfText =
+    freeCashFlow === null
+      ? null
+      : freeCashFlow >= 1e9
+        ? `${(freeCashFlow / 1e9).toFixed(1)}B`
+        : `${(freeCashFlow / 1e6).toFixed(1)}M`;
+  const roeText = formatPercent(roe);
+  const dividendText = formatPercent(dividendYield);
+
+  if (language === "zh") {
+    if (freeCashFlow !== null && freeCashFlow > 0 && roe !== null && roe > 0.18) {
+      return `${name} 看起来有一定资本配置基础${fcfText ? `，自由现金流约 ${fcfText}` : ""}${roeText ? `，ROE 约 ${roeText}` : ""}，说明它至少不是只会扩张而不会回收价值。`;
+    }
+    return `${name} 的资本配置要继续看自由现金流、回报率和分红/回购纪律${dividendText ? `，当前股息率约 ${dividendText}` : ""}${roeText ? `，ROE 约 ${roeText}` : ""}。`;
+  }
+
+  if (freeCashFlow !== null && freeCashFlow > 0 && roe !== null && roe > 0.18) {
+    return `${name} shows decent capital-allocation foundations${fcfText ? ` with free cash flow around ${fcfText}` : ""}${roeText ? ` and ROE near ${roeText}` : ""}. That at least suggests the company is turning scale into shareholder value.`;
+  }
+  return `${name}'s capital allocation still deserves scrutiny around free cash flow, return on equity, and whether dividends or buybacks are actually disciplined${dividendText ? `, with dividend yield near ${dividendText}` : ""}${roeText ? ` and ROE around ${roeText}` : ""}.`;
+}
+
+function summarizeCatalysts(name, revenueGrowth, analystTargetPrice, price, language) {
+  const upside =
+    analystTargetPrice !== null && price !== null && price > 0
+      ? (analystTargetPrice - price) / price
+      : null;
+
+  if (language === "zh") {
+    if (revenueGrowth !== null && revenueGrowth > 0.15) {
+      return `${name} 接下来最现实的催化剂通常来自增长继续超预期。如果收入还能保持 ${formatPercent(revenueGrowth)} 左右的速度，市场会更容易继续给高估值。`;
+    }
+    if (upside !== null && upside > 0.12) {
+      return `${name} 目前存在一定预期上修空间。按分析师目标价粗看，潜在上行大约 ${formatPercent(upside)}，但前提是经营兑现跟得上。`;
+    }
+    return `${name} 更可能依赖新产品、盈利改善、管理层执行超预期等具体事件来推动下一阶段重估。`;
+  }
+
+  if (revenueGrowth !== null && revenueGrowth > 0.15) {
+    return `${name}'s cleanest catalyst is continued upside in growth. If revenue can keep compounding near ${formatPercent(revenueGrowth)}, the market is more willing to defend a premium multiple.`;
+  }
+  if (upside !== null && upside > 0.12) {
+    return `${name} appears to have some room for expectation upgrades. Against analyst targets, implied upside is roughly ${formatPercent(upside)}, though only if execution keeps up.`;
+  }
+  return `${name} likely needs more specific triggers such as product wins, margin improvement, or better-than-expected execution to drive the next rerating.`;
+}
+
 function buildVerdict(score, name, peRatio, revenueGrowth, language) {
   const direction = verdictDirection(score);
   const valuationRich = peRatio !== null && peRatio > 30;
@@ -216,6 +294,10 @@ export function buildReportFromOverview({ ticker, overview, quote, language = "e
   const revenueGrowth = toNumber(overview.QuarterlyRevenueGrowthYOY);
   const debtToEquity = toNumber(overview.DebtToEquity);
   const beta = toNumber(overview.Beta);
+  const freeCashFlow = toNumber(overview.OperatingCashflow);
+  const dividendYield = toNumber(overview.DividendYield);
+  const analystTargetPrice = toNumber(overview.AnalystTargetPrice);
+  const price = quote?.price ?? toNumber(overview["52WeekHigh"]);
   const changePercent = quote?.changePercent ?? null;
 
   let score = 5;
@@ -265,6 +347,18 @@ export function buildReportFromOverview({ ticker, overview, quote, language = "e
       en: summarizeFinancials(marketCap, profitMargin, revenueGrowth, debtToEquity, "en"),
       zh: summarizeFinancials(marketCap, profitMargin, revenueGrowth, debtToEquity, "zh"),
     },
+    valuation: {
+      en: summarizeValuation(name, peRatio, marketCap, revenueGrowth, "en"),
+      zh: summarizeValuation(name, peRatio, marketCap, revenueGrowth, "zh"),
+    },
+    capitalAllocation: {
+      en: summarizeCapitalAllocation(name, freeCashFlow, roe, dividendYield, "en"),
+      zh: summarizeCapitalAllocation(name, freeCashFlow, roe, dividendYield, "zh"),
+    },
+    catalysts: {
+      en: summarizeCatalysts(name, revenueGrowth, analystTargetPrice, price, "en"),
+      zh: summarizeCatalysts(name, revenueGrowth, analystTargetPrice, price, "zh"),
+    },
     peers: buildPeerSnapshot(ticker, name, revenueGrowth, profitMargin, moatScore, "en").map((row, index) => ({
       ...row,
       take: {
@@ -276,5 +370,4 @@ export function buildReportFromOverview({ ticker, overview, quote, language = "e
     quote: quote || null,
   };
 }
-
 

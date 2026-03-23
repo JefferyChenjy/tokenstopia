@@ -30,6 +30,18 @@ export const SAMPLE_REPORTS = {
       en: "Margins remain strong, cash flow is exceptional, and capital returns are disciplined. It behaves like a mature machine with premium economics.",
       zh: "利润率稳健、现金流极强、资本回报纪律明确。它像一台成熟但依然高质量的赚钱机器。",
     },
+    valuation: {
+      en: "Apple is rarely cheap. The investment question is usually whether today’s multiple already prices in too much resilience and ecosystem strength.",
+      zh: "苹果很少便宜。投资问题通常不是它值不值得看，而是当前估值是否已经把稳定性和生态优势算得太满。",
+    },
+    capitalAllocation: {
+      en: "Few mega-caps are as consistent in turning cash flow into buybacks, dividends, and disciplined reinvestment. Capital allocation is part of the thesis here.",
+      zh: "很少有 mega-cap 能像苹果这样持续把现金流转化成回购、分红和有纪律的再投资。资本配置本身就是它投资逻辑的一部分。",
+    },
+    catalysts: {
+      en: "The next rerating usually comes from services mix, new device cycles, or proof that ecosystem monetization can keep expanding despite size.",
+      zh: "下一轮重估通常来自服务业务占比提升、新设备周期，或者生态变现能力在大体量下仍能继续扩张的证据。",
+    },
     peers: [
       { ticker: "AAPL", company: "Apple", growth: "Mid", margin: "Very high", moat: "Strong", take: { en: "Quality leader", zh: "质量标杆" }, subject: true },
       { ticker: "MSFT", company: "Microsoft", growth: "Mid-high", margin: "Very high", moat: "Strong", take: { en: "Closest peer", zh: "最接近的同级" } },
@@ -68,6 +80,18 @@ export const SAMPLE_REPORTS = {
     financials: {
       en: "Growth is explosive and margins are elite, but numbers this strong raise the burden of sustaining them through the next cycle.",
       zh: "增长爆发、利润率顶级，但这种强度也意味着下一轮周期里维持高位会更难。",
+    },
+    valuation: {
+      en: "NVIDIA trades like a business that already proved most of the bull case. That does not kill the upside, but it means mistakes get punished fast.",
+      zh: "英伟达的估值像是大部分多头逻辑已经被证明过了。这不代表没上行，但意味着一旦出错，市场会反应很快。",
+    },
+    capitalAllocation: {
+      en: "The company is still in heavy execution mode, but the real capital-allocation strength is how effectively it converts demand leadership into cash-rich optionality.",
+      zh: "公司仍处在强执行阶段，但资本配置真正的强项在于，它能把需求领导地位高效转成充沛现金和后续选择权。",
+    },
+    catalysts: {
+      en: "Big catalysts remain enterprise AI demand, sovereign compute spending, and any sign that software and networking deepen the platform story beyond chips.",
+      zh: "主要催化剂仍然是企业 AI 需求、主权算力开支，以及软件和网络业务是否能把平台逻辑从芯片进一步做深。",
     },
     peers: [
       { ticker: "NVDA", company: "NVIDIA", growth: "Extreme", margin: "Very high", moat: "Strong", take: { en: "AI leader", zh: "AI 龙头" }, subject: true },
@@ -108,6 +132,18 @@ export const SAMPLE_REPORTS = {
       en: "High margins, resilient recurring revenue, and a portfolio that spreads risk better than most mega-cap peers.",
       zh: "高利润率、稳定经常性收入，以及比多数 mega-cap 同行更分散的业务组合。",
     },
+    valuation: {
+      en: "Microsoft is not usually the cheapest large-cap tech stock, but the premium often reflects stability, recurring revenue, and unusually low execution drama.",
+      zh: "微软通常不是最便宜的大盘科技股，但它的溢价往往对应稳定性、经常性收入和极低的执行波动。",
+    },
+    capitalAllocation: {
+      en: "Capital allocation is one of Microsoft’s quiet strengths: steady reinvestment, disciplined M&A, and cash generation that supports both growth and shareholder returns.",
+      zh: "资本配置是微软常被低估的优势之一：稳定再投资、相对有纪律的并购，以及能同时支撑增长和股东回报的现金创造力。",
+    },
+    catalysts: {
+      en: "The cleanest catalysts are Azure share gains, better AI monetization in enterprise software, and continued operating leverage in cloud.",
+      zh: "最干净的催化剂包括 Azure 份额提升、企业软件里的 AI 变现更清晰，以及云业务持续释放经营杠杆。",
+    },
     peers: [
       { ticker: "MSFT", company: "Microsoft", growth: "Mid-high", margin: "Very high", moat: "Strong", take: { en: "Balanced giant", zh: "平衡型巨头" }, subject: true },
       { ticker: "AAPL", company: "Apple", growth: "Mid", margin: "Very high", moat: "Strong", take: { en: "More consumer-heavy", zh: "更偏消费" } },
@@ -147,6 +183,18 @@ export const SAMPLE_REPORTS = {
       en: "The balance sheet is solid, but earnings quality and margin durability no longer feel as effortless as before.",
       zh: "资产负债表仍然健康，但盈利质量和利润率耐久性已经不像以前那样轻松。",
     },
+    valuation: {
+      en: "Tesla’s valuation often embeds much more than the current car business. That keeps upside alive, but also makes the stock unusually sensitive to narrative cracks.",
+      zh: "特斯拉的估值常常远不止对应当前汽车业务。这给了它上行想象，也让它对叙事裂缝特别敏感。",
+    },
+    capitalAllocation: {
+      en: "Capital allocation matters here because management keeps choosing between manufacturing scale, autonomy bets, and future platforms. The payoff path is less linear.",
+      zh: "这里资本配置很关键，因为管理层一直在制造扩张、自动驾驶下注和未来平台之间做取舍，回报路径没那么线性。",
+    },
+    catalysts: {
+      en: "Catalysts are mostly tied to autonomy progress, margin stabilization, new models, and proof that the energy and software angle is more than optionality.",
+      zh: "催化剂主要来自自动驾驶进展、利润率企稳、新车型，以及储能和软件逻辑是否能从可选项变成更实在的业务。",
+    },
     peers: [
       { ticker: "TSLA", company: "Tesla", growth: "Mid", margin: "Medium", moat: "Medium", take: { en: "Narrative heavy", zh: "叙事权重大" }, subject: true },
       { ticker: "BYDDF", company: "BYD", growth: "High", margin: "Medium", moat: "Medium", take: { en: "Execution threat", zh: "执行型对手" } },
@@ -185,6 +233,18 @@ export const SAMPLE_REPORTS = {
     financials: {
       en: "The business has meaningful scale, but the key question is how much of that scale can convert into durable, high-quality earnings instead of volume alone.",
       zh: "公司已经有不小规模，但关键问题是这些规模能不能持续转化成高质量利润，而不只是销量。",
+    },
+    valuation: {
+      en: "Xiaomi can look optically cheaper than premium global peers, but that discount exists for a reason: investors still want more proof on margin quality and durability.",
+      zh: "小米看起来可能比全球高端消费科技龙头便宜，但这个折价有原因：市场仍然想看到更稳定的利润质量和耐久性证明。",
+    },
+    capitalAllocation: {
+      en: "Capital allocation matters because Xiaomi needs to balance hardware reach, ecosystem expansion, and newer bets like EVs without letting returns get diluted.",
+      zh: "资本配置很关键，因为小米需要在硬件扩张、生态布局和像汽车这样的新押注之间找到平衡，避免回报被摊薄。",
+    },
+    catalysts: {
+      en: "The next leg likely depends on better monetization of the ecosystem, stronger margin proof, and evidence that new categories can add profit instead of only attention.",
+      zh: "下一阶段更依赖生态变现改善、利润率证明增强，以及新品类是否能带来利润而不是只带来关注度。",
     },
     peers: [
       { ticker: "1810.HK", company: "Xiaomi", growth: "Mid", margin: "Medium", moat: "Medium", take: { en: "Current subject", zh: "当前分析对象" }, subject: true },

@@ -20,6 +20,9 @@ export function getAppElements() {
     keyRisksEl: document.getElementById("key-risks"),
     riskTagsEl: document.getElementById("risk-tags"),
     financialHealthEl: document.getElementById("financial-health"),
+    valuationEl: document.getElementById("valuation"),
+    capitalAllocationEl: document.getElementById("capital-allocation"),
+    catalystsEl: document.getElementById("catalysts"),
     comparisonBodyEl: document.getElementById("comparison-body"),
   };
 }

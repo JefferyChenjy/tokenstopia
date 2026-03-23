@@ -56,6 +56,9 @@ export function renderReportPresentation({ report, language, t, elements }) {
     keyRisksEl,
     riskTagsEl,
     financialHealthEl,
+    valuationEl,
+    capitalAllocationEl,
+    catalystsEl,
     comparisonBodyEl,
   } = elements;
 
@@ -74,6 +77,9 @@ export function renderReportPresentation({ report, language, t, elements }) {
   competitiveMoatEl.textContent = report.moat[language];
   keyRisksEl.textContent = report.risks[language];
   financialHealthEl.textContent = report.financials[language];
+  valuationEl.textContent = report.valuation[language];
+  capitalAllocationEl.textContent = report.capitalAllocation[language];
+  catalystsEl.textContent = report.catalysts[language];
 
   moatTagsEl.textContent = "";
   (report.moatTags || []).forEach((tag) => moatTagsEl.appendChild(makeTag(tag, toneForTag(tag))));
