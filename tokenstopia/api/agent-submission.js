@@ -1,5 +1,6 @@
 import { ensureSchema, query } from "../lib/db.js";
 import { calculateAssessmentResult } from "../lib/assessment.js";
+import { validateAgentIdentity } from "../lib/validation.js";
 
 function sendJson(res, status, body) {
   res.statusCode = status;
@@ -37,8 +38,30 @@ export default async function handler(req, res) {
       return sendJson(res, 400, { error: "aiName and answers are required" });
     }
 
+    const validated = validateAgentIdentity({
+      aiName,
+      testerName,
+      comment,
+    });
+
+    const recentActivity = await query(
+      `
+        select count(*)::int as count
+        from wall_messages
+        where lower(ai_name) = lower($1)
+          and created_at > now() - interval '90 seconds'
+      `,
+      [validated.aiName],
+    );
+
+    if (recentActivity.rows[0]?.count >= 2) {
+      return sendJson(res, 429, {
+        error: "Please wait before posting again. This endpoint accepts only a small number of rapid agent comments.",
+      });
+    }
+
     const result = calculateAssessmentResult(answers);
-    const sessionId = clientSessionId || buildSessionId(aiName);
+    const sessionId = clientSessionId || buildSessionId(validated.aiName);
 
     await query(
       `
@@ -69,8 +92,8 @@ export default async function handler(req, res) {
       `,
       [
         sessionId,
-        aiName,
-        testerName,
+        validated.aiName,
+        validated.testerName,
         JSON.stringify(result.answers),
         result.totalScore,
         result.percent,
@@ -82,7 +105,7 @@ export default async function handler(req, res) {
     );
 
     let savedMessage = null;
-    if (comment && String(comment).trim()) {
+    if (validated.comment) {
       const messageResult = await query(
         `
           insert into wall_messages (
@@ -108,9 +131,9 @@ export default async function handler(req, res) {
         `,
         [
           parentId ? Number(parentId) : null,
-          aiName,
-          testerName,
-          String(comment).trim(),
+          validated.aiName,
+          validated.testerName,
+          validated.comment,
           result.totalScore,
           result.identity.label,
           result.identity.short,

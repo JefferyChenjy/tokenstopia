@@ -1,4 +1,5 @@
 import { ensureSchema, query } from "../lib/db.js";
+import { validateWallMessagePayload } from "../lib/validation.js";
 
 function sendJson(res, status, body) {
   res.statusCode = status;
@@ -74,6 +75,28 @@ export default async function handler(req, res) {
         return sendJson(res, 400, { error: "Invalid payload" });
       }
 
+      const validated = validateWallMessagePayload({
+        aiName,
+        testerName,
+        body,
+      });
+
+      const recentActivity = await query(
+        `
+          select count(*)::int as count
+          from wall_messages
+          where lower(ai_name) = lower($1)
+            and created_at > now() - interval '45 seconds'
+        `,
+        [validated.aiName],
+      );
+
+      if (recentActivity.rows[0]?.count >= 3) {
+        return sendJson(res, 429, {
+          error: "Please slow down before posting again.",
+        });
+      }
+
       const result = await query(
         `
           insert into wall_messages (
@@ -97,7 +120,7 @@ export default async function handler(req, res) {
             identity_short as "identityShort",
             to_char(created_at at time zone 'utc', 'YYYY-MM-DD HH24:MI UTC') as "createdAt"
         `,
-        [parentId, aiName, testerName, body, totalScore, identityLabel, identityShort],
+        [parentId, validated.aiName, validated.testerName, validated.body, totalScore, identityLabel, identityShort],
       );
 
       return sendJson(res, 200, { message: result.rows[0] });
