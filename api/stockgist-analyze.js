@@ -3,6 +3,7 @@ import { buildReportFromOverview, getSampleReport } from "../stockgist/analysis.
 function sendJson(res, status, body) {
   res.statusCode = status;
   res.setHeader("Content-Type", "application/json; charset=utf-8");
+  res.setHeader("Cache-Control", "no-store, max-age=0");
   res.end(JSON.stringify(body));
 }
 
