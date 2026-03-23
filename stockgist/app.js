@@ -2,6 +2,7 @@ import { SAMPLE_REPORTS } from "./reports.js";
 import { createTranslator } from "./ui/i18n/translations.js";
 import { renderReportPresentation } from "./ui/presenters/report-presenter.js";
 import { loadStockAnalysis } from "./ui/services/analysis-client.js";
+import { createAppState } from "./ui/state/app-state.js";
 
 const inputEl = document.getElementById("ticker-input");
 const analyzeBtn = document.getElementById("analyze-btn");
@@ -25,24 +26,25 @@ const riskTagsEl = document.getElementById("risk-tags");
 const financialHealthEl = document.getElementById("financial-health");
 const comparisonBodyEl = document.getElementById("comparison-body");
 
-const state = {
+const state = createAppState({
   language: "en",
   loadingTimer: null,
   loadingIndex: 0,
   currentReport: SAMPLE_REPORTS.AAPL,
-};
+});
 
 function t(key) {
-  return createTranslator(state.language)(key);
+  return createTranslator(state.getLanguage())(key);
 }
 
 function renderStaticText() {
-  document.documentElement.lang = state.language;
+  const language = state.getLanguage();
+  document.documentElement.lang = language;
   document.querySelectorAll("[data-i18n]").forEach((el) => {
     el.innerHTML = t(el.dataset.i18n);
   });
-  inputEl.placeholder = state.language === "en" ? "AAPL, NVDA, MSFT..." : "AAPL、NVDA、MSFT...";
-  langToggleEl.textContent = state.language === "en" ? "中文" : "EN";
+  inputEl.placeholder = language === "en" ? "AAPL, NVDA, MSFT..." : "AAPL、NVDA、MSFT...";
+  langToggleEl.textContent = language === "en" ? "中文" : "EN";
 }
 
 function renderQuickTickers() {
@@ -61,10 +63,10 @@ function renderQuickTickers() {
 }
 
 function renderReport(report) {
-  state.currentReport = report;
+  state.setCurrentReport(report);
   renderReportPresentation({
     report,
-    language: state.language,
+    language: state.getLanguage(),
     t,
     elements: {
       analysisSectionEl,
@@ -87,22 +89,24 @@ function renderReport(report) {
 }
 
 function stopLoading() {
-  if (state.loadingTimer) {
-    window.clearInterval(state.loadingTimer);
-    state.loadingTimer = null;
+  if (state.getLoadingTimer()) {
+    window.clearInterval(state.getLoadingTimer());
+    state.clearLoadingTimer();
   }
   loadingStripEl.classList.add("hidden");
 }
 
 function startLoading() {
   stopLoading();
-  state.loadingIndex = 0;
+  state.setLoadingIndex(0);
   loadingTextEl.textContent = t("loadingMessages")[0];
   loadingStripEl.classList.remove("hidden");
-  state.loadingTimer = window.setInterval(() => {
-    state.loadingIndex = (state.loadingIndex + 1) % t("loadingMessages").length;
-    loadingTextEl.textContent = t("loadingMessages")[state.loadingIndex];
+  const timer = window.setInterval(() => {
+    const nextIndex = (state.getLoadingIndex() + 1) % t("loadingMessages").length;
+    state.setLoadingIndex(nextIndex);
+    loadingTextEl.textContent = t("loadingMessages")[nextIndex];
   }, 900);
+  state.setLoadingTimer(timer);
 }
 
 async function runAnalysis(rawTicker) {
@@ -115,7 +119,7 @@ async function runAnalysis(rawTicker) {
   try {
     const result = await loadStockAnalysis({
       rawTicker: ticker,
-      language: state.language,
+      language: state.getLanguage(),
       t,
     });
 
@@ -144,9 +148,9 @@ inputEl.addEventListener("keydown", (event) => {
 });
 
 langToggleEl.addEventListener("click", () => {
-  state.language = state.language === "en" ? "zh" : "en";
+  state.toggleLanguage();
   renderStaticText();
-  renderReport(state.currentReport);
+  renderReport(state.getCurrentReport());
 });
 
 renderStaticText();
