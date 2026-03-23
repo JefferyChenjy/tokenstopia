@@ -241,7 +241,9 @@ function startLoading() {
 }
 
 async function fetchAnalysis(ticker) {
-  const response = await fetch(`/api/stockgist-analyze?ticker=${encodeURIComponent(ticker)}&lang=${state.language}`);
+  const response = await fetch(
+    `/api/stockgist-analyze?ticker=${encodeURIComponent(ticker)}&lang=${state.language}&_=${Date.now()}`,
+  );
   const data = await response.json();
   if (!response.ok) {
     throw new Error(data.error || t("errorFallback"));
