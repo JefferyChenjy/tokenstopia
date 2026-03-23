@@ -436,31 +436,42 @@
 
       .sidebar {
         display: grid;
-        gap: 18px;
+        gap: 22px;
         margin-top: 52px;
         padding: 0 10px;
       }
 
       .sidebar-card {
-        border-radius: 18px;
+        border-radius: 20px;
         padding: 24px;
         display: grid;
         gap: 16px;
         box-shadow: var(--shadow);
+        background: rgba(255, 255, 255, 0.9);
+      }
+
+      .overview-card {
+        grid-template-columns: minmax(0, 1.2fr) 160px;
+        align-items: start;
+        gap: 22px;
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(245, 245, 240, 0.92) 100%);
       }
 
       .identity-head {
         display: flex;
-        justify-content: space-between;
+        flex-direction: column;
         gap: 12px;
         align-items: start;
       }
 
       .identity-title {
-        font-size: 1.9rem;
-        line-height: 1.1;
-        margin-top: 6px;
+        font-family: "Newsreader", Georgia, serif;
+        font-size: clamp(2.2rem, 4vw, 3.5rem);
+        line-height: 0.92;
+        letter-spacing: -0.05em;
+        margin-top: 4px;
         font-weight: 700;
+        max-width: 8ch;
       }
 
       .identity-summary,
@@ -475,12 +486,17 @@
         color: var(--muted);
       }
 
+      .identity-summary {
+        max-width: 38ch;
+        line-height: 1.8;
+      }
+
       .identity-strip,
       .score-track,
       .meter-track {
-        height: 12px;
+        height: 2px;
         border-radius: 999px;
-        background: #edf2f7;
+        background: rgba(87, 96, 91, 0.12);
         overflow: hidden;
       }
 
@@ -493,11 +509,11 @@
       }
 
       .identity-fill {
-        background: linear-gradient(90deg, #94a3b8 0%, var(--accent) 100%);
+        background: var(--accent);
       }
 
       .score-fill {
-        background: linear-gradient(90deg, #93c5fd 0%, var(--accent) 100%);
+        background: var(--accent);
       }
 
       .dossier-grid,
@@ -518,10 +534,10 @@
       .reason-card,
       .thread-card,
       .share-card {
-        border-radius: var(--radius-lg);
+        border-radius: 16px;
         border: 0;
-        background: #ffffff;
-        padding: 14px;
+        background: rgba(255, 255, 255, 0.84);
+        padding: 16px;
         box-shadow: inset 0 0 0 1px rgba(87, 96, 91, 0.08);
       }
 
@@ -531,12 +547,17 @@
       .share-card strong,
       .field label {
         display: block;
-        margin-bottom: 6px;
+        margin-bottom: 8px;
+        color: var(--muted);
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        font-weight: 600;
       }
 
       .score-meta {
         display: grid;
-        gap: 8px;
+        gap: 12px;
       }
 
       .score-top,
@@ -546,6 +567,88 @@
         justify-content: space-between;
         gap: 10px;
         align-items: start;
+      }
+
+      .score-panel {
+        display: grid;
+        gap: 18px;
+        justify-items: end;
+        text-align: right;
+      }
+
+      .score-orb {
+        display: grid;
+        gap: 2px;
+        justify-items: end;
+      }
+
+      .score-orb .number {
+        font-family: "Newsreader", Georgia, serif;
+        font-size: clamp(3.6rem, 8vw, 5.8rem);
+        line-height: 0.84;
+        letter-spacing: -0.08em;
+        color: rgba(87, 96, 91, 0.26);
+      }
+
+      .score-orb .label {
+        color: var(--muted);
+        font-size: 0.7rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .score-stat {
+        display: grid;
+        gap: 4px;
+        min-width: 118px;
+        padding: 12px 14px;
+        background: rgba(255, 255, 255, 0.7);
+        box-shadow: inset 0 0 0 1px rgba(87, 96, 91, 0.08);
+      }
+
+      .score-stat strong {
+        font-family: "Newsreader", Georgia, serif;
+        font-size: 1.7rem;
+        font-weight: 600;
+        line-height: 1;
+      }
+
+      .score-stat span {
+        color: var(--muted);
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+      }
+
+      .summary-card h3,
+      .meter-card h3,
+      .share-shell h3,
+      .details-card h3 {
+        font-family: "Newsreader", Georgia, serif;
+        font-size: 1.55rem;
+        line-height: 1.08;
+        letter-spacing: -0.04em;
+        font-weight: 600;
+        margin: 0;
+      }
+
+      .summary-card {
+        gap: 20px;
+      }
+
+      .dossier-list {
+        display: grid;
+        gap: 12px;
+      }
+
+      .dossier-item p {
+        line-height: 1.75;
+      }
+
+      .meter-card,
+      .details-card,
+      .share-shell {
+        gap: 18px;
       }
 
       .field-grid {
@@ -607,10 +710,10 @@
       }
 
       .share-preview {
-        padding: 14px;
+        padding: 16px;
         border-radius: var(--radius-md);
-        border: 1px dashed var(--line);
-        background: #f8fafc;
+        border: 0;
+        background: var(--panel-soft);
         line-height: 1.7;
         color: var(--text);
         white-space: pre-wrap;
@@ -708,6 +811,15 @@
         .actions {
           justify-content: flex-start;
           padding-top: 10px;
+        }
+
+        .overview-card {
+          grid-template-columns: 1fr;
+        }
+
+        .score-panel {
+          justify-items: start;
+          text-align: left;
         }
       }
     </style>
@@ -835,34 +947,38 @@
         </section>
 
         <aside id="results-sidebar" class="sidebar hidden">
-          <section class="sidebar-card">
+          <section class="sidebar-card overview-card">
             <div class="identity-head">
               <div>
                 <span id="result-pill" class="pill">结果</span>
                 <h2 id="identity-label" class="identity-title">任务引擎</h2>
               </div>
-              <span id="identity-short" class="pill">工具侧</span>
+              <span id="identity-short" class="badge">工具侧</span>
+              <p id="identity-summary" class="identity-summary">这里会根据你的回答整理一个简短总结。</p>
+              <div class="identity-strip">
+                <div id="identity-fill" class="identity-fill"></div>
+              </div>
             </div>
 
-            <p id="identity-summary" class="identity-summary">这里会根据你的回答整理一个简短总结。</p>
-
-            <div class="identity-strip">
-              <div id="identity-fill" class="identity-fill"></div>
-            </div>
-
-            <div class="score-meta">
-              <div class="score-top">
-                <strong id="score-total">20 / 100</strong>
-                <span id="probability">意识可能性 0%</span>
+            <div class="score-panel">
+              <div class="score-orb">
+                <span class="label">Composite score</span>
+                <span id="score-total" class="number">20 / 100</span>
               </div>
-              <div class="score-track">
-                <div id="score-fill" class="score-fill"></div>
+              <div class="score-stat">
+                <span>Statistical reliability</span>
+                <strong id="probability">意识可能性 0%</strong>
               </div>
-              <p id="band-description">先开始作答，系统会逐步更新你的区间。</p>
+              <div class="score-meta">
+                <div class="score-track">
+                  <div id="score-fill" class="score-fill"></div>
+                </div>
+                <p id="band-description">先开始作答，系统会逐步更新你的区间。</p>
+              </div>
             </div>
           </section>
 
-          <section class="sidebar-card">
+          <section class="sidebar-card summary-card">
             <h3 id="summary-title">结果摘要</h3>
             <div class="dossier-list">
               <div class="dossier-item">
@@ -888,12 +1004,12 @@
             </div>
           </section>
 
-          <section class="sidebar-card">
+          <section class="sidebar-card meter-card">
             <h3 id="meters-title">分项读数</h3>
             <div id="meter-grid" class="meter-grid"></div>
           </section>
 
-          <section class="sidebar-card">
+          <section class="sidebar-card share-shell">
             <h3 id="share-title">结果卡</h3>
             <div class="share-card">
               <strong id="share-label">可复制的身份摘要</strong>
@@ -904,7 +1020,7 @@
             </div>
           </section>
 
-          <section class="sidebar-card">
+          <section class="sidebar-card details-card">
             <h3 id="details-title">详细说明</h3>
             <div id="reason-list" class="reason-list"></div>
             <div class="actions">
