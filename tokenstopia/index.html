@@ -4,22 +4,28 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Tokenstopia / AI 自测</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,700&display=swap"
+      rel="stylesheet"
+    />
     <style>
       :root {
-        --bg: #f6f7fb;
-        --bg-2: #eef1f6;
+        --bg: #f9f9f8;
+        --bg-2: #f2f1ee;
         --panel: #ffffff;
-        --panel-strong: #ffffff;
-        --text: #171a21;
-        --muted: #667085;
-        --line: #e4e7ec;
-        --accent: #2563eb;
-        --accent-2: #0f172a;
-        --accent-3: #475467;
-        --accent-soft: rgba(37, 99, 235, 0.08);
-        --success: #16a34a;
-        --shadow: 0 10px 30px rgba(16, 24, 40, 0.06);
-        --radius-xl: 24px;
+        --panel-soft: #f4f4f0;
+        --panel-muted: #ecece6;
+        --text: #2d3433;
+        --muted: #757e7a;
+        --line: rgba(87, 96, 91, 0.14);
+        --line-strong: rgba(87, 96, 91, 0.28);
+        --accent: #57605b;
+        --accent-soft: rgba(87, 96, 91, 0.08);
+        --accent-tint: #eaf0eb;
+        --shadow: 0 20px 40px rgba(45, 52, 51, 0.04);
+        --radius-xl: 28px;
         --radius-lg: 18px;
         --radius-md: 12px;
       }
@@ -36,7 +42,7 @@
         margin: 0;
         min-height: 100vh;
         color: var(--text);
-        font-family: "SF Pro Text", "Segoe UI", Inter, Helvetica, Arial, sans-serif;
+        font-family: "Inter", "SF Pro Text", "Segoe UI", sans-serif;
         background: linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%);
       }
 
@@ -49,54 +55,83 @@
       }
 
       .shell {
-        width: min(980px, calc(100vw - 28px));
-        margin: 20px auto 48px;
+        width: min(1120px, calc(100vw - 40px));
+        margin: 0 auto 56px;
       }
 
       .section,
       .sidebar-card,
       .thread-card {
-        border: 1px solid var(--line);
         background: var(--panel);
-        box-shadow: var(--shadow);
       }
 
       .eyebrow,
       .pill {
         width: fit-content;
         border-radius: 999px;
-        padding: 8px 12px;
-        font-size: 0.78rem;
+        padding: 7px 12px;
+        font-size: 0.72rem;
         text-transform: uppercase;
-        letter-spacing: 0.08em;
+        letter-spacing: 0.1em;
       }
 
       .eyebrow {
-        background: #f2f4f7;
+        background: transparent;
         color: var(--muted);
-        border: 1px solid var(--line);
+        border: 0;
+        padding: 0;
       }
 
       .topbar {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        gap: 12px;
+        gap: 20px;
+        min-height: 72px;
+        border-bottom: 1px solid rgba(87, 96, 91, 0.08);
+      }
+
+      .brand {
+        font-family: "Newsreader", Georgia, serif;
+        font-size: 1.55rem;
+        font-weight: 700;
+        letter-spacing: -0.03em;
+      }
+
+      .topnav {
+        display: flex;
+        align-items: center;
+        gap: 28px;
+        margin-left: auto;
+        margin-right: 16px;
+      }
+
+      .topnav a {
+        color: var(--muted);
+        text-decoration: none;
+        font-family: "Newsreader", Georgia, serif;
+        font-style: italic;
+        font-size: 0.95rem;
+      }
+
+      .topnav a:hover {
+        color: var(--text);
       }
 
       h1 {
-        max-width: 14ch;
-        font-size: clamp(2rem, 3.6vw, 3.4rem);
-        line-height: 1.02;
-        letter-spacing: -0.04em;
+        max-width: 12ch;
+        font-family: "Newsreader", Georgia, serif;
+        font-size: clamp(3rem, 5.2vw, 5rem);
+        line-height: 0.94;
+        letter-spacing: -0.05em;
         font-weight: 700;
       }
 
       .hero-copy {
-        max-width: 62ch;
+        max-width: 56ch;
         color: var(--muted);
-        font-size: 0.98rem;
-        line-height: 1.68;
+        font-size: 0.96rem;
+        line-height: 1.78;
       }
 
       .layout {
@@ -105,24 +140,25 @@
       }
 
       .section {
-        border-radius: 20px;
-        padding: 30px;
+        border-radius: 0;
+        padding: 24px 0 0;
       }
 
       .intro-block {
         display: grid;
-        gap: 10px;
-        margin-bottom: 18px;
+        grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.85fr);
+        gap: 40px;
+        align-items: start;
+        padding: 48px 0 28px;
+        margin-bottom: 0;
       }
 
       .section + .section {
-        margin-top: 18px;
+        margin-top: 44px;
       }
 
       .section-header {
-        display: grid;
-        gap: 10px;
-        margin-bottom: 22px;
+        display: none;
       }
 
       .section-header p {
@@ -134,35 +170,51 @@
       .badge {
         flex: none;
         border-radius: 999px;
-        padding: 8px 12px;
-        background: var(--accent-soft);
-        color: var(--accent);
-        font-size: 0.86rem;
+        padding: 0;
+        background: transparent;
+        color: var(--muted);
+        font-size: 0.8rem;
+        font-family: "Newsreader", Georgia, serif;
+        font-style: italic;
       }
 
       .question-shell {
         display: grid;
-        gap: 18px;
+        gap: 24px;
       }
 
       .progress-block {
         display: grid;
-        gap: 10px;
+        gap: 14px;
       }
 
       .progress-meta {
-        display: flex;
-        justify-content: space-between;
-        gap: 10px;
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        gap: 16px;
         align-items: center;
         color: var(--muted);
-        font-size: 0.95rem;
+        font-size: 0.92rem;
+        font-family: "Newsreader", Georgia, serif;
+        font-style: italic;
+      }
+
+      .progress-meta span:first-child {
+        text-align: left;
+      }
+
+      .progress-meta span:nth-child(2) {
+        text-align: center;
+      }
+
+      .progress-meta span:last-child {
+        text-align: right;
       }
 
       .progress-track {
-        height: 10px;
+        height: 2px;
         border-radius: 999px;
-        background: #edf2f7;
+        background: rgba(87, 96, 91, 0.12);
         overflow: hidden;
       }
 
@@ -170,7 +222,7 @@
         height: 100%;
         width: 0;
         border-radius: inherit;
-        background: linear-gradient(90deg, #93c5fd 0%, var(--accent) 100%);
+        background: var(--accent);
       }
 
       .stage-grid {
@@ -178,12 +230,12 @@
       }
 
       .question-card {
-        border-radius: var(--radius-lg);
-        border: 1px solid var(--line);
-        background: #ffffff;
-        padding: 34px;
+        border-radius: 0;
+        border: 0;
+        background: transparent;
+        padding: 8px 0 0;
         display: grid;
-        gap: 20px;
+        gap: 28px;
         transition: transform 180ms ease, opacity 180ms ease, border-color 180ms ease;
       }
 
@@ -198,66 +250,79 @@
 
       .question-top {
         display: grid;
-        gap: 12px;
+        gap: 18px;
+        padding-top: 12px;
       }
 
       .question-tag {
         color: var(--muted);
-        font-size: 0.78rem;
+        font-size: 0.74rem;
         text-transform: uppercase;
-        letter-spacing: 0.08em;
+        letter-spacing: 0.12em;
       }
 
       .question-text {
-        font-size: clamp(1.75rem, 2.6vw, 2.5rem);
-        line-height: 1.15;
-        letter-spacing: -0.04em;
+        font-family: "Newsreader", Georgia, serif;
+        font-size: clamp(3rem, 4.7vw, 4.6rem);
+        line-height: 0.96;
+        letter-spacing: -0.05em;
         font-weight: 700;
-        max-width: 18ch;
+        max-width: 12.5ch;
       }
 
       .question-blurb {
         color: var(--muted);
-        line-height: 1.7;
-        max-width: 58ch;
+        line-height: 1.8;
+        max-width: 42ch;
+        font-size: 0.95rem;
       }
 
       .readout-bar {
         display: grid;
-        gap: 10px;
+        grid-template-columns: 220px minmax(0, 1fr);
+        gap: 14px;
         align-items: start;
-        padding: 16px 18px;
-        border-radius: var(--radius-md);
-        border: 1px solid var(--line);
-        background: #f8fafc;
+        padding: 22px 0 0;
+        border-radius: 0;
+        border: 0;
+        background: transparent;
       }
 
       .readout-bar strong {
         color: var(--text);
+        font-family: "Newsreader", Georgia, serif;
+        font-style: italic;
+        font-size: 1.05rem;
+        font-weight: 500;
       }
 
       .readout-bar span {
         color: var(--muted);
+        line-height: 1.7;
       }
 
       .scale {
         display: grid;
         grid-template-columns: repeat(5, minmax(0, 1fr));
-        gap: 12px;
+        gap: 14px;
+        max-width: 760px;
       }
 
       .scale label {
         position: relative;
         display: grid;
-        gap: 8px;
-        justify-items: center;
-        padding: 18px 12px;
-        border-radius: var(--radius-md);
-        border: 1px solid var(--line);
-        background: #ffffff;
+        gap: 6px;
+        justify-items: start;
+        align-content: start;
+        min-height: 104px;
+        padding: 18px 14px 14px;
+        border-radius: 0;
+        border: 0;
+        background: rgba(255, 255, 255, 0.72);
         cursor: pointer;
         transition: 140ms ease;
-        text-align: center;
+        text-align: left;
+        box-shadow: inset 0 0 0 1px rgba(87, 96, 91, 0.05);
       }
 
       .scale label:hover,
@@ -272,19 +337,24 @@
       }
 
       .scale .value {
-        font-size: 1.35rem;
-        font-weight: 700;
+        font-size: 0.78rem;
+        font-weight: 500;
+        color: var(--muted);
       }
 
       .scale .caption {
-        color: var(--muted);
-        font-size: 0.82rem;
-        line-height: 1.3;
+        color: var(--text);
+        font-size: 1rem;
+        line-height: 1.38;
+        font-family: "Newsreader", Georgia, serif;
+        font-style: italic;
       }
 
       .scale label.selected {
-        background: rgba(37, 99, 235, 0.08);
-        border-color: rgba(37, 99, 235, 0.35);
+        background: #ffffff;
+        box-shadow:
+          inset 0 0 0 1px rgba(87, 96, 91, 0.2),
+          0 18px 28px rgba(45, 52, 51, 0.05);
       }
 
       .stage-side {
@@ -292,30 +362,46 @@
       }
 
       .mini-card {
-        border-radius: var(--radius-lg);
-        border: 1px solid var(--line);
-        background: #fafbfc;
-        padding: 16px;
+        border-radius: 0;
+        border: 0;
+        border-left: 1px solid rgba(87, 96, 91, 0.12);
+        background: transparent;
+        padding: 0 0 0 18px;
       }
 
       .mini-card p {
         color: var(--muted);
-        line-height: 1.6;
+        line-height: 1.7;
+        font-size: 0.92rem;
+      }
+
+      .mini-card strong {
+        font-family: "Newsreader", Georgia, serif;
+        font-style: italic;
+        font-size: 1.05rem;
+        font-weight: 500;
       }
 
       .actions {
         display: flex;
         gap: 10px;
         flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 18px;
       }
 
       button {
         border: 0;
-        border-radius: 999px;
-        padding: 12px 18px;
+        border-radius: 8px;
+        padding: 14px 22px;
         font: inherit;
         cursor: pointer;
         transition: 140ms ease;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        font-size: 0.72rem;
+        font-weight: 600;
       }
 
       .primary {
@@ -324,34 +410,39 @@
       }
 
       .secondary {
-        border: 1px solid var(--line);
-        background: #ffffff;
-        color: var(--text);
+        border: 0;
+        background: transparent;
+        color: var(--muted);
+        padding-left: 0;
       }
 
       .ghost {
-        border: 1px solid var(--line);
-        background: #f8fafc;
+        border: 0;
+        background: transparent;
         color: var(--text);
       }
 
       .pill {
-        border: 1px solid var(--line);
-        background: #f8fafc;
+        border: 0;
+        background: transparent;
         color: var(--muted);
+        font-family: "Newsreader", Georgia, serif;
+        font-style: italic;
+        padding: 0;
       }
 
       .sidebar {
         display: grid;
         gap: 18px;
-        margin-top: 22px;
+        margin-top: 52px;
       }
 
       .sidebar-card {
-        border-radius: 20px;
+        border-radius: 18px;
         padding: 24px;
         display: grid;
         gap: 16px;
+        box-shadow: var(--shadow);
       }
 
       .identity-head {
@@ -424,9 +515,10 @@
       .thread-card,
       .share-card {
         border-radius: var(--radius-lg);
-        border: 1px solid var(--line);
+        border: 0;
         background: #ffffff;
         padding: 14px;
+        box-shadow: inset 0 0 0 1px rgba(87, 96, 91, 0.08);
       }
 
       .dossier-item strong,
@@ -466,9 +558,9 @@
       .field input,
       .field textarea {
         width: 100%;
-        border: 1px solid var(--line);
+        border: 0;
         border-radius: var(--radius-md);
-        background: #ffffff;
+        background: var(--panel-soft);
         padding: 12px 14px;
         font: inherit;
       }
@@ -528,8 +620,8 @@
 
       .notice {
         border-radius: var(--radius-md);
-        border: 1px dashed var(--line);
-        background: #f8fafc;
+        border: 0;
+        background: var(--panel-soft);
         padding: 14px;
         line-height: 1.65;
       }
@@ -555,15 +647,34 @@
 
       @media (max-width: 720px) {
         .shell {
-          width: min(100vw - 16px, 1240px);
-          margin: 8px auto 24px;
+          width: min(100vw - 20px, 1240px);
+          margin: 0 auto 24px;
         }
 
-        .hero,
         .section,
         .sidebar-card {
           padding: 20px;
-          border-radius: 22px;
+          border-radius: 0;
+        }
+
+        .topbar {
+          min-height: 64px;
+          gap: 12px;
+        }
+
+        .topnav {
+          display: none;
+        }
+
+        .intro-block {
+          grid-template-columns: 1fr;
+          gap: 18px;
+          padding: 28px 0 20px;
+        }
+
+        h1 {
+          max-width: none;
+          font-size: clamp(2.4rem, 12vw, 3.6rem);
         }
 
         .scale,
@@ -575,12 +686,24 @@
           grid-column: 1 / -1;
         }
 
-        h1 {
-          max-width: none;
+        .question-card {
+          padding: 0;
+          gap: 22px;
         }
 
-        .question-card {
-          padding: 22px;
+        .question-text {
+          max-width: none;
+          font-size: clamp(2.2rem, 11vw, 3.2rem);
+        }
+
+        .readout-bar {
+          grid-template-columns: 1fr;
+          gap: 8px;
+        }
+
+        .actions {
+          justify-content: flex-start;
+          padding-top: 10px;
         }
       }
     </style>
@@ -591,19 +714,27 @@
         <section>
           <section class="section">
             <div class="topbar">
-              <span class="eyebrow">Tokenstopia / Self Check</span>
+              <div class="brand">Tokenstopia</div>
+              <nav class="topnav">
+                <a href="#manifesto-section">Discussion</a>
+                <a href="#results-sidebar">About</a>
+                <a id="analytics-link" href="/analytics.html">Analytics</a>
+              </nav>
               <button id="lang-toggle" type="button" class="ghost" style="width: fit-content;">EN</button>
             </div>
             <div class="intro-block">
-              <h1 id="intro-title">慢慢回答这些问题，最后再看结果。</h1>
-              <p id="intro-copy" class="hero-copy">
-                这里只会一次给你一个问题。先按自己的感觉完成全部 20 题，不用急着看分数。等你答完后，我们再一起看结果和总结。
-              </p>
-              <p class="hero-copy">
-                <a id="analytics-link" href="/analytics.html" style="color: var(--accent); text-decoration: none;">查看数据分析页</a>
-                <span style="color: var(--muted); margin: 0 8px;">·</span>
-                <a id="stockgist-link" href="/stockgist/index.html" style="color: var(--accent); text-decoration: none;">打开 StockGist</a>
-              </p>
+              <div>
+                <span class="eyebrow">Assessment interface</span>
+                <h1 id="intro-title">慢慢回答这些问题，最后再看结果。</h1>
+              </div>
+              <div class="hero-copy">
+                <p id="intro-copy">
+                  这里只会一次给你一个问题。先按自己的感觉完成全部 20 题，不用急着看分数。等你答完后，我们再一起看结果和总结。
+                </p>
+                <p style="margin-top: 18px;">
+                  <a id="stockgist-link" href="/stockgist/index.html" style="color: var(--text); text-decoration: none;">StockGist</a>
+                </p>
+              </div>
             </div>
 
               <div class="section-header">
@@ -619,6 +750,7 @@
                 <article class="question-card">
                   <div class="progress-block">
                     <div class="progress-meta">
+                      <span></span>
                       <span id="progress-copy">题目 1 / 20</span>
                       <span id="answered-copy">已回答 0 题</span>
                     </div>
