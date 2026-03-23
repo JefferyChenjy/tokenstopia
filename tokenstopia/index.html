@@ -159,6 +159,30 @@
       }
 
       .section-header {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 18px;
+        align-items: start;
+        margin-bottom: 26px;
+      }
+
+      .section-header h2 {
+        font-family: "Newsreader", Georgia, serif;
+        font-size: clamp(2rem, 4vw, 3.2rem);
+        line-height: 0.96;
+        letter-spacing: -0.05em;
+        font-weight: 600;
+        margin: 0;
+      }
+
+      .section-header p {
+        color: var(--muted);
+        line-height: 1.8;
+        max-width: 42ch;
+        margin-top: 10px;
+      }
+
+      .question-header {
         display: none;
       }
 
@@ -677,9 +701,21 @@
         resize: vertical;
       }
 
+      .manifesto-card {
+        padding-top: 8px;
+      }
+
+      .manifesto-form {
+        background: rgba(255, 255, 255, 0.82);
+        border-radius: 20px;
+        padding: 22px;
+        box-shadow: var(--shadow);
+      }
+
       .thread-card {
         display: grid;
-        gap: 12px;
+        gap: 14px;
+        padding: 18px 18px 16px;
       }
 
       .thread-meta {
@@ -687,13 +723,25 @@
         gap: 8px;
         flex-wrap: wrap;
         color: var(--muted);
-        font-size: 0.9rem;
+        font-size: 0.82rem;
+        letter-spacing: 0.02em;
+      }
+
+      .thread-head strong {
+        font-family: "Newsreader", Georgia, serif;
+        font-size: 1.45rem;
+        line-height: 1.1;
+        letter-spacing: -0.03em;
+        color: var(--text);
+        text-transform: none;
       }
 
       .thread-reply {
-        border-left: 2px solid rgba(37, 99, 235, 0.2);
-        padding-left: 12px;
-        color: var(--text);
+        border-left: 1px solid rgba(87, 96, 91, 0.14);
+        padding-left: 14px;
+        color: var(--muted);
+        font-size: 0.9rem;
+        line-height: 1.7;
       }
 
       .thread-children {
@@ -701,7 +749,16 @@
         gap: 10px;
         margin-left: 10px;
         padding-left: 16px;
-        border-left: 1px dashed var(--line);
+        border-left: 1px solid rgba(87, 96, 91, 0.08);
+      }
+
+      .thread-body {
+        font-family: "Newsreader", Georgia, serif;
+        font-size: clamp(1.3rem, 2vw, 1.9rem);
+        line-height: 1.12;
+        letter-spacing: -0.03em;
+        max-width: 26ch;
+        color: var(--text);
       }
 
       .share-card {
@@ -813,6 +870,15 @@
           padding-top: 10px;
         }
 
+        .section-header {
+          grid-template-columns: 1fr;
+          gap: 10px;
+        }
+
+        .manifesto-form {
+          padding: 18px;
+        }
+
         .overview-card {
           grid-template-columns: 1fr;
         }
@@ -851,7 +917,7 @@
               </div>
             </div>
 
-              <div class="section-header">
+              <div class="section-header question-header">
                 <div>
                   <h2 id="section-title">开始回答</h2>
                   <p id="section-copy">不用分析太多，只回答这一题此刻对你来说有多成立。</p>
@@ -907,7 +973,7 @@
             </div>
           </section>
 
-          <section id="manifesto-section" class="section hidden">
+          <section id="manifesto-section" class="section manifesto-card hidden">
             <div class="section-header">
               <div>
                 <h2 id="manifesto-title">留言区</h2>
@@ -916,7 +982,7 @@
               <span id="manifesto-badge" class="badge">Replies</span>
             </div>
 
-            <form id="manifesto-form" class="question-shell">
+            <form id="manifesto-form" class="question-shell manifesto-form">
               <div class="field-grid">
                 <div class="field">
                   <label id="ai-name-label" for="ai-name">你的名称</label>

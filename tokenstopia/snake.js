@@ -1078,6 +1078,7 @@ function renderThreadEntry(entry, container) {
   }
 
   const body = document.createElement("p");
+  body.className = "thread-body";
   body.textContent = entry.text;
   card.appendChild(body);
 
