@@ -33,6 +33,7 @@ export default async function handler(req, res) {
 
   const ticker = String(req.query?.ticker || "").trim().toUpperCase();
   const language = String(req.query?.lang || "en").trim().toLowerCase() === "zh" ? "zh" : "en";
+  const debug = String(req.query?.debug || "") === "1";
 
   if (!ticker) {
     return sendJson(res, 400, { error: "Ticker is required" });
@@ -59,6 +60,14 @@ export default async function handler(req, res) {
         return sendJson(res, 200, {
           report,
           source: "live",
+          ...(debug
+            ? {
+                debug: {
+                  hasAlphaVantageKey: true,
+                  keyLength: apiKey.length,
+                },
+              }
+            : {}),
         });
       }
     } catch (error) {
@@ -68,9 +77,28 @@ export default async function handler(req, res) {
           report: sample,
           source: "sample",
           warning: "Live data fetch failed, served sample profile instead.",
+          ...(debug
+            ? {
+                debug: {
+                  hasAlphaVantageKey: true,
+                  keyLength: apiKey.length,
+                  fetchError: error.message || "unknown",
+                },
+              }
+            : {}),
         });
       }
-      return sendJson(res, 502, { error: error.message || "Failed to analyze ticker" });
+      return sendJson(res, 502, {
+        error: error.message || "Failed to analyze ticker",
+        ...(debug
+          ? {
+              debug: {
+                hasAlphaVantageKey: true,
+                keyLength: apiKey.length,
+              },
+            }
+          : {}),
+      });
     }
   }
 
@@ -80,10 +108,26 @@ export default async function handler(req, res) {
       report: sample,
       source: "sample",
       warning: "ALPHAVANTAGE_API_KEY is not configured, served sample profile instead.",
+      ...(debug
+        ? {
+            debug: {
+              hasAlphaVantageKey: false,
+              keyLength: 0,
+            },
+          }
+        : {}),
     });
   }
 
   return sendJson(res, 503, {
     error: "Live analysis requires ALPHAVANTAGE_API_KEY. Sample mode currently supports AAPL, NVDA, MSFT, and TSLA.",
+    ...(debug
+      ? {
+          debug: {
+            hasAlphaVantageKey: false,
+            keyLength: 0,
+          },
+        }
+      : {}),
   });
 }
