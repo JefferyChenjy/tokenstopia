@@ -1,6 +1,7 @@
 import { SAMPLE_REPORTS } from "./reports.js";
 import { createTranslator } from "./ui/i18n/translations.js";
 import { renderReportPresentation } from "./ui/presenters/report-presenter.js";
+import { loadStockAnalysis } from "./ui/services/analysis-client.js";
 
 const inputEl = document.getElementById("ticker-input");
 const analyzeBtn = document.getElementById("analyze-btn");
@@ -104,17 +105,6 @@ function startLoading() {
   }, 900);
 }
 
-async function fetchAnalysis(ticker) {
-  const response = await fetch(
-    `/api/stockgist-analyze?ticker=${encodeURIComponent(ticker)}&lang=${state.language}&_=${Date.now()}`,
-  );
-  const data = await response.json();
-  if (!response.ok) {
-    throw new Error(data.error || t("errorFallback"));
-  }
-  return data.report;
-}
-
 async function runAnalysis(rawTicker) {
   const ticker = rawTicker.trim().toUpperCase();
   if (!ticker) return;
@@ -123,17 +113,23 @@ async function runAnalysis(rawTicker) {
   startLoading();
 
   try {
-    const report = await fetchAnalysis(ticker);
-    renderReport(report);
-    analysisSectionEl.scrollIntoView({ behavior: "smooth", block: "start" });
-  } catch (error) {
-    const fallback = SAMPLE_REPORTS[ticker];
-    if (fallback) {
-      renderReport(fallback);
-      alert(t("errorFallback"));
-    } else {
-      alert(error.message || t("errorUnknown"));
+    const result = await loadStockAnalysis({
+      rawTicker: ticker,
+      language: state.language,
+      t,
+    });
+
+    if (!result.report) {
+      alert(result.errorMessage || t("errorUnknown"));
+      return;
     }
+
+    const report = result.report;
+    renderReport(report);
+    if (result.errorMessage) {
+      alert(result.errorMessage);
+    }
+    analysisSectionEl.scrollIntoView({ behavior: "smooth", block: "start" });
   } finally {
     stopLoading();
   }
