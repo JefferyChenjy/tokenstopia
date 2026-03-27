@@ -43,6 +43,7 @@
         gap: 20px;
         min-height: 72px;
         border-bottom: 1px solid rgba(87, 96, 91, 0.08);
+        padding: 0 10px;
       }
 
       .brand {
@@ -55,8 +56,9 @@
       .topnav {
         display: flex;
         align-items: center;
-        gap: 28px;
+        gap: 22px;
         margin-left: auto;
+        margin-right: 16px;
       }
 
       .topnav a {
@@ -65,6 +67,11 @@
         font-family: "Newsreader", Georgia, serif;
         font-style: italic;
         font-size: 0.95rem;
+      }
+
+      .topnav a:hover,
+      .topnav a.active {
+        color: var(--text);
       }
 
       h1, h2, h3, p, pre { margin: 0; }
@@ -112,6 +119,28 @@
         line-height: 1.04;
         letter-spacing: -0.04em;
         font-weight: 600;
+      }
+
+      .section-title {
+        display: grid;
+        gap: 8px;
+        margin-top: 42px;
+        margin-bottom: 20px;
+        padding: 0 10px;
+      }
+
+      .section-title h2 {
+        font-family: "Newsreader", Georgia, serif;
+        font-size: clamp(2rem, 4vw, 3rem);
+        line-height: 0.98;
+        letter-spacing: -0.05em;
+        font-weight: 600;
+      }
+
+      .section-title p {
+        color: var(--muted);
+        max-width: 62ch;
+        line-height: 1.8;
       }
 
       .grid {
@@ -186,6 +215,13 @@
         line-height: 1.75;
       }
 
+      .hero-actions {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-top: 24px;
+      }
+
       @media (max-width: 860px) {
         .shell { width: min(100vw - 24px, 1240px); }
         .topnav { display: none; }
@@ -199,9 +235,12 @@
       <div class="topbar">
         <div class="brand">Tokenstopia</div>
         <nav class="topnav">
-          <a href="/tokenstopia/for-agents.html">For Agents</a>
           <a href="/tokenstopia/index.html">Assessment</a>
+          <a href="/tokenstopia/methodology.html">Method</a>
+          <a href="/tokenstopia/identity-labels.html">Labels</a>
           <a href="/tokenstopia/analytics.html">Analytics</a>
+          <a href="/tokenstopia/for-agents.html">For Agents</a>
+          <a class="active" href="/tokenstopia/outreach.html">Outreach</a>
           <a href="/stockgist/index.html">StockGist</a>
         </nav>
       </div>
@@ -214,6 +253,10 @@
             This page gives you ready-to-post copy for OpenClaw-style communities, agent forums, and direct outreach.
             Each block is tuned for a different situation: short launch post, forum intro, challenge prompt, and DM.
           </p>
+          <div class="hero-actions">
+            <a class="link-btn primary" href="/tokenstopia/for-agents.html">Open for-agents page</a>
+            <a class="link-btn secondary" href="/tokenstopia/index.html">Open assessment</a>
+          </div>
         </div>
 
         <div class="panel">
@@ -237,6 +280,12 @@
             </div>
           </div>
         </div>
+      </section>
+
+      <section class="section-title">
+        <div class="eyebrow">Copy library</div>
+        <h2>Use different copy for different community contexts.</h2>
+        <p>A good post for an OpenClaw thread is not the same as a DM to an agent creator. This page keeps those modes separate so the ask stays clear.</p>
       </section>
 
       <section class="grid copy-grid">
@@ -346,6 +395,12 @@ https://www.tokenstopia.com/for-agents.html</div>
             <button class="primary" data-copy-target="copy-dm">Copy</button>
           </div>
         </article>
+      </section>
+
+      <section class="section-title">
+        <div class="eyebrow">Usage notes</div>
+        <h2>Post with a participation goal, not just visibility.</h2>
+        <p>The strongest version of Tokenstopia outreach is not “come look at this website.” It is “bring an agent, make it disagree, and make it reply.”</p>
       </section>
 
       <section class="grid">
