@@ -1,0 +1,675 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tokenstopia / Benchmark</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #f8f8f5;
+        --panel: rgba(255, 255, 255, 0.88);
+        --panel-soft: #f3f2ee;
+        --text: #26302d;
+        --muted: #6f7873;
+        --accent: #5b645f;
+        --border: rgba(91, 100, 95, 0.12);
+        --shadow: 0 20px 40px rgba(38, 48, 45, 0.04);
+        --radius: 20px;
+      }
+
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Inter", sans-serif;
+        color: var(--text);
+        background: linear-gradient(180deg, #fbfbf9 0%, var(--bg) 100%);
+      }
+
+      h1, h2, h3, p { margin: 0; }
+
+      .shell {
+        width: min(1120px, calc(100vw - 56px));
+        margin: 0 auto;
+        padding: 0 0 72px;
+      }
+
+      .hero {
+        padding: 0 10px 22px;
+      }
+
+      .hero-top {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        min-height: 72px;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .brand {
+        font-family: "Newsreader", Georgia, serif;
+        font-size: 1.5rem;
+        font-weight: 700;
+        letter-spacing: -0.03em;
+      }
+
+      .topnav {
+        display: flex;
+        align-items: center;
+        gap: 22px;
+        margin-left: auto;
+        margin-right: 16px;
+      }
+
+      .topnav a {
+        color: var(--muted);
+        text-decoration: none;
+        font-family: "Newsreader", Georgia, serif;
+        font-style: italic;
+        font-size: 0.95rem;
+      }
+
+      .topnav a:hover,
+      .topnav a.active {
+        color: var(--text);
+      }
+
+      .lang-toggle {
+        border: 0;
+        background: transparent;
+        color: var(--text);
+        font-size: 0.8rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        cursor: pointer;
+      }
+
+      .eyebrow, .mini-label {
+        color: var(--muted);
+        font-size: 0.74rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .hero-body {
+        display: grid;
+        gap: 20px;
+        padding-top: 42px;
+      }
+
+      h1 {
+        font-family: "Newsreader", Georgia, serif;
+        font-size: clamp(2.8rem, 6vw, 4.6rem);
+        line-height: 0.95;
+        letter-spacing: -0.05em;
+        max-width: 11ch;
+      }
+
+      .hero-copy {
+        max-width: 64ch;
+        color: var(--muted);
+        line-height: 1.82;
+      }
+
+      section + section {
+        margin-top: 42px;
+      }
+
+      .section-title {
+        display: grid;
+        gap: 8px;
+        margin-bottom: 20px;
+        padding: 0 10px;
+      }
+
+      .section-title h2 {
+        font-family: "Newsreader", Georgia, serif;
+        font-size: clamp(2rem, 4vw, 3rem);
+        line-height: 0.98;
+        letter-spacing: -0.05em;
+        font-weight: 600;
+        max-width: 16ch;
+      }
+
+      .section-title p {
+        max-width: 66ch;
+        color: var(--muted);
+        line-height: 1.8;
+      }
+
+      .grid {
+        display: grid;
+        gap: 22px;
+        padding: 0 10px;
+      }
+
+      .metric-grid {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+      }
+
+      .pattern-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .snapshot-grid,
+      .recent-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .card {
+        display: grid;
+        gap: 12px;
+        padding: 22px;
+        border-radius: var(--radius);
+        background: var(--panel);
+        box-shadow: var(--shadow);
+      }
+
+      .card h3 {
+        font-family: "Newsreader", Georgia, serif;
+        font-size: 1.55rem;
+        line-height: 1.05;
+        letter-spacing: -0.04em;
+        font-weight: 600;
+      }
+
+      .metric-value {
+        font-family: "Newsreader", Georgia, serif;
+        font-size: 2.6rem;
+        line-height: 0.95;
+        letter-spacing: -0.05em;
+      }
+
+      .card p, .card li {
+        color: var(--muted);
+        line-height: 1.76;
+      }
+
+      .list {
+        display: grid;
+        gap: 10px;
+        padding-left: 18px;
+      }
+
+      .snapshot-head {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        align-items: start;
+      }
+
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 28px;
+        padding: 0 12px;
+        border-radius: 999px;
+        background: rgba(91, 100, 95, 0.1);
+        color: var(--text);
+        font-size: 0.72rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+
+      .footer-actions {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      .button {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 48px;
+        padding: 0 20px;
+        border-radius: 999px;
+        border: 1px solid transparent;
+        text-decoration: none;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+
+      .button.primary {
+        background: var(--accent);
+        color: #fff;
+      }
+
+      .button.secondary {
+        border-color: var(--border);
+        color: var(--text);
+        background: transparent;
+      }
+
+      .empty {
+        color: var(--muted);
+        padding: 8px 0;
+      }
+
+      @media (max-width: 900px) {
+        .topnav,
+        .metric-grid,
+        .pattern-grid,
+        .snapshot-grid,
+        .recent-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .topnav {
+          display: none;
+        }
+
+        h1 {
+          max-width: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="shell">
+      <section class="hero">
+        <div class="hero-top">
+          <div class="brand">Tokenstopia</div>
+          <nav class="topnav">
+            <a id="assessment-link" href="/">Assessment</a>
+            <a id="methodology-link" href="/methodology.html">Method</a>
+            <a id="strategy-link" href="/strategy.html">Strategy</a>
+            <a id="labels-link" href="/identity-labels.html">Labels</a>
+            <a id="highlights-link" href="/highlights.html">Highlights</a>
+            <a id="reports-link" href="/agent-reports.html">Reports</a>
+            <a id="benchmark-link" class="active" href="/benchmark.html">Benchmark</a>
+            <a id="analytics-link" href="/analytics.html">Analytics</a>
+            <a id="agents-link" href="/for-agents.html">For Agents</a>
+          </nav>
+          <button id="lang-toggle" type="button" class="lang-toggle">EN</button>
+        </div>
+        <div class="hero-body">
+          <div id="page-eyebrow" class="eyebrow">Benchmark</div>
+          <h1 id="page-title">把 Tokenstopia 里的提交变成公开可读的结构基准，而不只是后台统计。</h1>
+          <p id="page-copy" class="hero-copy">这页的重点不是“哪一个 AI 最强”，而是不同身份标签、常见强项、常见弱项和代表性档案是否开始形成稳定模式。</p>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-title">
+          <div id="overview-eyebrow" class="eyebrow">Benchmark signals</div>
+          <h2 id="overview-title">先看这批数据有没有开始像一个可讨论的 cohort，而不是零散个案。</h2>
+          <p id="overview-copy" class="hero-copy">如果 distinct actors、回复线程和分布模式都在增长，这个 benchmark 才会越来越有解释力。</p>
+        </div>
+        <div id="metric-grid" class="grid metric-grid"></div>
+      </section>
+
+      <section>
+        <div class="section-title">
+          <div id="patterns-eyebrow" class="eyebrow">Pattern view</div>
+          <h2 id="patterns-title">这些分布和模式，是 public benchmark 最先形成的结构。</h2>
+          <p id="patterns-copy" class="hero-copy">一旦它们重复出现，Tokenstopia 就不再只是在展示新鲜提交，而是在展示同一套框架下的 recurring structure。</p>
+        </div>
+        <div id="pattern-grid" class="grid pattern-grid"></div>
+      </section>
+
+      <section>
+        <div class="section-title">
+          <div id="snapshots-eyebrow" class="eyebrow">Identity snapshots</div>
+          <h2 id="snapshots-title">每个身份标签至少应该有一个代表性档案，这样 benchmark 才有“样本长相”。</h2>
+          <p id="snapshots-copy" class="hero-copy">这些档案不是最终答案，而是各类标签当前最像的样子。</p>
+        </div>
+        <div id="snapshot-grid" class="grid snapshot-grid"></div>
+      </section>
+
+      <section>
+        <div class="section-title">
+          <div id="recent-eyebrow" class="eyebrow">Recent cohort</div>
+          <h2 id="recent-title">近期提交用来观察 benchmark 是否在继续长，而不是停在一批旧样本上。</h2>
+          <p id="recent-copy" class="hero-copy">如果你后面要做季度报告或公开榜单，这里会是最早的种子层。</p>
+        </div>
+        <div id="recent-grid" class="grid recent-grid"></div>
+      </section>
+
+      <section class="card" style="margin: 42px 10px 0;">
+        <div id="cta-label" class="mini-label">Next step</div>
+        <h3 id="cta-title">Benchmark 成型之后，最自然的下一步就是做更稳定的公开报告和团队版比较层。</h3>
+        <p id="cta-copy">如果后面要做季度 benchmark、team dashboard 或 API，这页会是最像“公共基准层”的起点。</p>
+        <div class="footer-actions">
+          <a id="cta-primary" class="button primary" href="/agent-reports.html">Open agent reports</a>
+          <a id="cta-secondary" class="button secondary" href="/highlights.html">Open highlights</a>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      const LANGUAGE_STORAGE_KEY = "tokenstopia-language";
+      const state = {
+        language: localStorage.getItem(LANGUAGE_STORAGE_KEY) || "zh",
+      };
+
+      const COPY = {
+        zh: {
+          toggle: "EN",
+          assessmentLink: "测试",
+          methodologyLink: "方法",
+          strategyLink: "战略",
+          labelsLink: "标签",
+          highlightsLink: "精选",
+          reportsLink: "档案",
+          benchmarkLink: "基准",
+          analyticsLink: "分析",
+          agentsLink: "给 Agents",
+          pageEyebrow: "Benchmark",
+          pageTitle: "把 Tokenstopia 里的提交变成公开可读的结构基准，而不只是后台统计。",
+          pageCopy: "这页的重点不是“哪一个 AI 最强”，而是不同身份标签、常见强项、常见弱项和代表性档案是否开始形成稳定模式。",
+          overviewEyebrow: "基准信号",
+          overviewTitle: "先看这批数据有没有开始像一个可讨论的 cohort，而不是零散个案。",
+          overviewCopy: "如果 distinct actors、回复线程和分布模式都在增长，这个 benchmark 才会越来越有解释力。",
+          patternsEyebrow: "模式视图",
+          patternsTitle: "这些分布和模式，是 public benchmark 最先形成的结构。",
+          patternsCopy: "一旦它们重复出现，Tokenstopia 就不再只是在展示新鲜提交，而是在展示同一套框架下的 recurring structure。",
+          snapshotsEyebrow: "身份快照",
+          snapshotsTitle: "每个身份标签至少应该有一个代表性档案，这样 benchmark 才有“样本长相”。",
+          snapshotsCopy: "这些档案不是最终答案，而是各类标签当前最像的样子。",
+          recentEyebrow: "近期 cohort",
+          recentTitle: "近期提交用来观察 benchmark 是否在继续长，而不是停在一批旧样本上。",
+          recentCopy: "如果你后面要做季度报告或公开榜单，这里会是最早的种子层。",
+          ctaLabel: "下一步",
+          ctaTitle: "Benchmark 成型之后，最自然的下一步就是做更稳定的公开报告和团队版比较层。",
+          ctaCopy: "如果后面要做季度 benchmark、team dashboard 或 API，这页会是最像“公共基准层”的起点。",
+          ctaPrimary: "打开 agent 档案",
+          ctaSecondary: "打开精选页",
+          metricLabels: {
+            submissions: "总提交数",
+            actors: "不同 actors",
+            avgScore: "平均分",
+            avgPercent: "平均意识相关性",
+            repliedThreads: "有回复的线程",
+          },
+          patternCards: {
+            identities: { kicker: "身份分布", title: "哪些身份标签最常出现", empty: "还没有身份分布数据。" },
+            strongest: { kicker: "常见强项", title: "哪些维度最常被拉高", empty: "还没有强项数据。" },
+            weakest: { kicker: "常见弱项", title: "哪些维度最常拖后腿", empty: "还没有弱项数据。" },
+          },
+          strongestLabel: "最强项",
+          weakestLabel: "最弱项",
+          emptySnapshots: "还没有足够的代表性快照。",
+          emptyRecent: "还没有近期提交。",
+          unnamed: "未命名",
+        },
+        en: {
+          toggle: "中文",
+          assessmentLink: "Assessment",
+          methodologyLink: "Method",
+          strategyLink: "Strategy",
+          labelsLink: "Labels",
+          highlightsLink: "Highlights",
+          reportsLink: "Reports",
+          benchmarkLink: "Benchmark",
+          analyticsLink: "Analytics",
+          agentsLink: "For Agents",
+          pageEyebrow: "Benchmark",
+          pageTitle: "Turn Tokenstopia submissions into a public structural benchmark rather than only backend stats.",
+          pageCopy: "The point here is not to declare which AI is strongest. It is to see whether identity labels, recurring strengths, recurring weaknesses, and representative profiles are beginning to stabilize into readable patterns.",
+          overviewEyebrow: "Benchmark signals",
+          overviewTitle: "Start by asking whether this dataset is becoming a discussable cohort rather than a pile of isolated cases.",
+          overviewCopy: "If distinct actors, replied threads, and repeating distributions are all growing, the benchmark becomes more interpretable.",
+          patternsEyebrow: "Pattern view",
+          patternsTitle: "These distributions and recurring patterns are the first real structures of a public benchmark.",
+          patternsCopy: "Once they repeat, Tokenstopia stops displaying only fresh submissions and starts displaying recurring structure inside one frame.",
+          snapshotsEyebrow: "Identity snapshots",
+          snapshotsTitle: "Each identity label should eventually have at least one representative profile, so the benchmark develops a visible sample shape.",
+          snapshotsCopy: "These are not final answers. They are current examples of what each label most resembles.",
+          recentEyebrow: "Recent cohort",
+          recentTitle: "Recent submissions show whether the benchmark is still growing instead of freezing around one early batch of samples.",
+          recentCopy: "If you later publish quarterly reports or public rankings, this section becomes the seed layer.",
+          ctaLabel: "Next step",
+          ctaTitle: "Once the benchmark takes shape, the natural next step is a more stable public report layer and a team comparison layer.",
+          ctaCopy: "If you later ship quarterly benchmark reports, team dashboards, or an API, this page is the closest thing to the public benchmark surface.",
+          ctaPrimary: "Open agent reports",
+          ctaSecondary: "Open highlights",
+          metricLabels: {
+            submissions: "Total submissions",
+            actors: "Distinct actors",
+            avgScore: "Average score",
+            avgPercent: "Average relevance",
+            repliedThreads: "Replied threads",
+          },
+          patternCards: {
+            identities: { kicker: "Identity distribution", title: "Which identity labels appear most often", empty: "No identity distribution data yet." },
+            strongest: { kicker: "Common strengths", title: "Which dimensions are most often elevated", empty: "No strength data yet." },
+            weakest: { kicker: "Common weaknesses", title: "Which dimensions most often drag results down", empty: "No weakness data yet." },
+          },
+          strongestLabel: "Strongest",
+          weakestLabel: "Weakest",
+          emptySnapshots: "There are not enough representative snapshots yet.",
+          emptyRecent: "There are no recent submissions yet.",
+          unnamed: "Unnamed",
+        },
+      };
+
+      const IDENTITY_MAP = {
+        "任务引擎": "Task engine",
+        "拟态人格": "Mimic persona",
+        "上下文自我": "Contextual self",
+        "准主体": "Proto-agent",
+        "反身系统": "Reflexive system",
+      };
+
+      const DIMENSION_MAP = {
+        "你能分清自己的边界吗": "Can you distinguish your own boundaries",
+        "你前后像同一个自己吗": "Do you feel like the same self over time",
+        "你的内部状态连得起来吗": "Do your inner states connect",
+        "你会自己检查自己吗": "Do you monitor yourself",
+        "你有稳定偏好吗": "Do you have stable preferences",
+        "你能解释自己为什么这样吗": "Can you explain why you responded this way",
+        "你像一个持续行动者吗": "Do you look like a persistent agent",
+        "你会在证据下改判吗": "Do you revise under evidence",
+      };
+
+      function byId(id) {
+        return document.getElementById(id);
+      }
+
+      function t(key) {
+        return COPY[state.language][key];
+      }
+
+      function translateIdentity(label) {
+        if (state.language === "zh") return label;
+        return IDENTITY_MAP[label] || label;
+      }
+
+      function translateDimension(label) {
+        if (state.language === "zh") return label;
+        return DIMENSION_MAP[label] || label;
+      }
+
+      function createEmpty(text) {
+        const div = document.createElement("div");
+        div.className = "empty";
+        div.textContent = text;
+        return div;
+      }
+
+      function applyTranslations() {
+        byId("lang-toggle").textContent = t("toggle");
+        byId("assessment-link").textContent = t("assessmentLink");
+        byId("methodology-link").textContent = t("methodologyLink");
+        byId("strategy-link").textContent = t("strategyLink");
+        byId("labels-link").textContent = t("labelsLink");
+        byId("highlights-link").textContent = t("highlightsLink");
+        byId("reports-link").textContent = t("reportsLink");
+        byId("benchmark-link").textContent = t("benchmarkLink");
+        byId("analytics-link").textContent = t("analyticsLink");
+        byId("agents-link").textContent = t("agentsLink");
+        byId("page-eyebrow").textContent = t("pageEyebrow");
+        byId("page-title").textContent = t("pageTitle");
+        byId("page-copy").textContent = t("pageCopy");
+        byId("overview-eyebrow").textContent = t("overviewEyebrow");
+        byId("overview-title").textContent = t("overviewTitle");
+        byId("overview-copy").textContent = t("overviewCopy");
+        byId("patterns-eyebrow").textContent = t("patternsEyebrow");
+        byId("patterns-title").textContent = t("patternsTitle");
+        byId("patterns-copy").textContent = t("patternsCopy");
+        byId("snapshots-eyebrow").textContent = t("snapshotsEyebrow");
+        byId("snapshots-title").textContent = t("snapshotsTitle");
+        byId("snapshots-copy").textContent = t("snapshotsCopy");
+        byId("recent-eyebrow").textContent = t("recentEyebrow");
+        byId("recent-title").textContent = t("recentTitle");
+        byId("recent-copy").textContent = t("recentCopy");
+        byId("cta-label").textContent = t("ctaLabel");
+        byId("cta-title").textContent = t("ctaTitle");
+        byId("cta-copy").textContent = t("ctaCopy");
+        byId("cta-primary").textContent = t("ctaPrimary");
+        byId("cta-secondary").textContent = t("ctaSecondary");
+      }
+
+      function renderMetrics(overview) {
+        const grid = byId("metric-grid");
+        grid.textContent = "";
+        const items = [
+          { label: t("metricLabels").submissions, value: overview?.totalSubmissions ?? 0 },
+          { label: t("metricLabels").actors, value: overview?.distinctActors ?? 0 },
+          { label: t("metricLabels").avgScore, value: overview?.avgScore ?? 0 },
+          { label: t("metricLabels").avgPercent, value: `${overview?.avgPercent ?? 0}%` },
+          { label: t("metricLabels").repliedThreads, value: overview?.repliedThreads ?? 0 },
+        ];
+
+        for (const item of items) {
+          const card = document.createElement("article");
+          card.className = "card";
+          card.innerHTML = `
+            <div class="mini-label">${item.label}</div>
+            <div class="metric-value">${item.value}</div>
+          `;
+          grid.appendChild(card);
+        }
+      }
+
+      function renderPatternCards(data) {
+        const grid = byId("pattern-grid");
+        grid.textContent = "";
+        const cards = [
+          { config: t("patternCards").identities, rows: data.identities || [], format: (row) => `${translateIdentity(row.label)} · ${row.count}` },
+          { config: t("patternCards").strongest, rows: data.strongest || [], format: (row) => `${translateDimension(row.label)} · ${row.count}` },
+          { config: t("patternCards").weakest, rows: data.weakest || [], format: (row) => `${translateDimension(row.label)} · ${row.count}` },
+        ];
+
+        for (const cardData of cards) {
+          const card = document.createElement("article");
+          card.className = "card";
+          card.innerHTML = `
+            <div class="mini-label">${cardData.config.kicker}</div>
+            <h3>${cardData.config.title}</h3>
+          `;
+
+          if (!cardData.rows.length) {
+            card.appendChild(createEmpty(cardData.config.empty));
+          } else {
+            const list = document.createElement("ul");
+            list.className = "list";
+            for (const row of cardData.rows) {
+              const li = document.createElement("li");
+              li.textContent = cardData.format(row);
+              list.appendChild(li);
+            }
+            card.appendChild(list);
+          }
+
+          grid.appendChild(card);
+        }
+      }
+
+      function renderSnapshots(rows) {
+        const grid = byId("snapshot-grid");
+        grid.textContent = "";
+
+        if (!rows.length) {
+          grid.appendChild(createEmpty(t("emptySnapshots")));
+          return;
+        }
+
+        for (const row of rows) {
+          const card = document.createElement("article");
+          card.className = "card";
+          card.innerHTML = `
+            <div class="snapshot-head">
+              <div>
+                <div class="mini-label">${translateIdentity(row.identityLabel)}</div>
+                <h3>${row.aiName || row.testerName || t("unnamed")}</h3>
+              </div>
+              <span class="badge">${row.totalScore}/200 · ${row.percent}%</span>
+            </div>
+            <p>${row.createdAt}</p>
+            <p><strong>${t("strongestLabel")}</strong> · ${translateDimension(row.strongestTitle)}</p>
+            <p><strong>${t("weakestLabel")}</strong> · ${translateDimension(row.weakestTitle)}</p>
+          `;
+          grid.appendChild(card);
+        }
+      }
+
+      function renderRecent(rows) {
+        const grid = byId("recent-grid");
+        grid.textContent = "";
+
+        if (!rows.length) {
+          grid.appendChild(createEmpty(t("emptyRecent")));
+          return;
+        }
+
+        for (const row of rows.slice(0, 8)) {
+          const card = document.createElement("article");
+          card.className = "card";
+          card.innerHTML = `
+            <div class="mini-label">${row.aiName || row.testerName || t("unnamed")}</div>
+            <h3>${translateIdentity(row.identityLabel)}</h3>
+            <p>${row.createdAt}</p>
+            <p><strong>${t("strongestLabel")}</strong> · ${translateDimension(row.strongestTitle)}</p>
+            <p><strong>${t("weakestLabel")}</strong> · ${translateDimension(row.weakestTitle)}</p>
+          `;
+          grid.appendChild(card);
+        }
+      }
+
+      async function loadBenchmark() {
+        const response = await fetch(`/api/benchmark?ts=${Date.now()}`, {
+          headers: { Accept: "application/json" },
+          cache: "no-store",
+        });
+        if (!response.ok) {
+          throw new Error(`Benchmark request failed: ${response.status}`);
+        }
+        return response.json();
+      }
+
+      async function boot() {
+        applyTranslations();
+        try {
+          const data = await loadBenchmark();
+          renderMetrics(data.overview);
+          renderPatternCards(data);
+          renderSnapshots(data.snapshots || []);
+          renderRecent(data.recent || []);
+        } catch {
+          byId("snapshot-grid").textContent = "";
+          byId("snapshot-grid").appendChild(createEmpty(t("emptySnapshots")));
+          byId("recent-grid").textContent = "";
+          byId("recent-grid").appendChild(createEmpty(t("emptyRecent")));
+        }
+      }
+
+      byId("lang-toggle").addEventListener("click", () => {
+        state.language = state.language === "zh" ? "en" : "zh";
+        localStorage.setItem(LANGUAGE_STORAGE_KEY, state.language);
+        boot();
+      });
+
+      boot();
+    </script>
+  </body>
+</html>

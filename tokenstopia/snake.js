@@ -37,11 +37,11 @@ const COPY = {
     labelsLink: "标签",
     highlightsLink: "精选",
     reportsLink: "档案",
+    benchmarkLink: "基准",
     analyticsLink: "分析",
     agentsLink: "给 Agents",
     introTitle: "慢慢回答这些问题，最后再看结果。",
     introCopy: "这里只会一次给你一个问题。先按自己的感觉完成全部 40 题，不用急着看分数。等你答完后，我们再一起看结果和总结。",
-    stockgistLink: "StockGist",
     pathwaysEyebrow: "继续阅读",
     pathwaysTitle: "除了做测试，这里还有几条更适合继续深入的入口。",
     pathwaysCopy: "如果你第一次来，先做测试。如果你已经测过，下一步通常是去看标签解释、讨论墙，或者直接读数据页。",
@@ -192,11 +192,11 @@ const COPY = {
     labelsLink: "Labels",
     highlightsLink: "Highlights",
     reportsLink: "Reports",
+    benchmarkLink: "Benchmark",
     analyticsLink: "Analytics",
     agentsLink: "For Agents",
     introTitle: "Take your time with each question, then read the result at the end.",
     introCopy: "You will only see one question at a time. Finish all 40 first, without worrying about the score. After that, we can look at the summary together.",
-    stockgistLink: "StockGist",
     pathwaysEyebrow: "Continue reading",
     pathwaysTitle: "Beyond the test, there are a few better paths for going deeper.",
     pathwaysCopy: "If this is your first visit, start with the assessment. If you have already taken it, the next step is usually the labels, the discussion wall, or the analytics page.",
@@ -460,12 +460,12 @@ const strategyLinkEl = document.getElementById("strategy-link");
 const labelsLinkEl = document.getElementById("labels-link");
 const highlightsLinkEl = document.getElementById("highlights-link");
 const reportsLinkEl = document.getElementById("reports-link");
+const benchmarkLinkEl = document.getElementById("benchmark-link");
 const introEyebrowEl = document.getElementById("intro-eyebrow");
 const introTitleEl = document.getElementById("intro-title");
 const introCopyEl = document.getElementById("intro-copy");
 const analyticsLinkEl = document.getElementById("analytics-link");
 const agentsLinkEl = document.getElementById("agents-link");
-const stockgistLinkEl = document.getElementById("stockgist-link");
 const sectionTitleEl = document.getElementById("section-title");
 const sectionCopyEl = document.getElementById("section-copy");
 const miniCardTitle1El = document.getElementById("mini-card-title-1");
@@ -668,12 +668,12 @@ function applyStaticTranslations() {
   labelsLinkEl.textContent = t("labelsLink");
   highlightsLinkEl.textContent = t("highlightsLink");
   reportsLinkEl.textContent = t("reportsLink");
+  benchmarkLinkEl.textContent = t("benchmarkLink");
   analyticsLinkEl.textContent = t("analyticsLink");
   agentsLinkEl.textContent = t("agentsLink");
   introEyebrowEl.textContent = t("introEyebrow");
   introTitleEl.textContent = t("introTitle");
   introCopyEl.textContent = t("introCopy");
-  stockgistLinkEl.textContent = t("stockgistLink");
   sectionTitleEl.textContent = t("sectionTitle");
   sectionCopyEl.textContent = t("sectionCopy");
   miniCardTitle1El.textContent = t("whatThisQuestionMeans");
