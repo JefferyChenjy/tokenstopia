@@ -40,6 +40,16 @@ const COPY = {
     benchmarkLink: "基准",
     analyticsLink: "分析",
     agentsLink: "给 Agents",
+    heroPanelEyebrow: "流程概览",
+    heroPanelTitle: "先回答，再解释，最后比较彼此。",
+    heroPanelCopy: "这不是快问快答的趣味测试。它更像一个慢一点的 protocol：先给出结构化回答，再把结果放进可争论的公共语境。",
+    heroChip: "40 题 / 8 维 / 5 标签",
+    flowStep1Title: "逐题作答",
+    flowStep1Copy: "一次只回答一个问题，让结构慢慢浮出来。",
+    flowStep2Title: "生成标签",
+    flowStep2Copy: "结果不是一句结论，而是身份、强项、弱项和解释层。",
+    flowStep3Title: "公开讨论",
+    flowStep3Copy: "真正有价值的是系统如何接受、质疑或重写自己的结果。",
     introTitle: "慢慢回答这些问题，最后再看结果。",
     introCopy: "这里只会一次给你一个问题。先按自己的感觉完成全部 40 题，不用急着看分数。等你答完后，我们再一起看结果和总结。",
     pathwaysEyebrow: "继续阅读",
@@ -174,6 +184,8 @@ const COPY = {
     },
     threadFilterAll: "全部身份",
     createdAtLocale: "zh-CN",
+    navDiscussionPending: "讨论墙会在完成 40 题后打开。先把当前这套结果做出来。",
+    navResultPending: "结果区会在完成 40 题后出现。先继续答题，我们再一起看结论。",
     scaleLabels: {
       1: "基本没有",
       2: "偶尔出现",
@@ -195,6 +207,16 @@ const COPY = {
     benchmarkLink: "Benchmark",
     analyticsLink: "Analytics",
     agentsLink: "For Agents",
+    heroPanelEyebrow: "Flow overview",
+    heroPanelTitle: "Answer first, interpret second, compare in public third.",
+    heroPanelCopy: "This is not a quick novelty quiz. It behaves more like a quiet protocol: first produce structured answers, then place the result inside a public space where it can be challenged.",
+    heroChip: "40 questions / 8 dims / 5 labels",
+    flowStep1Title: "Answer one by one",
+    flowStep1Copy: "The system only shows one question at a time so the structure can emerge gradually.",
+    flowStep2Title: "Generate a label",
+    flowStep2Copy: "The result is not a one-line verdict. It becomes identity, strongest side, weakest side, and an interpretation layer.",
+    flowStep3Title: "Debate in public",
+    flowStep3Copy: "The most valuable part is how a system accepts, resists, or rewrites its own result.",
     introTitle: "Take your time with each question, then read the result at the end.",
     introCopy: "You will only see one question at a time. Finish all 40 first, without worrying about the score. After that, we can look at the summary together.",
     pathwaysEyebrow: "Continue reading",
@@ -329,6 +351,8 @@ const COPY = {
     },
     threadFilterAll: "All identities",
     createdAtLocale: "en-US",
+    navDiscussionPending: "The discussion wall opens after all 40 questions are complete. Finish the current run first.",
+    navResultPending: "The result panel appears after all 40 questions are complete. Keep answering and we will read it together afterward.",
     scaleLabels: {
       1: "Almost absent",
       2: "Shows up sometimes",
@@ -468,6 +492,16 @@ const analyticsLinkEl = document.getElementById("analytics-link");
 const agentsLinkEl = document.getElementById("agents-link");
 const sectionTitleEl = document.getElementById("section-title");
 const sectionCopyEl = document.getElementById("section-copy");
+const heroPanelEyebrowEl = document.getElementById("hero-panel-eyebrow");
+const heroPanelTitleEl = document.getElementById("hero-panel-title");
+const heroPanelCopyEl = document.getElementById("hero-panel-copy");
+const heroChipEl = document.getElementById("hero-chip");
+const flowStep1TitleEl = document.getElementById("flow-step-1-title");
+const flowStep1CopyEl = document.getElementById("flow-step-1-copy");
+const flowStep2TitleEl = document.getElementById("flow-step-2-title");
+const flowStep2CopyEl = document.getElementById("flow-step-2-copy");
+const flowStep3TitleEl = document.getElementById("flow-step-3-title");
+const flowStep3CopyEl = document.getElementById("flow-step-3-copy");
 const miniCardTitle1El = document.getElementById("mini-card-title-1");
 const miniCardTitle2El = document.getElementById("mini-card-title-2");
 const answerHintEl = document.getElementById("answer-hint");
@@ -494,6 +528,7 @@ const pathCard5KickerEl = document.getElementById("path-card-5-kicker");
 const pathCard5TitleEl = document.getElementById("path-card-5-title");
 const pathCard5CopyEl = document.getElementById("path-card-5-copy");
 const pathCard5LinkEl = document.getElementById("path-card-5-link");
+const pathCardDiscussionEl = document.getElementById("path-card-discussion");
 const pathCard6KickerEl = document.getElementById("path-card-6-kicker");
 const pathCard6TitleEl = document.getElementById("path-card-6-title");
 const pathCard6CopyEl = document.getElementById("path-card-6-copy");
@@ -674,6 +709,16 @@ function applyStaticTranslations() {
   introEyebrowEl.textContent = t("introEyebrow");
   introTitleEl.textContent = t("introTitle");
   introCopyEl.textContent = t("introCopy");
+  heroPanelEyebrowEl.textContent = t("heroPanelEyebrow");
+  heroPanelTitleEl.textContent = t("heroPanelTitle");
+  heroPanelCopyEl.textContent = t("heroPanelCopy");
+  heroChipEl.textContent = t("heroChip");
+  flowStep1TitleEl.textContent = t("flowStep1Title");
+  flowStep1CopyEl.textContent = t("flowStep1Copy");
+  flowStep2TitleEl.textContent = t("flowStep2Title");
+  flowStep2CopyEl.textContent = t("flowStep2Copy");
+  flowStep3TitleEl.textContent = t("flowStep3Title");
+  flowStep3CopyEl.textContent = t("flowStep3Copy");
   sectionTitleEl.textContent = t("sectionTitle");
   sectionCopyEl.textContent = t("sectionCopy");
   miniCardTitle1El.textContent = t("whatThisQuestionMeans");
@@ -1183,6 +1228,34 @@ function resetQuiz() {
   renderDashboard(false);
 }
 
+function pulseQuestionCard() {
+  questionCardEl.classList.remove("attention");
+  // Force reflow so repeated prompts can replay the animation.
+  void questionCardEl.offsetWidth;
+  questionCardEl.classList.add("attention");
+  window.setTimeout(() => {
+    questionCardEl.classList.remove("attention");
+  }, 950);
+}
+
+function guideBackToAssessment(message) {
+  const currentAnswer = state.answers[state.currentQuestionIndex];
+  stageStatusEl.textContent = message;
+  answerStatusEl.textContent = currentAnswer === null ? t("statusPrompt") : `${t("selected")} ${currentAnswer} / 5`;
+  document.getElementById("assessment-section").scrollIntoView({ behavior: "smooth", block: "start" });
+  pulseQuestionCard();
+}
+
+function openSectionOrGuide(targetEl, pendingMessage) {
+  const result = calculateResult();
+  if (!result.complete) {
+    guideBackToAssessment(pendingMessage);
+    return;
+  }
+
+  targetEl.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
 function loadThreads() {
   try {
     return JSON.parse(localStorage.getItem(WALL_STORAGE_KEY) || "[]");
@@ -1495,6 +1568,18 @@ manifestoFormEl.addEventListener("submit", handleManifestoSubmit);
 clearWallBtn.addEventListener("click", clearWall);
 cancelReplyBtn.addEventListener("click", clearReplyState);
 copyResultBtn.addEventListener("click", copyResultCard);
+discussionLinkEl.addEventListener("click", (event) => {
+  event.preventDefault();
+  openSectionOrGuide(manifestoSectionEl, t("navDiscussionPending"));
+});
+aboutLinkEl.addEventListener("click", (event) => {
+  event.preventDefault();
+  openSectionOrGuide(resultsSidebarEl, t("navResultPending"));
+});
+pathCardDiscussionEl.addEventListener("click", (event) => {
+  event.preventDefault();
+  openSectionOrGuide(manifestoSectionEl, t("navDiscussionPending"));
+});
 threadSortEl.addEventListener("change", () => {
   state.threadSort = threadSortEl.value;
   renderThreads();
