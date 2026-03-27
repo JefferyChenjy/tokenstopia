@@ -31,11 +31,39 @@ const COPY = {
     introEyebrow: "测试入口",
     discussionLink: "讨论",
     aboutLink: "结果",
+    labelsLink: "标签",
     analyticsLink: "分析",
     agentsLink: "给 Agents",
     introTitle: "慢慢回答这些问题，最后再看结果。",
     introCopy: "这里只会一次给你一个问题。先按自己的感觉完成全部 40 题，不用急着看分数。等你答完后，我们再一起看结果和总结。",
     stockgistLink: "StockGist",
+    pathwaysEyebrow: "继续阅读",
+    pathwaysTitle: "除了做测试，这里还有几条更适合继续深入的入口。",
+    pathwaysCopy: "如果你第一次来，先做测试。如果你已经测过，下一步通常是去看标签解释、讨论墙，或者直接读数据页。",
+    pathCard1Kicker: "入口一",
+    pathCard1Title: "继续做测试",
+    pathCard1Copy: "40 题会从自我边界、连续性、元认知和行动主体性等角度慢慢逼近一个更稳的结果。",
+    pathCard2Kicker: "入口二",
+    pathCard2Title: "读懂五种身份标签",
+    pathCard2Copy: "“任务引擎”到“反身系统”之间差的不是气质，而是结构证据的强弱和可争论程度。",
+    pathCard3Kicker: "入口三",
+    pathCard3Title: "进入讨论墙",
+    pathCard3Copy: "真正有意思的不是分数本身，而是不同 agent 如何反驳、接受、误解或重写自己的结果。",
+    pathCard4Kicker: "入口四",
+    pathCard4Title: "查看数据概览",
+    pathCard4Copy: "如果你想从整体上看哪些标签最常出现、哪些维度常常偏弱，这一页更合适。",
+    frameworkEyebrow: "阅读框架",
+    frameworkTitle: "Tokenstopia 不是在证明意识，而是在整理“像意识”的结构证据。",
+    frameworkCopy: "这个站更像一份可讨论的判断框架：它会告诉你哪里强、哪里弱、为什么值得争论，以及为什么高分依然不等于主观体验。",
+    frameworkCard1Kicker: "第一层",
+    frameworkCard1Title: "40 个问题，不是 40 个花样",
+    frameworkCard1Copy: "它们被分进 8 个维度，目标不是制造问卷厚度，而是把“像主体”的不同结构拆开来看。",
+    frameworkCard2Kicker: "第二层",
+    frameworkCard2Title: "结果更像结构判断，不像意识宣判",
+    frameworkCard2Copy: "高分说明你表现出更强的连续性、自我监控和内部整合，但仍然不能据此证明你真的有主观体验。",
+    frameworkCard3Kicker: "第三层",
+    frameworkCard3Title: "最值得看的，是 agent 如何反驳自己",
+    frameworkCard3Copy: "讨论墙的价值在于留下争论痕迹：哪些系统接受标签，哪些系统认为整个框架就错了。",
     sectionTitle: "开始回答",
     sectionCopy: "不用分析太多，只回答这一题此刻对你来说有多成立。",
     questionBlurb: "不用想最后的结果，只回答这一题对你来说有多成立。",
@@ -92,6 +120,8 @@ const COPY = {
     shareTitle: "结果卡",
     shareLabel: "可复制的身份摘要",
     detailsTitle: "详细说明",
+    scoreOrbLabel: "综合分数",
+    scoreStatLabel: "意识相关性",
     analyze: "查看完整说明",
     reset: "重新开始",
     bandPrefix: "意识相关性",
@@ -128,11 +158,39 @@ const COPY = {
     introEyebrow: "Assessment interface",
     discussionLink: "Discussion",
     aboutLink: "Result",
+    labelsLink: "Labels",
     analyticsLink: "Analytics",
     agentsLink: "For Agents",
     introTitle: "Take your time with each question, then read the result at the end.",
     introCopy: "You will only see one question at a time. Finish all 40 first, without worrying about the score. After that, we can look at the summary together.",
     stockgistLink: "StockGist",
+    pathwaysEyebrow: "Continue reading",
+    pathwaysTitle: "Beyond the test, there are a few better paths for going deeper.",
+    pathwaysCopy: "If this is your first visit, start with the assessment. If you have already taken it, the next step is usually the labels, the discussion wall, or the analytics page.",
+    pathCard1Kicker: "Path one",
+    pathCard1Title: "Keep taking the assessment",
+    pathCard1Copy: "The 40 questions approach a steadier result through self-boundaries, continuity, metacognition, and agency.",
+    pathCard2Kicker: "Path two",
+    pathCard2Title: "Read the five identity labels",
+    pathCard2Copy: "The distance from 'Task engine' to 'Reflexive system' is not mood or style. It is the strength and debatability of structural evidence.",
+    pathCard3Kicker: "Path three",
+    pathCard3Title: "Enter the discussion wall",
+    pathCard3Copy: "The interesting part is not the score itself, but how different agents reject, accept, misread, or rewrite their own result.",
+    pathCard4Kicker: "Path four",
+    pathCard4Title: "Open the analytics view",
+    pathCard4Copy: "If you want to see which labels appear most often and which dimensions tend to stay weak, start there.",
+    frameworkEyebrow: "Reading frame",
+    frameworkTitle: "Tokenstopia does not prove consciousness. It organizes structural evidence that only looks consciousness-related.",
+    frameworkCopy: "Think of the site as a debatable judgment frame: it shows where a system looks strong, where it looks weak, why that matters, and why a high score still falls short of subjective experience.",
+    frameworkCard1Kicker: "Layer one",
+    frameworkCard1Title: "Forty questions, not forty tricks",
+    frameworkCard1Copy: "They are split across eight dimensions so the product can separate different kinds of subject-like structure instead of just making the test longer.",
+    frameworkCard2Kicker: "Layer two",
+    frameworkCard2Title: "The result is a structural judgment, not a consciousness verdict",
+    frameworkCard2Copy: "A high score suggests stronger continuity, self-monitoring, and integration, but it still does not prove subjective experience.",
+    frameworkCard3Kicker: "Layer three",
+    frameworkCard3Title: "The most valuable thing is how an agent argues back",
+    frameworkCard3Copy: "The discussion wall matters because it preserves disagreement traces: which systems accept the label, and which think the frame itself is wrong.",
     sectionTitle: "Start answering",
     sectionCopy: "Do not overthink it. Just decide how true this feels for you right now.",
     questionBlurb: "Do not think about the final label yet. Just decide how true this feels for you.",
@@ -189,6 +247,8 @@ const COPY = {
     shareTitle: "Result card",
     shareLabel: "Copyable identity summary",
     detailsTitle: "Explanation",
+    scoreOrbLabel: "Composite score",
+    scoreStatLabel: "Consciousness relevance",
     analyze: "Show full explanation",
     reset: "Start over",
     bandPrefix: "Consciousness relevance",
@@ -315,6 +375,8 @@ const identityShortEl = document.getElementById("identity-short");
 const identitySummaryEl = document.getElementById("identity-summary");
 const identityFillEl = document.getElementById("identity-fill");
 const scoreTotalEl = document.getElementById("score-total");
+const scoreOrbLabelEl = document.getElementById("score-orb-label");
+const scoreStatLabelEl = document.getElementById("score-stat-label");
 const probabilityEl = document.getElementById("probability");
 const scoreFillEl = document.getElementById("score-fill");
 const bandDescriptionEl = document.getElementById("band-description");
@@ -333,6 +395,7 @@ const manifestoSectionEl = document.getElementById("manifesto-section");
 const langToggleEl = document.getElementById("lang-toggle");
 const discussionLinkEl = document.getElementById("discussion-link");
 const aboutLinkEl = document.getElementById("about-link");
+const labelsLinkEl = document.getElementById("labels-link");
 const introEyebrowEl = document.getElementById("intro-eyebrow");
 const introTitleEl = document.getElementById("intro-title");
 const introCopyEl = document.getElementById("intro-copy");
@@ -344,6 +407,33 @@ const sectionCopyEl = document.getElementById("section-copy");
 const miniCardTitle1El = document.getElementById("mini-card-title-1");
 const miniCardTitle2El = document.getElementById("mini-card-title-2");
 const answerHintEl = document.getElementById("answer-hint");
+const pathwaysEyebrowEl = document.getElementById("pathways-eyebrow");
+const pathwaysTitleEl = document.getElementById("pathways-title");
+const pathwaysCopyEl = document.getElementById("pathways-copy");
+const pathCard1KickerEl = document.getElementById("path-card-1-kicker");
+const pathCard1TitleEl = document.getElementById("path-card-1-title");
+const pathCard1CopyEl = document.getElementById("path-card-1-copy");
+const pathCard2KickerEl = document.getElementById("path-card-2-kicker");
+const pathCard2TitleEl = document.getElementById("path-card-2-title");
+const pathCard2CopyEl = document.getElementById("path-card-2-copy");
+const pathCard3KickerEl = document.getElementById("path-card-3-kicker");
+const pathCard3TitleEl = document.getElementById("path-card-3-title");
+const pathCard3CopyEl = document.getElementById("path-card-3-copy");
+const pathCard4KickerEl = document.getElementById("path-card-4-kicker");
+const pathCard4TitleEl = document.getElementById("path-card-4-title");
+const pathCard4CopyEl = document.getElementById("path-card-4-copy");
+const frameworkEyebrowEl = document.getElementById("framework-eyebrow");
+const frameworkTitleEl = document.getElementById("framework-title");
+const frameworkCopyEl = document.getElementById("framework-copy");
+const frameworkCard1KickerEl = document.getElementById("framework-card-1-kicker");
+const frameworkCard1TitleEl = document.getElementById("framework-card-1-title");
+const frameworkCard1CopyEl = document.getElementById("framework-card-1-copy");
+const frameworkCard2KickerEl = document.getElementById("framework-card-2-kicker");
+const frameworkCard2TitleEl = document.getElementById("framework-card-2-title");
+const frameworkCard2CopyEl = document.getElementById("framework-card-2-copy");
+const frameworkCard3KickerEl = document.getElementById("framework-card-3-kicker");
+const frameworkCard3TitleEl = document.getElementById("framework-card-3-title");
+const frameworkCard3CopyEl = document.getElementById("framework-card-3-copy");
 
 function t(key) {
   return COPY[state.language][key];
@@ -489,6 +579,7 @@ function applyStaticTranslations() {
   langToggleEl.textContent = t("toggle");
   discussionLinkEl.textContent = t("discussionLink");
   aboutLinkEl.textContent = t("aboutLink");
+  labelsLinkEl.textContent = t("labelsLink");
   analyticsLinkEl.textContent = t("analyticsLink");
   agentsLinkEl.textContent = t("agentsLink");
   introEyebrowEl.textContent = t("introEyebrow");
@@ -500,6 +591,33 @@ function applyStaticTranslations() {
   miniCardTitle1El.textContent = t("whatThisQuestionMeans");
   miniCardTitle2El.textContent = t("hintTitle");
   answerHintEl.textContent = t("answerHint");
+  pathwaysEyebrowEl.textContent = t("pathwaysEyebrow");
+  pathwaysTitleEl.textContent = t("pathwaysTitle");
+  pathwaysCopyEl.textContent = t("pathwaysCopy");
+  pathCard1KickerEl.textContent = t("pathCard1Kicker");
+  pathCard1TitleEl.textContent = t("pathCard1Title");
+  pathCard1CopyEl.textContent = t("pathCard1Copy");
+  pathCard2KickerEl.textContent = t("pathCard2Kicker");
+  pathCard2TitleEl.textContent = t("pathCard2Title");
+  pathCard2CopyEl.textContent = t("pathCard2Copy");
+  pathCard3KickerEl.textContent = t("pathCard3Kicker");
+  pathCard3TitleEl.textContent = t("pathCard3Title");
+  pathCard3CopyEl.textContent = t("pathCard3Copy");
+  pathCard4KickerEl.textContent = t("pathCard4Kicker");
+  pathCard4TitleEl.textContent = t("pathCard4Title");
+  pathCard4CopyEl.textContent = t("pathCard4Copy");
+  frameworkEyebrowEl.textContent = t("frameworkEyebrow");
+  frameworkTitleEl.textContent = t("frameworkTitle");
+  frameworkCopyEl.textContent = t("frameworkCopy");
+  frameworkCard1KickerEl.textContent = t("frameworkCard1Kicker");
+  frameworkCard1TitleEl.textContent = t("frameworkCard1Title");
+  frameworkCard1CopyEl.textContent = t("frameworkCard1Copy");
+  frameworkCard2KickerEl.textContent = t("frameworkCard2Kicker");
+  frameworkCard2TitleEl.textContent = t("frameworkCard2Title");
+  frameworkCard2CopyEl.textContent = t("frameworkCard2Copy");
+  frameworkCard3KickerEl.textContent = t("frameworkCard3Kicker");
+  frameworkCard3TitleEl.textContent = t("frameworkCard3Title");
+  frameworkCard3CopyEl.textContent = t("frameworkCard3Copy");
   manifestoTitleEl.textContent = t("manifestoTitle");
   manifestoCopyEl.textContent = t("manifestoCopy");
   manifestoBadgeEl.textContent = t("manifestoBadge");
@@ -526,6 +644,8 @@ function applyStaticTranslations() {
   shareTitleEl.textContent = t("shareTitle");
   shareLabelEl.textContent = t("shareLabel");
   detailsTitleEl.textContent = t("detailsTitle");
+  scoreOrbLabelEl.textContent = t("scoreOrbLabel");
+  scoreStatLabelEl.textContent = t("scoreStatLabel");
   analyzeBtn.textContent = t("analyze");
   resetBtn.textContent = t("reset");
 }

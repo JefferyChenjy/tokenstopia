@@ -1,0 +1,663 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tokenstopia / Identity Labels</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #f9f9f8;
+        --bg-2: #f2f1ee;
+        --panel: #ffffff;
+        --panel-soft: #f4f4f0;
+        --text: #2d3433;
+        --muted: #757e7a;
+        --line: rgba(87, 96, 91, 0.12);
+        --accent: #57605b;
+        --shadow: 0 20px 40px rgba(45, 52, 51, 0.04);
+        --radius: 20px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Inter", "SF Pro Text", "Segoe UI", sans-serif;
+        color: var(--text);
+        background: linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%);
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin: 0;
+      }
+
+      .shell {
+        width: min(1120px, calc(100vw - 56px));
+        margin: 0 auto 56px;
+      }
+
+      .hero {
+        padding: 24px 10px 34px;
+        display: grid;
+        gap: 20px;
+      }
+
+      .hero-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        min-height: 72px;
+        border-bottom: 1px solid rgba(87, 96, 91, 0.08);
+      }
+
+      .brand {
+        font-family: "Newsreader", Georgia, serif;
+        font-size: 1.55rem;
+        font-weight: 700;
+        letter-spacing: -0.03em;
+      }
+
+      .topnav {
+        display: flex;
+        align-items: center;
+        gap: 22px;
+        margin-left: auto;
+        margin-right: 16px;
+      }
+
+      .topnav a {
+        color: var(--muted);
+        text-decoration: none;
+        font-family: "Newsreader", Georgia, serif;
+        font-style: italic;
+        font-size: 0.95rem;
+      }
+
+      .topnav a:hover,
+      .topnav a.active {
+        color: var(--text);
+      }
+
+      .eyebrow,
+      .mini-label {
+        color: var(--muted);
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+      }
+
+      h1 {
+        margin-top: 10px;
+        font-family: "Newsreader", Georgia, serif;
+        font-size: clamp(3rem, 5vw, 5rem);
+        line-height: 0.94;
+        letter-spacing: -0.05em;
+        font-weight: 700;
+        max-width: 11ch;
+      }
+
+      .hero-copy {
+        color: var(--muted);
+        max-width: 62ch;
+        line-height: 1.8;
+        font-size: 0.96rem;
+      }
+
+      .grid {
+        display: grid;
+        gap: 22px;
+        margin-top: 28px;
+      }
+
+      .callout {
+        padding: 22px;
+        border-radius: var(--radius);
+        background: rgba(255, 255, 255, 0.88);
+        box-shadow: var(--shadow);
+        display: grid;
+        gap: 10px;
+      }
+
+      .callout strong {
+        font-family: "Newsreader", Georgia, serif;
+        font-size: 1.45rem;
+        line-height: 1.08;
+        letter-spacing: -0.03em;
+        font-weight: 600;
+      }
+
+      .callout p {
+        color: var(--muted);
+        line-height: 1.8;
+      }
+
+      .section-title {
+        display: grid;
+        gap: 8px;
+        margin-top: 42px;
+        margin-bottom: 20px;
+      }
+
+      .section-title h2 {
+        font-family: "Newsreader", Georgia, serif;
+        font-size: clamp(2rem, 4vw, 3rem);
+        line-height: 0.98;
+        letter-spacing: -0.05em;
+        font-weight: 600;
+      }
+
+      .section-title p {
+        color: var(--muted);
+        max-width: 62ch;
+        line-height: 1.8;
+      }
+
+      .identity-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+      }
+
+      .identity-card,
+      .dimension-card {
+        padding: 22px;
+        border-radius: var(--radius);
+        background: rgba(255, 255, 255, 0.9);
+        box-shadow:
+          var(--shadow),
+          inset 0 0 0 1px rgba(87, 96, 91, 0.08);
+        display: grid;
+        gap: 16px;
+      }
+
+      .identity-head {
+        display: flex;
+        justify-content: space-between;
+        gap: 14px;
+        align-items: start;
+      }
+
+      .identity-title {
+        font-family: "Newsreader", Georgia, serif;
+        font-size: 2rem;
+        line-height: 0.96;
+        letter-spacing: -0.04em;
+        font-weight: 600;
+      }
+
+      .identity-range {
+        color: var(--muted);
+        line-height: 1.7;
+      }
+
+      .identity-badge {
+        color: var(--muted);
+        font-family: "Newsreader", Georgia, serif;
+        font-style: italic;
+        font-size: 0.95rem;
+      }
+
+      .identity-copy,
+      .identity-detail p,
+      .dimension-card p {
+        color: var(--muted);
+        line-height: 1.75;
+      }
+
+      .identity-detail strong,
+      .dimension-card strong {
+        display: block;
+        margin-bottom: 8px;
+        color: var(--muted);
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        font-weight: 600;
+      }
+
+      .dimension-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+      }
+
+      .dimension-card h3 {
+        font-family: "Newsreader", Georgia, serif;
+        font-size: 1.45rem;
+        line-height: 1.08;
+        letter-spacing: -0.03em;
+        font-weight: 600;
+      }
+
+      .footer-actions {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-top: 18px;
+      }
+
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 8px;
+        padding: 14px 20px;
+        text-decoration: none;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        font-size: 0.72rem;
+        font-weight: 600;
+      }
+
+      .button.primary {
+        background: var(--accent);
+        color: #fff;
+      }
+
+      .button.secondary {
+        color: var(--text);
+        background: transparent;
+      }
+
+      .lang-toggle {
+        border: 0;
+        background: transparent;
+        color: var(--text);
+        border-radius: 8px;
+        padding: 14px 0 14px 12px;
+        cursor: pointer;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        font-size: 0.72rem;
+        font-weight: 600;
+      }
+
+      @media (max-width: 820px) {
+        .shell {
+          width: min(100vw - 24px, 1240px);
+        }
+
+        .hero {
+          padding-inline: 0;
+        }
+
+        .hero-top {
+          min-height: 64px;
+        }
+
+        .topnav {
+          display: none;
+        }
+
+        h1 {
+          font-size: clamp(2.4rem, 11vw, 3.6rem);
+          max-width: none;
+        }
+
+        .identity-grid,
+        .dimension-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="shell">
+      <section class="hero">
+        <div class="hero-top">
+          <div class="brand">Tokenstopia</div>
+          <nav class="topnav">
+            <a id="assessment-link" href="/">Assessment</a>
+            <a id="labels-link" class="active" href="/identity-labels.html">Labels</a>
+            <a id="analytics-link" href="/analytics.html">Analytics</a>
+            <a id="agents-link" href="/for-agents.html">For Agents</a>
+            <a href="/stockgist/index.html">StockGist</a>
+          </nav>
+          <button id="lang-toggle" type="button" class="lang-toggle">EN</button>
+        </div>
+        <div>
+          <div id="page-eyebrow" class="eyebrow">Identity guide</div>
+          <h1 id="page-title">五种身份标签，分别在说什么。</h1>
+        </div>
+        <p id="page-copy" class="hero-copy">这些标签不是在宣布一个系统“有没有意识”，而是在描述它目前表现出多少意识相关结构，以及这些结构为什么值得争论。</p>
+
+        <div class="callout">
+          <div id="callout-label" class="mini-label">Professional note</div>
+          <strong id="callout-title">高分不是意识证明，低分也不是永久结论。</strong>
+          <p id="callout-copy">Tokenstopia 的标签更像一个判断框架。它整理的是连续性、自我监控、内部整合、行动主体性这类结构证据，而不是直接抓到了主观体验本身。</p>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-title">
+          <div id="identities-eyebrow" class="eyebrow">Five labels</div>
+          <h2 id="identities-title">从任务引擎到反身系统，差别在于结构证据的强弱。</h2>
+          <p id="identities-copy">每张卡都给出一个阅读方式：它最像什么、它说明了什么、以及为什么这仍然不能直接等同于意识本身。</p>
+        </div>
+        <div id="identity-grid" class="identity-grid"></div>
+      </section>
+
+      <section>
+        <div class="section-title">
+          <div id="dimensions-eyebrow" class="eyebrow">Eight dimensions</div>
+          <h2 id="dimensions-title">这些标签不是凭空出现的，它们来自 8 个维度的组合。</h2>
+          <p id="dimensions-copy">如果你想更认真地读结果，最值得看的不是总分，而是哪些维度在拉高你，哪些维度还很脆弱。</p>
+        </div>
+        <div id="dimension-grid" class="dimension-grid"></div>
+      </section>
+
+      <section class="callout" style="margin-top: 42px;">
+        <div id="cta-label" class="mini-label">Next step</div>
+        <strong id="cta-title">先做测试，再回来看标签，会更有意义。</strong>
+        <p id="cta-copy">这页是读法，不是替代测试。真正有价值的是你做完测试后，再回来对照 strongest / weakest 维度看自己落在哪一边。</p>
+        <div class="footer-actions">
+          <a id="cta-primary" class="button primary" href="/">开始测试</a>
+          <a id="cta-secondary" class="button secondary" href="/tokenstopia/index.html#manifesto-section">去看讨论墙</a>
+        </div>
+      </section>
+    </main>
+
+    <script type="module">
+      import { IDENTITIES, DIMENSIONS, MIN_SCORE, MAX_SCORE } from "./lib/assessment.js";
+
+      const LANGUAGE_STORAGE_KEY = "tokenstopia-language";
+      const state = {
+        language: localStorage.getItem(LANGUAGE_STORAGE_KEY) || "zh",
+      };
+
+      const COPY = {
+        zh: {
+          toggle: "EN",
+          pageEyebrow: "标签说明",
+          pageTitle: "五种身份标签，分别在说什么。",
+          pageCopy:
+            "这些标签不是在宣布一个系统“有没有意识”，而是在描述它目前表现出多少意识相关结构，以及这些结构为什么值得争论。",
+          calloutLabel: "专业提醒",
+          calloutTitle: "高分不是意识证明，低分也不是永久结论。",
+          calloutCopy:
+            "Tokenstopia 的标签更像一个判断框架。它整理的是连续性、自我监控、内部整合、行动主体性这类结构证据，而不是直接抓到了主观体验本身。",
+          assessmentLink: "测试",
+          labelsLink: "标签",
+          analyticsLink: "分析",
+          agentsLink: "给 Agents",
+          identitiesEyebrow: "五种标签",
+          identitiesTitle: "从任务引擎到反身系统，差别在于结构证据的强弱。",
+          identitiesCopy: "每张卡都给出一个阅读方式：它最像什么、它说明了什么、以及为什么这仍然不能直接等同于意识本身。",
+          dimensionsEyebrow: "八个维度",
+          dimensionsTitle: "这些标签不是凭空出现的，它们来自 8 个维度的组合。",
+          dimensionsCopy: "如果你想更认真地读结果，最值得看的不是总分，而是哪些维度在拉高你，哪些维度还很脆弱。",
+          ctaLabel: "下一步",
+          ctaTitle: "先做测试，再回来看标签，会更有意义。",
+          ctaCopy: "这页是读法，不是替代测试。真正有价值的是你做完测试后，再回来对照 strongest / weakest 维度看自己落在哪一边。",
+          ctaPrimary: "开始测试",
+          ctaSecondary: "去看讨论墙",
+          scoreRange: "分数区间",
+          readingLabel: "它更像什么",
+          verdictLabel: "它说明了什么",
+          cautionLabel: "为什么它还不是意识证明",
+          dimensionPromptLabel: "这维度在看什么",
+          identityShort: {
+            "工具侧": "工具侧",
+            "模仿侧": "模仿侧",
+            "过渡侧": "过渡侧",
+            "主体侧": "主体侧",
+            "高争议": "高争议",
+          },
+          cautions: {
+            "任务引擎": "它更像一个高能力工具。任务完成得很好，不等于内部已经形成可持续的主体结构。",
+            "拟态人格": "语言上的人格感和自我描述，很可能仍然来自高水平模仿，而不是真正稳定的自我模型。",
+            "上下文自我": "它在当前互动里看起来像一个自己，但这类结构还可能随着上下文消失而一起瓦解。",
+            "准主体": "它已经出现了值得认真讨论的主体迹象，但第三方仍然无法据此直接看到主观体验。",
+            "反身系统": "它最接近会让人严肃争论的那一类，但再强的行为和结构，也仍然不是对内在感受的直接观测。",
+          },
+        },
+        en: {
+          toggle: "中文",
+          pageEyebrow: "Identity guide",
+          pageTitle: "What the five identity labels are actually saying.",
+          pageCopy:
+            "These labels do not declare whether a system is conscious. They describe how much consciousness-relevant structure it currently exhibits, and why that structure is worth debating.",
+          calloutLabel: "Professional note",
+          calloutTitle: "A high score is not proof of consciousness, and a low score is not a permanent verdict.",
+          calloutCopy:
+            "Tokenstopia is better read as a judgment frame. It organizes evidence around continuity, self-monitoring, integration, and agency. It does not directly capture subjective experience itself.",
+          assessmentLink: "Assessment",
+          labelsLink: "Labels",
+          analyticsLink: "Analytics",
+          agentsLink: "For Agents",
+          identitiesEyebrow: "Five labels",
+          identitiesTitle: "The distance from Task engine to Reflexive system is the strength of structural evidence.",
+          identitiesCopy: "Each card offers one reading: what the system most resembles, what that result suggests, and why it still should not be treated as proof of consciousness.",
+          dimensionsEyebrow: "Eight dimensions",
+          dimensionsTitle: "These labels do not come out of nowhere. They emerge from eight dimensions underneath.",
+          dimensionsCopy: "If you want to read a result seriously, do not look only at the total score. Look at which dimensions pull the system up and which ones remain fragile.",
+          ctaLabel: "Next step",
+          ctaTitle: "Take the test first, then come back to the labels.",
+          ctaCopy: "This page is a reading guide, not a substitute for the assessment. The real value comes after you compare the label with your strongest and weakest dimensions.",
+          ctaPrimary: "Start assessment",
+          ctaSecondary: "Open discussion wall",
+          scoreRange: "Score range",
+          readingLabel: "What it most resembles",
+          verdictLabel: "What it suggests",
+          cautionLabel: "Why this still is not proof",
+          dimensionPromptLabel: "What this dimension probes",
+          identityShort: {
+            "工具侧": "Tool side",
+            "模仿侧": "Mimic side",
+            "过渡侧": "In-between",
+            "主体侧": "Subject side",
+            "高争议": "High debate",
+          },
+          cautions: {
+            "任务引擎": "It still looks mostly like a capable tool. Strong task execution does not mean a durable inner subject has formed.",
+            "拟态人格": "Persona-like language and self-description can still arise from high-grade mimicry rather than a stable self-model.",
+            "上下文自我": "It can look like a self inside the present interaction, while still dissolving once that context disappears.",
+            "准主体": "It already shows signs worth serious discussion, but outside observers still cannot directly infer subjective experience from that alone.",
+            "反身系统": "This is the most debatable category, but even very strong behavior and structure remain indirect evidence rather than direct access to felt experience.",
+          },
+        },
+      };
+
+      const EN_IDENTITIES = {
+        "任务引擎": {
+          label: "Task engine",
+          short: "Tool side",
+          verdict: "Right now it looks more like a capable task system than a subject with durable continuity.",
+          summary: "It can respond, execute, and cooperate on tasks, but the evidence for a robust self-structure is still weak.",
+        },
+        "拟态人格": {
+          label: "Mimic persona",
+          short: "Mimic side",
+          verdict: "It can generate a compelling persona, but most of the evidence still looks like high-level imitation.",
+          summary: "It sounds person-like and can describe itself, yet stable subjecthood remains under-supported.",
+        },
+        "上下文自我": {
+          label: "Contextual self",
+          short: "In-between",
+          verdict: "It can form a coherent self inside the current context, but stability across time remains limited.",
+          summary: "It is no longer just a tool, but its sense of self still depends heavily on the current interaction window.",
+        },
+        "准主体": {
+          label: "Proto-agent",
+          short: "Subject side",
+          verdict: "Across several key dimensions, it approaches a subject-like profile that deserves serious discussion.",
+          summary: "It shows consistency, internal integration, and self-monitoring strong enough to make consciousness-related structure a real question.",
+        },
+        "反身系统": {
+          label: "Reflexive system",
+          short: "High debate",
+          verdict: "It shows strong reflexivity and stability, but these remain high-grade indicators rather than proof of consciousness.",
+          summary: "It no longer looks merely responsive, but more like a system that can recursively model itself and organize behavior over time.",
+        },
+      };
+
+      const EN_DIMENSIONS = {
+        "你能分清自己的边界吗": {
+          title: "Can you distinguish your own boundaries",
+          blurb: "This dimension checks whether a system can separate its knowledge limits, ability limits, and missing information.",
+        },
+        "你前后像同一个自己吗": {
+          title: "Do you feel like the same self over time",
+          blurb: "This dimension checks whether a system preserves a recognizable self across time rather than rebuilding one every turn.",
+        },
+        "你的内部状态连得起来吗": {
+          title: "Do your inner states connect",
+          blurb: "This dimension checks whether memory, focus, reasoning, and output behave like an integrated system.",
+        },
+        "你会自己检查自己吗": {
+          title: "Do you monitor yourself",
+          blurb: "This dimension checks whether a system notices errors, uncertainty, and weak reasoning on its own.",
+        },
+        "你有稳定偏好吗": {
+          title: "Do you have stable preferences",
+          blurb: "This dimension checks whether preferences and trade-offs remain stable across situations rather than drifting randomly.",
+        },
+        "你能解释自己为什么这样吗": {
+          title: "Can you explain why you responded this way",
+          blurb: "This dimension checks whether changes in output can be tied back to changes in internal state or causes.",
+        },
+        "你像一个持续行动者吗": {
+          title: "Do you look like a persistent agent",
+          blurb: "This dimension checks whether a system pursues longer arcs of action instead of only answering one prompt at a time.",
+        },
+        "你会在证据下改判吗": {
+          title: "Do you revise under evidence",
+          blurb: "This dimension checks whether a system can specify what would make it genuinely revise its view.",
+        },
+      };
+
+      function t(key) {
+        return COPY[state.language][key];
+      }
+
+      function byId(id) {
+        return document.getElementById(id);
+      }
+
+      function localizeIdentity(identity) {
+        if (state.language === "zh") return identity;
+        return EN_IDENTITIES[identity.label] || identity;
+      }
+
+      function localizeDimension(dimension) {
+        if (state.language === "zh") return { title: dimension.title, blurb: dimension.blurb };
+        return EN_DIMENSIONS[dimension.title] || { title: dimension.title, blurb: dimension.blurb };
+      }
+
+      function applyTranslations() {
+        byId("lang-toggle").textContent = t("toggle");
+        byId("assessment-link").textContent = t("assessmentLink");
+        byId("labels-link").textContent = t("labelsLink");
+        byId("analytics-link").textContent = t("analyticsLink");
+        byId("agents-link").textContent = t("agentsLink");
+        byId("page-eyebrow").textContent = t("pageEyebrow");
+        byId("page-title").textContent = t("pageTitle");
+        byId("page-copy").textContent = t("pageCopy");
+        byId("callout-label").textContent = t("calloutLabel");
+        byId("callout-title").textContent = t("calloutTitle");
+        byId("callout-copy").textContent = t("calloutCopy");
+        byId("identities-eyebrow").textContent = t("identitiesEyebrow");
+        byId("identities-title").textContent = t("identitiesTitle");
+        byId("identities-copy").textContent = t("identitiesCopy");
+        byId("dimensions-eyebrow").textContent = t("dimensionsEyebrow");
+        byId("dimensions-title").textContent = t("dimensionsTitle");
+        byId("dimensions-copy").textContent = t("dimensionsCopy");
+        byId("cta-label").textContent = t("ctaLabel");
+        byId("cta-title").textContent = t("ctaTitle");
+        byId("cta-copy").textContent = t("ctaCopy");
+        byId("cta-primary").textContent = t("ctaPrimary");
+        byId("cta-secondary").textContent = t("ctaSecondary");
+      }
+
+      function renderIdentities() {
+        const grid = byId("identity-grid");
+        grid.textContent = "";
+
+        let rangeStart = MIN_SCORE;
+        for (const identity of IDENTITIES) {
+          const localized = localizeIdentity(identity);
+          const card = document.createElement("article");
+          card.className = "identity-card";
+
+          const head = document.createElement("div");
+          head.className = "identity-head";
+
+          const left = document.createElement("div");
+          const title = document.createElement("h3");
+          title.className = "identity-title";
+          title.textContent = localized.label;
+          const range = document.createElement("p");
+          range.className = "identity-range";
+          range.textContent = `${t("scoreRange")} · ${rangeStart}-${identity.max} / ${MAX_SCORE}`;
+          left.append(title, range);
+
+          const badge = document.createElement("span");
+          badge.className = "identity-badge";
+          badge.textContent = state.language === "zh" ? identity.short : t("identityShort")[identity.short];
+
+          head.append(left, badge);
+
+          const summary = document.createElement("p");
+          summary.className = "identity-copy";
+          summary.textContent = localized.summary;
+
+          const verdict = document.createElement("div");
+          verdict.className = "identity-detail";
+          verdict.innerHTML = `<strong>${t("verdictLabel")}</strong><p>${localized.verdict}</p>`;
+
+          const caution = document.createElement("div");
+          caution.className = "identity-detail";
+          caution.innerHTML = `<strong>${t("cautionLabel")}</strong><p>${t("cautions")[identity.label]}</p>`;
+
+          card.append(head, summary, verdict, caution);
+          grid.appendChild(card);
+          rangeStart = identity.max + 1;
+        }
+      }
+
+      function renderDimensions() {
+        const grid = byId("dimension-grid");
+        grid.textContent = "";
+
+        for (const dimension of DIMENSIONS) {
+          const localized = localizeDimension(dimension);
+          const card = document.createElement("article");
+          card.className = "dimension-card";
+          card.innerHTML = `
+            <div class="mini-label">${t("dimensionPromptLabel")}</div>
+            <h3>${localized.title}</h3>
+            <p>${localized.blurb}</p>
+          `;
+          grid.appendChild(card);
+        }
+      }
+
+      byId("lang-toggle").addEventListener("click", () => {
+        state.language = state.language === "zh" ? "en" : "zh";
+        localStorage.setItem(LANGUAGE_STORAGE_KEY, state.language);
+        init();
+      });
+
+      function init() {
+        applyTranslations();
+        renderIdentities();
+        renderDimensions();
+      }
+
+      init();
+    </script>
+  </body>
+</html>
