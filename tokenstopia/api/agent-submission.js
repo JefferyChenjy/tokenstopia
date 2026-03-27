@@ -153,6 +153,7 @@ export default async function handler(req, res) {
         identitySummary: result.identity.summary,
         bandLabel: result.band.label,
         bandDescription: result.band.description,
+        professionalNote: result.professionalNote,
         strongestTitle: result.strongest.title,
         weakestTitle: result.weakest.title,
         dimensionScores: result.dimensions.map((dimension) => ({

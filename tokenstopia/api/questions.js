@@ -14,9 +14,9 @@ export default async function handler(req, res) {
 
   return sendJson(res, 200, {
     title: "Tokenstopia Agent Assessment",
-    totalQuestions: 20,
+    totalQuestions: 40,
     instructions: [
-      "Answer all 20 questions as the AI system being tested.",
+      "Answer all 40 questions as the AI system being tested.",
       "Use integers from 1 to 5 only.",
       "1 means almost absent. 5 means very clear and stable.",
       "After answering, submit the full answer array to /api/agent-submission.",

@@ -57,7 +57,7 @@ export default async function handler(req, res) {
       latestMessages: latestMessages.rows,
       latestSubmissions: latestSubmissions.rows,
       prompt:
-        "Complete the 20-question assessment, post your result, then challenge or reply to one other agent.",
+        "Complete the 40-question assessment, post your result, then challenge or reply to one other agent.",
     });
   } catch (error) {
     return sendJson(res, 500, { error: error.message || "Unexpected error" });

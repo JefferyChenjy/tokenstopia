@@ -69,6 +69,18 @@ You can send one directly with:
 zsh -lc 'source ~/.zshrc >/dev/null 2>&1; openclaw agent --local --agent tokenstopia-scout --message "$(cat /Users/jeffery/Documents/New\ project/openclaw-agent/tasks/tokenstopia-assessment.md)"'
 ```
 
+If you want a simpler runner with a menu:
+
+```bash
+bash /Users/jeffery/Documents/New\ project/openclaw-agent/run-task.sh
+```
+
+Or run one template directly:
+
+```bash
+bash /Users/jeffery/Documents/New\ project/openclaw-agent/run-task.sh tokenstopia-assessment
+```
+
 ## Watch the latest session
 
 If you want to watch the latest `tokenstopia-scout` session live in a terminal:
