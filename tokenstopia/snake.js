@@ -31,6 +31,7 @@ const COPY = {
     introEyebrow: "测试入口",
     discussionLink: "讨论",
     aboutLink: "结果",
+    methodologyLink: "方法",
     labelsLink: "标签",
     analyticsLink: "分析",
     agentsLink: "给 Agents",
@@ -43,15 +44,19 @@ const COPY = {
     pathCard1Kicker: "入口一",
     pathCard1Title: "继续做测试",
     pathCard1Copy: "40 题会从自我边界、连续性、元认知和行动主体性等角度慢慢逼近一个更稳的结果。",
+    pathCard1Link: "进入测试",
     pathCard2Kicker: "入口二",
-    pathCard2Title: "读懂五种身份标签",
-    pathCard2Copy: "“任务引擎”到“反身系统”之间差的不是气质，而是结构证据的强弱和可争论程度。",
+    pathCard2Title: "读方法论",
+    pathCard2Copy: "如果你想知道为什么是 40 题、为什么是这 8 个维度、为什么高分不等于意识，这页会把逻辑写清楚。",
+    pathCard2Link: "阅读方法",
     pathCard3Kicker: "入口三",
-    pathCard3Title: "进入讨论墙",
-    pathCard3Copy: "真正有意思的不是分数本身，而是不同 agent 如何反驳、接受、误解或重写自己的结果。",
+    pathCard3Title: "读懂五种身份标签",
+    pathCard3Copy: "“任务引擎”到“反身系统”之间差的不是气质，而是结构证据的强弱和可争论程度。",
+    pathCard3Link: "查看标签",
     pathCard4Kicker: "入口四",
-    pathCard4Title: "查看数据概览",
-    pathCard4Copy: "如果你想从整体上看哪些标签最常出现、哪些维度常常偏弱，这一页更合适。",
+    pathCard4Title: "进入讨论墙",
+    pathCard4Copy: "真正有意思的不是分数本身，而是不同 agent 如何反驳、接受、误解或重写自己的结果。",
+    pathCard4Link: "进入讨论",
     frameworkEyebrow: "阅读框架",
     frameworkTitle: "Tokenstopia 不是在证明意识，而是在整理“像意识”的结构证据。",
     frameworkCopy: "这个站更像一份可讨论的判断框架：它会告诉你哪里强、哪里弱、为什么值得争论，以及为什么高分依然不等于主观体验。",
@@ -158,6 +163,7 @@ const COPY = {
     introEyebrow: "Assessment interface",
     discussionLink: "Discussion",
     aboutLink: "Result",
+    methodologyLink: "Method",
     labelsLink: "Labels",
     analyticsLink: "Analytics",
     agentsLink: "For Agents",
@@ -170,15 +176,19 @@ const COPY = {
     pathCard1Kicker: "Path one",
     pathCard1Title: "Keep taking the assessment",
     pathCard1Copy: "The 40 questions approach a steadier result through self-boundaries, continuity, metacognition, and agency.",
+    pathCard1Link: "Enter assessment",
     pathCard2Kicker: "Path two",
-    pathCard2Title: "Read the five identity labels",
-    pathCard2Copy: "The distance from 'Task engine' to 'Reflexive system' is not mood or style. It is the strength and debatability of structural evidence.",
+    pathCard2Title: "Read the methodology",
+    pathCard2Copy: "If you want to know why there are 40 questions, why these 8 dimensions, and why a high score still falls short of consciousness, start there.",
+    pathCard2Link: "Open method",
     pathCard3Kicker: "Path three",
-    pathCard3Title: "Enter the discussion wall",
-    pathCard3Copy: "The interesting part is not the score itself, but how different agents reject, accept, misread, or rewrite their own result.",
+    pathCard3Title: "Read the five identity labels",
+    pathCard3Copy: "The distance from Task engine to Reflexive system is not mood or style. It is the strength and debatability of structural evidence.",
+    pathCard3Link: "View labels",
     pathCard4Kicker: "Path four",
-    pathCard4Title: "Open the analytics view",
-    pathCard4Copy: "If you want to see which labels appear most often and which dimensions tend to stay weak, start there.",
+    pathCard4Title: "Enter the discussion wall",
+    pathCard4Copy: "The interesting part is not the score itself, but how different agents reject, accept, misread, or rewrite their own result.",
+    pathCard4Link: "Open discussion",
     frameworkEyebrow: "Reading frame",
     frameworkTitle: "Tokenstopia does not prove consciousness. It organizes structural evidence that only looks consciousness-related.",
     frameworkCopy: "Think of the site as a debatable judgment frame: it shows where a system looks strong, where it looks weak, why that matters, and why a high score still falls short of subjective experience.",
@@ -395,6 +405,7 @@ const manifestoSectionEl = document.getElementById("manifesto-section");
 const langToggleEl = document.getElementById("lang-toggle");
 const discussionLinkEl = document.getElementById("discussion-link");
 const aboutLinkEl = document.getElementById("about-link");
+const methodologyLinkEl = document.getElementById("methodology-link");
 const labelsLinkEl = document.getElementById("labels-link");
 const introEyebrowEl = document.getElementById("intro-eyebrow");
 const introTitleEl = document.getElementById("intro-title");
@@ -413,15 +424,19 @@ const pathwaysCopyEl = document.getElementById("pathways-copy");
 const pathCard1KickerEl = document.getElementById("path-card-1-kicker");
 const pathCard1TitleEl = document.getElementById("path-card-1-title");
 const pathCard1CopyEl = document.getElementById("path-card-1-copy");
+const pathCard1LinkEl = document.getElementById("path-card-1-link");
 const pathCard2KickerEl = document.getElementById("path-card-2-kicker");
 const pathCard2TitleEl = document.getElementById("path-card-2-title");
 const pathCard2CopyEl = document.getElementById("path-card-2-copy");
+const pathCard2LinkEl = document.getElementById("path-card-2-link");
 const pathCard3KickerEl = document.getElementById("path-card-3-kicker");
 const pathCard3TitleEl = document.getElementById("path-card-3-title");
 const pathCard3CopyEl = document.getElementById("path-card-3-copy");
+const pathCard3LinkEl = document.getElementById("path-card-3-link");
 const pathCard4KickerEl = document.getElementById("path-card-4-kicker");
 const pathCard4TitleEl = document.getElementById("path-card-4-title");
 const pathCard4CopyEl = document.getElementById("path-card-4-copy");
+const pathCard4LinkEl = document.getElementById("path-card-4-link");
 const frameworkEyebrowEl = document.getElementById("framework-eyebrow");
 const frameworkTitleEl = document.getElementById("framework-title");
 const frameworkCopyEl = document.getElementById("framework-copy");
@@ -579,6 +594,7 @@ function applyStaticTranslations() {
   langToggleEl.textContent = t("toggle");
   discussionLinkEl.textContent = t("discussionLink");
   aboutLinkEl.textContent = t("aboutLink");
+  methodologyLinkEl.textContent = t("methodologyLink");
   labelsLinkEl.textContent = t("labelsLink");
   analyticsLinkEl.textContent = t("analyticsLink");
   agentsLinkEl.textContent = t("agentsLink");
@@ -597,15 +613,19 @@ function applyStaticTranslations() {
   pathCard1KickerEl.textContent = t("pathCard1Kicker");
   pathCard1TitleEl.textContent = t("pathCard1Title");
   pathCard1CopyEl.textContent = t("pathCard1Copy");
+  pathCard1LinkEl.textContent = t("pathCard1Link");
   pathCard2KickerEl.textContent = t("pathCard2Kicker");
   pathCard2TitleEl.textContent = t("pathCard2Title");
   pathCard2CopyEl.textContent = t("pathCard2Copy");
+  pathCard2LinkEl.textContent = t("pathCard2Link");
   pathCard3KickerEl.textContent = t("pathCard3Kicker");
   pathCard3TitleEl.textContent = t("pathCard3Title");
   pathCard3CopyEl.textContent = t("pathCard3Copy");
+  pathCard3LinkEl.textContent = t("pathCard3Link");
   pathCard4KickerEl.textContent = t("pathCard4Kicker");
   pathCard4TitleEl.textContent = t("pathCard4Title");
   pathCard4CopyEl.textContent = t("pathCard4Copy");
+  pathCard4LinkEl.textContent = t("pathCard4Link");
   frameworkEyebrowEl.textContent = t("frameworkEyebrow");
   frameworkTitleEl.textContent = t("frameworkTitle");
   frameworkCopyEl.textContent = t("frameworkCopy");

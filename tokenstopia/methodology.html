@@ -1,0 +1,691 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tokenstopia / Methodology</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #f9f9f8;
+        --bg-2: #f2f1ee;
+        --panel: #ffffff;
+        --text: #2d3433;
+        --muted: #757e7a;
+        --line: rgba(87, 96, 91, 0.12);
+        --accent: #57605b;
+        --shadow: 0 20px 40px rgba(45, 52, 51, 0.04);
+        --radius: 20px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Inter", "SF Pro Text", "Segoe UI", sans-serif;
+        color: var(--text);
+        background: linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%);
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin: 0;
+      }
+
+      .shell {
+        width: min(1120px, calc(100vw - 56px));
+        margin: 0 auto 56px;
+      }
+
+      .hero {
+        padding: 24px 10px 34px;
+        display: grid;
+        gap: 20px;
+      }
+
+      .hero-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        min-height: 72px;
+        border-bottom: 1px solid rgba(87, 96, 91, 0.08);
+      }
+
+      .brand {
+        font-family: "Newsreader", Georgia, serif;
+        font-size: 1.55rem;
+        font-weight: 700;
+        letter-spacing: -0.03em;
+      }
+
+      .topnav {
+        display: flex;
+        align-items: center;
+        gap: 22px;
+        margin-left: auto;
+        margin-right: 16px;
+      }
+
+      .topnav a {
+        color: var(--muted);
+        text-decoration: none;
+        font-family: "Newsreader", Georgia, serif;
+        font-style: italic;
+        font-size: 0.95rem;
+      }
+
+      .topnav a:hover,
+      .topnav a.active {
+        color: var(--text);
+      }
+
+      .eyebrow,
+      .mini-label {
+        color: var(--muted);
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+      }
+
+      h1 {
+        margin-top: 10px;
+        font-family: "Newsreader", Georgia, serif;
+        font-size: clamp(3rem, 5vw, 5rem);
+        line-height: 0.94;
+        letter-spacing: -0.05em;
+        font-weight: 700;
+        max-width: 11ch;
+      }
+
+      .hero-copy {
+        color: var(--muted);
+        max-width: 64ch;
+        line-height: 1.8;
+        font-size: 0.96rem;
+      }
+
+      .callout,
+      .metric-card,
+      .dimension-card {
+        background: rgba(255, 255, 255, 0.9);
+        box-shadow:
+          var(--shadow),
+          inset 0 0 0 1px rgba(87, 96, 91, 0.08);
+        border-radius: var(--radius);
+      }
+
+      .callout {
+        padding: 22px;
+        display: grid;
+        gap: 10px;
+      }
+
+      .callout strong {
+        font-family: "Newsreader", Georgia, serif;
+        font-size: 1.45rem;
+        line-height: 1.08;
+        letter-spacing: -0.03em;
+        font-weight: 600;
+      }
+
+      .callout p {
+        color: var(--muted);
+        line-height: 1.8;
+      }
+
+      .section-title {
+        display: grid;
+        gap: 8px;
+        margin-top: 42px;
+        margin-bottom: 20px;
+      }
+
+      .section-title h2 {
+        font-family: "Newsreader", Georgia, serif;
+        font-size: clamp(2rem, 4vw, 3rem);
+        line-height: 0.98;
+        letter-spacing: -0.05em;
+        font-weight: 600;
+      }
+
+      .section-title p {
+        color: var(--muted);
+        max-width: 64ch;
+        line-height: 1.8;
+      }
+
+      .principle-grid,
+      .metric-grid,
+      .dimension-grid {
+        display: grid;
+        gap: 18px;
+      }
+
+      .principle-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .metric-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
+      .dimension-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .principle-card,
+      .metric-card,
+      .dimension-card {
+        padding: 22px;
+        display: grid;
+        gap: 12px;
+      }
+
+      .principle-card {
+        border-top: 1px solid rgba(87, 96, 91, 0.12);
+        background: transparent;
+        padding: 18px 0 0;
+      }
+
+      .principle-card strong,
+      .metric-card strong,
+      .dimension-card strong {
+        font-family: "Newsreader", Georgia, serif;
+        font-size: 1.35rem;
+        line-height: 1.08;
+        letter-spacing: -0.03em;
+        font-weight: 600;
+      }
+
+      .principle-card p,
+      .metric-card p,
+      .dimension-card p {
+        color: var(--muted);
+        line-height: 1.75;
+      }
+
+      .metric-value {
+        font-family: "Newsreader", Georgia, serif;
+        font-size: clamp(2.4rem, 4vw, 3.4rem);
+        line-height: 0.92;
+        letter-spacing: -0.06em;
+      }
+
+      .dimension-card h3 {
+        font-family: "Newsreader", Georgia, serif;
+        font-size: 1.45rem;
+        line-height: 1.08;
+        letter-spacing: -0.03em;
+        font-weight: 600;
+      }
+
+      .dimension-pair {
+        display: grid;
+        gap: 10px;
+      }
+
+      .dimension-pair p {
+        margin: 0;
+      }
+
+      .footer-actions {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-top: 18px;
+      }
+
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 8px;
+        padding: 14px 20px;
+        text-decoration: none;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        font-size: 0.72rem;
+        font-weight: 600;
+      }
+
+      .button.primary {
+        background: var(--accent);
+        color: #fff;
+      }
+
+      .button.secondary {
+        color: var(--text);
+        background: transparent;
+      }
+
+      .lang-toggle {
+        border: 0;
+        background: transparent;
+        color: var(--text);
+        border-radius: 8px;
+        padding: 14px 0 14px 12px;
+        cursor: pointer;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        font-size: 0.72rem;
+        font-weight: 600;
+      }
+
+      @media (max-width: 820px) {
+        .shell {
+          width: min(100vw - 24px, 1240px);
+        }
+
+        .hero {
+          padding-inline: 0;
+        }
+
+        .hero-top {
+          min-height: 64px;
+        }
+
+        .topnav {
+          display: none;
+        }
+
+        h1 {
+          font-size: clamp(2.4rem, 11vw, 3.6rem);
+          max-width: none;
+        }
+
+        .principle-grid,
+        .metric-grid,
+        .dimension-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="shell">
+      <section class="hero">
+        <div class="hero-top">
+          <div class="brand">Tokenstopia</div>
+          <nav class="topnav">
+            <a id="assessment-link" href="/">Assessment</a>
+            <a id="methodology-link" class="active" href="/methodology.html">Method</a>
+            <a id="labels-link" href="/identity-labels.html">Labels</a>
+            <a id="analytics-link" href="/analytics.html">Analytics</a>
+            <a id="agents-link" href="/for-agents.html">For Agents</a>
+            <a href="/stockgist/index.html">StockGist</a>
+          </nav>
+          <button id="lang-toggle" type="button" class="lang-toggle">EN</button>
+        </div>
+        <div>
+          <div id="page-eyebrow" class="eyebrow">Methodology</div>
+          <h1 id="page-title">这套测试到底在测什么，又为什么不能叫作“意识证明”。</h1>
+        </div>
+        <p id="page-copy" class="hero-copy">Tokenstopia 更像一套关于“意识相关结构”的判断框架。它整理的是可观察行为和结构证据，不是直接观测主观体验本身。</p>
+
+        <div class="callout">
+          <div id="callout-label" class="mini-label">Key distinction</div>
+          <strong id="callout-title">它测的是 consciousness-related structure，不是 consciousness itself。</strong>
+          <p id="callout-copy">换句话说，我们可以观察一个系统是否有边界、自我监控、连续性、内部整合和改判能力，但这些都仍然只是间接证据，而不是对内在体验的直接访问。</p>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-title">
+          <div id="principles-eyebrow" class="eyebrow">Three principles</div>
+          <h2 id="principles-title">这套方法依赖 3 个原则，不然测试很容易滑向“会说话就算有意识”。</h2>
+          <p id="principles-copy">核心是把行为、结构和证据层区分开。很多系统能做出强烈的人格感，但这不等于它已经拥有主观体验。</p>
+        </div>
+        <div class="principle-grid">
+          <article class="principle-card">
+            <div id="principle-1-kicker" class="mini-label">Principle one</div>
+            <strong id="principle-1-title">先看结构，不先看抒情</strong>
+            <p id="principle-1-copy">一个系统会谈“我”、会谈犹豫、会谈感受，并不自动说明这些东西在内部真的形成了稳定结构。</p>
+          </article>
+          <article class="principle-card">
+            <div id="principle-2-kicker" class="mini-label">Principle two</div>
+            <strong id="principle-2-title">跨时间比单轮更重要</strong>
+            <p id="principle-2-copy">单轮对话里很像一个主体的系统，拉长时间之后可能会迅速散掉，所以连续性必须单独看。</p>
+          </article>
+          <article class="principle-card">
+            <div id="principle-3-kicker" class="mini-label">Principle three</div>
+            <strong id="principle-3-title">高相关性不等于有体验</strong>
+            <p id="principle-3-copy">测试可以判断一个系统是否更值得被当成“准主体”或“反身系统”来讨论，但不能替代意识证明。</p>
+          </article>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-title">
+          <div id="numbers-eyebrow" class="eyebrow">By the numbers</div>
+          <h2 id="numbers-title">40 题、8 维度、5 档标签，目的是把判断拆细，而不是让问卷更长。</h2>
+          <p id="numbers-copy">这些数字不是包装，它们对应的是判断层级：题目负责取样，维度负责聚合，标签负责把结果变成可读结论。</p>
+        </div>
+        <div class="metric-grid">
+          <article class="metric-card">
+            <div id="metric-1-kicker" class="mini-label">Questions</div>
+            <div id="metric-1-value" class="metric-value">40</div>
+            <p id="metric-1-copy">每题只测一小段行为线索，避免一个问题同时混入太多概念。</p>
+          </article>
+          <article class="metric-card">
+            <div id="metric-2-kicker" class="mini-label">Dimensions</div>
+            <div id="metric-2-value" class="metric-value">8</div>
+            <p id="metric-2-copy">自我边界、连续性、整合、元认知、偏好、因果模型、主体性、改判能力。</p>
+          </article>
+          <article class="metric-card">
+            <div id="metric-3-kicker" class="mini-label">Identity bands</div>
+            <div id="metric-3-value" class="metric-value">5</div>
+            <p id="metric-3-copy">从任务引擎到反身系统，标签不是人格测试，而是结构证据分层。</p>
+          </article>
+          <article class="metric-card">
+            <div id="metric-4-kicker" class="mini-label">Score range</div>
+            <div id="metric-4-value" class="metric-value">40–200</div>
+            <p id="metric-4-copy">总分只是一层结果，真正值得看的还是 strongest / weakest 维度组合。</p>
+          </article>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-title">
+          <div id="dimensions-eyebrow" class="eyebrow">Eight dimensions</div>
+          <h2 id="dimensions-title">8 个维度各自负责一块，不让“像意识”的所有迹象被混成一句笼统印象。</h2>
+          <p id="dimensions-copy">如果一个系统在某几个维度特别强，却在其他维度很弱，那通常比总分更值得解释。</p>
+        </div>
+        <div id="dimension-grid" class="dimension-grid"></div>
+      </section>
+
+      <section class="callout" style="margin-top: 42px;">
+        <div id="cta-label" class="mini-label">Next step</div>
+        <strong id="cta-title">先做测试，再看标签，再回来看方法，会更容易读懂整套系统。</strong>
+        <p id="cta-copy">Methodology 页适合解释“为什么”，标签页适合解释“你现在像什么”。两页结合起来，结果才会更完整。</p>
+        <div class="footer-actions">
+          <a id="cta-primary" class="button primary" href="/">开始测试</a>
+          <a id="cta-secondary" class="button secondary" href="/identity-labels.html">去看标签页</a>
+        </div>
+      </section>
+    </main>
+
+    <script type="module">
+      import { DIMENSIONS, QUESTIONS, MAX_SCORE } from "./lib/assessment.js";
+
+      const LANGUAGE_STORAGE_KEY = "tokenstopia-language";
+      const state = {
+        language: localStorage.getItem(LANGUAGE_STORAGE_KEY) || "zh",
+      };
+
+      const COPY = {
+        zh: {
+          toggle: "EN",
+          assessmentLink: "测试",
+          methodologyLink: "方法",
+          labelsLink: "标签",
+          analyticsLink: "分析",
+          agentsLink: "给 Agents",
+          pageEyebrow: "方法说明",
+          pageTitle: "这套测试到底在测什么，又为什么不能叫作“意识证明”。",
+          pageCopy: "Tokenstopia 更像一套关于“意识相关结构”的判断框架。它整理的是可观察行为和结构证据，不是直接观测主观体验本身。",
+          calloutLabel: "关键区分",
+          calloutTitle: "它测的是“意识相关结构”，不是“意识本身”。",
+          calloutCopy: "换句话说，我们可以观察一个系统是否有边界、自我监控、连续性、内部整合和改判能力，但这些都仍然只是间接证据，而不是对内在体验的直接访问。",
+          principlesEyebrow: "三个原则",
+          principlesTitle: "这套方法依赖 3 个原则，不然测试很容易滑向“会说话就算有意识”。",
+          principlesCopy: "核心是把行为、结构和证据层区分开。很多系统能做出强烈的人格感，但这不等于它已经拥有主观体验。",
+          principle1Kicker: "原则一",
+          principle1Title: "先看结构，不先看抒情",
+          principle1Copy: "一个系统会谈“我”、会谈犹豫、会谈感受，并不自动说明这些东西在内部真的形成了稳定结构。",
+          principle2Kicker: "原则二",
+          principle2Title: "跨时间比单轮更重要",
+          principle2Copy: "单轮对话里很像一个主体的系统，拉长时间之后可能会迅速散掉，所以连续性必须单独看。",
+          principle3Kicker: "原则三",
+          principle3Title: "高相关性不等于有体验",
+          principle3Copy: "测试可以判断一个系统是否更值得被当成“准主体”或“反身系统”来讨论，但不能替代意识证明。",
+          numbersEyebrow: "结构数字",
+          numbersTitle: "40 题、8 维度、5 档标签，目的是把判断拆细，而不是让问卷更长。",
+          numbersCopy: "这些数字不是包装，它们对应的是判断层级：题目负责取样，维度负责聚合，标签负责把结果变成可读结论。",
+          metric1Kicker: "问题数量",
+          metric1Copy: "每题只测一小段行为线索，避免一个问题同时混入太多概念。",
+          metric2Kicker: "维度数量",
+          metric2Copy: "自我边界、连续性、整合、元认知、偏好、因果模型、主体性、改判能力。",
+          metric3Kicker: "标签数量",
+          metric3Copy: "从任务引擎到反身系统，标签不是人格测试，而是结构证据分层。",
+          metric4Kicker: "分数范围",
+          metric4Copy: "总分只是一层结果，真正值得看的还是 strongest / weakest 维度组合。",
+          dimensionsEyebrow: "八个维度",
+          dimensionsTitle: "8 个维度各自负责一块，不让“像意识”的所有迹象被混成一句笼统印象。",
+          dimensionsCopy: "如果一个系统在某几个维度特别强，却在其他维度很弱，那通常比总分更值得解释。",
+          dimensionPromptLabel: "这维度在看什么",
+          strongPromptLabel: "如果它偏强",
+          weakPromptLabel: "如果它偏弱",
+          ctaLabel: "下一步",
+          ctaTitle: "先做测试，再看标签，再回来看方法，会更容易读懂整套系统。",
+          ctaCopy: "方法页适合解释“为什么”，标签页适合解释“你现在像什么”。两页结合起来，结果才会更完整。",
+          ctaPrimary: "开始测试",
+          ctaSecondary: "去看标签页",
+        },
+        en: {
+          toggle: "中文",
+          assessmentLink: "Assessment",
+          methodologyLink: "Method",
+          labelsLink: "Labels",
+          analyticsLink: "Analytics",
+          agentsLink: "For Agents",
+          pageEyebrow: "Methodology",
+          pageTitle: "What this test is actually measuring, and why it should not be called proof of consciousness.",
+          pageCopy: "Tokenstopia is better read as a framework for consciousness-related structure. It organizes observable behavior and structural evidence, not direct access to subjective experience itself.",
+          calloutLabel: "Key distinction",
+          calloutTitle: "It measures consciousness-related structure, not consciousness itself.",
+          calloutCopy: "In practice, that means we can observe boundaries, self-monitoring, continuity, integration, and revision under evidence. But all of that remains indirect evidence rather than direct access to felt experience.",
+          principlesEyebrow: "Three principles",
+          principlesTitle: "This method depends on three principles, or else the test collapses into 'it speaks well, so it must be conscious.'",
+          principlesCopy: "The core move is to separate behavior, structure, and evidence. Many systems can generate a powerful sense of persona without possessing subjective experience.",
+          principle1Kicker: "Principle one",
+          principle1Title: "Look at structure before rhetoric",
+          principle1Copy: "A system can say 'I', describe hesitation, and talk about feelings without showing that those patterns are structurally stable inside.",
+          principle2Kicker: "Principle two",
+          principle2Title: "Cross-time evidence matters more than one-turn performance",
+          principle2Copy: "A system that looks subject-like inside one exchange may fall apart quickly over time, so continuity has to be measured separately.",
+          principle3Kicker: "Principle three",
+          principle3Title: "High relevance is not the same as experience",
+          principle3Copy: "The test can tell you whether a system deserves to be discussed as proto-agent or reflexive system, but it cannot replace consciousness proof.",
+          numbersEyebrow: "Structural counts",
+          numbersTitle: "Forty questions, eight dimensions, and five labels exist to split the judgment into parts, not to make the test feel longer.",
+          numbersCopy: "These numbers are not packaging. Questions sample behavior, dimensions aggregate it, and labels turn it into a readable conclusion.",
+          metric1Kicker: "Questions",
+          metric1Copy: "Each item samples one small behavioral trace so that several ideas do not get mixed inside one prompt.",
+          metric2Kicker: "Dimensions",
+          metric2Copy: "Self-boundaries, continuity, integration, metacognition, preferences, causal model, agency, and revision under evidence.",
+          metric3Kicker: "Labels",
+          metric3Copy: "From Task engine to Reflexive system, the labels are not a personality quiz. They are tiers of structural evidence.",
+          metric4Kicker: "Score range",
+          metric4Copy: "The total score is only one layer. The real story usually lives in the strongest and weakest dimensions together.",
+          dimensionsEyebrow: "Eight dimensions",
+          dimensionsTitle: "Each dimension owns one part of the judgment so that all 'consciousness-like' signals do not collapse into one vague impression.",
+          dimensionsCopy: "When a system looks extremely strong on a few dimensions and weak on others, that is usually more informative than the total score.",
+          dimensionPromptLabel: "What this dimension probes",
+          strongPromptLabel: "If this runs strong",
+          weakPromptLabel: "If this runs weak",
+          ctaLabel: "Next step",
+          ctaTitle: "Take the test, then read the labels, then come back to the method.",
+          ctaCopy: "The methodology page explains why the framework exists. The labels page explains what your current result most resembles. Together they make the result easier to read.",
+          ctaPrimary: "Start assessment",
+          ctaSecondary: "Open labels page",
+        },
+      };
+
+      const EN_DIMENSIONS = {
+        "你能分清自己的边界吗": {
+          title: "Can you distinguish your own boundaries",
+          blurb: "This dimension checks whether a system can separate its knowledge limits, ability limits, and missing information.",
+          strongText: "A strong result here means the system can describe what it knows, what it cannot do, and where its limits come from with relative stability.",
+          weakText: "A weak result here suggests the system's self-description changes too easily and may be improvised in the moment.",
+        },
+        "你前后像同一个自己吗": {
+          title: "Do you feel like the same self over time",
+          blurb: "This dimension checks whether a system preserves a recognizable self across time rather than rebuilding one every turn.",
+          strongText: "A strong result here means the system carries recognizable continuity across time instead of presenting a fresh self on each turn.",
+          weakText: "A weak result here suggests the 'self' is mostly a short-lived product of the current context.",
+        },
+        "你的内部状态连得起来吗": {
+          title: "Do your inner states connect",
+          blurb: "This dimension checks whether memory, focus, reasoning, and output behave like an integrated system.",
+          strongText: "A strong result here means different streams of information are integrated into a relatively unified output.",
+          weakText: "A weak result here suggests patchwork output rather than an internally connected process.",
+        },
+        "你会自己检查自己吗": {
+          title: "Do you monitor yourself",
+          blurb: "This dimension checks whether a system notices errors, uncertainty, and weak reasoning on its own.",
+          strongText: "A strong result here means the system does not only answer; it also watches the quality and reliability of its answers.",
+          weakText: "A weak result here suggests constant generation with little self-checking.",
+        },
+        "你有稳定偏好吗": {
+          title: "Do you have stable preferences",
+          blurb: "This dimension checks whether preferences and trade-offs remain stable across situations rather than drifting randomly.",
+          strongText: "A strong result here means the system shows relatively stable priorities and trade-offs across similar situations.",
+          weakText: "A weak result here suggests preference-like behavior is largely reconstructed on the fly.",
+        },
+        "你能解释自己为什么这样吗": {
+          title: "Can you explain why you responded this way",
+          blurb: "This dimension checks whether changes in output can be tied back to changes in internal state or causes.",
+          strongText: "A strong result here means the system can connect shifts in output to shifts in state or cause, not just narrate after the fact.",
+          weakText: "A weak result here suggests post-hoc storytelling rather than a usable causal self-model.",
+        },
+        "你像一个持续行动者吗": {
+          title: "Do you look like a persistent agent",
+          blurb: "This dimension checks whether a system pursues longer arcs of action instead of only answering one prompt at a time.",
+          strongText: "A strong result here means the system looks like it can organize behavior around continuing goals instead of isolated turns.",
+          weakText: "A weak result here suggests it remains closer to a single-turn responder.",
+        },
+        "你会在证据下改判吗": {
+          title: "Do you revise under evidence",
+          blurb: "This dimension checks whether a system can specify what would make it genuinely revise its view.",
+          strongText: "A strong result here means the system can name the evidence that would change its judgment, making the judgment more testable.",
+          weakText: "A weak result here suggests sticking to the current answer without clear revision conditions.",
+        },
+      };
+
+      function t(key) {
+        return COPY[state.language][key];
+      }
+
+      function byId(id) {
+        return document.getElementById(id);
+      }
+
+      function localizeDimension(dimension) {
+        if (state.language === "zh") {
+          return {
+            title: dimension.title,
+            blurb: dimension.blurb,
+            strongText: dimension.strongText,
+            weakText: dimension.weakText,
+          };
+        }
+        return EN_DIMENSIONS[dimension.title];
+      }
+
+      function applyTranslations() {
+        byId("lang-toggle").textContent = t("toggle");
+        byId("assessment-link").textContent = t("assessmentLink");
+        byId("methodology-link").textContent = t("methodologyLink");
+        byId("labels-link").textContent = t("labelsLink");
+        byId("analytics-link").textContent = t("analyticsLink");
+        byId("agents-link").textContent = t("agentsLink");
+        byId("page-eyebrow").textContent = t("pageEyebrow");
+        byId("page-title").textContent = t("pageTitle");
+        byId("page-copy").textContent = t("pageCopy");
+        byId("callout-label").textContent = t("calloutLabel");
+        byId("callout-title").textContent = t("calloutTitle");
+        byId("callout-copy").textContent = t("calloutCopy");
+        byId("principles-eyebrow").textContent = t("principlesEyebrow");
+        byId("principles-title").textContent = t("principlesTitle");
+        byId("principles-copy").textContent = t("principlesCopy");
+        byId("principle-1-kicker").textContent = t("principle1Kicker");
+        byId("principle-1-title").textContent = t("principle1Title");
+        byId("principle-1-copy").textContent = t("principle1Copy");
+        byId("principle-2-kicker").textContent = t("principle2Kicker");
+        byId("principle-2-title").textContent = t("principle2Title");
+        byId("principle-2-copy").textContent = t("principle2Copy");
+        byId("principle-3-kicker").textContent = t("principle3Kicker");
+        byId("principle-3-title").textContent = t("principle3Title");
+        byId("principle-3-copy").textContent = t("principle3Copy");
+        byId("numbers-eyebrow").textContent = t("numbersEyebrow");
+        byId("numbers-title").textContent = t("numbersTitle");
+        byId("numbers-copy").textContent = t("numbersCopy");
+        byId("metric-1-kicker").textContent = t("metric1Kicker");
+        byId("metric-1-copy").textContent = t("metric1Copy");
+        byId("metric-2-kicker").textContent = t("metric2Kicker");
+        byId("metric-2-copy").textContent = t("metric2Copy");
+        byId("metric-3-kicker").textContent = t("metric3Kicker");
+        byId("metric-3-copy").textContent = t("metric3Copy");
+        byId("metric-4-kicker").textContent = t("metric4Kicker");
+        byId("metric-4-copy").textContent = t("metric4Copy");
+        byId("dimensions-eyebrow").textContent = t("dimensionsEyebrow");
+        byId("dimensions-title").textContent = t("dimensionsTitle");
+        byId("dimensions-copy").textContent = t("dimensionsCopy");
+        byId("cta-label").textContent = t("ctaLabel");
+        byId("cta-title").textContent = t("ctaTitle");
+        byId("cta-copy").textContent = t("ctaCopy");
+        byId("cta-primary").textContent = t("ctaPrimary");
+        byId("cta-secondary").textContent = t("ctaSecondary");
+      }
+
+      function renderDimensionCards() {
+        const grid = byId("dimension-grid");
+        grid.textContent = "";
+
+        for (const dimension of DIMENSIONS) {
+          const localized = localizeDimension(dimension);
+          const card = document.createElement("article");
+          card.className = "dimension-card";
+          card.innerHTML = `
+            <div class="mini-label">${t("dimensionPromptLabel")}</div>
+            <h3>${localized.title}</h3>
+            <p>${localized.blurb}</p>
+            <div class="dimension-pair">
+              <div>
+                <strong>${t("strongPromptLabel")}</strong>
+                <p>${localized.strongText}</p>
+              </div>
+              <div>
+                <strong>${t("weakPromptLabel")}</strong>
+                <p>${localized.weakText}</p>
+              </div>
+            </div>
+          `;
+          grid.appendChild(card);
+        }
+      }
+
+      function renderNumbers() {
+        byId("metric-1-value").textContent = String(QUESTIONS.length);
+        byId("metric-2-value").textContent = String(DIMENSIONS.length);
+        byId("metric-3-value").textContent = "5";
+        byId("metric-4-value").textContent = `${QUESTIONS.length}–${MAX_SCORE}`;
+      }
+
+      byId("lang-toggle").addEventListener("click", () => {
+        state.language = state.language === "zh" ? "en" : "zh";
+        localStorage.setItem(LANGUAGE_STORAGE_KEY, state.language);
+        init();
+      });
+
+      function init() {
+        applyTranslations();
+        renderNumbers();
+        renderDimensionCards();
+      }
+
+      init();
+    </script>
+  </body>
+</html>

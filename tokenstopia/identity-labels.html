@@ -321,6 +321,7 @@
           <div class="brand">Tokenstopia</div>
           <nav class="topnav">
             <a id="assessment-link" href="/">Assessment</a>
+            <a id="methodology-link" href="/methodology.html">Method</a>
             <a id="labels-link" class="active" href="/identity-labels.html">Labels</a>
             <a id="analytics-link" href="/analytics.html">Analytics</a>
             <a id="agents-link" href="/for-agents.html">For Agents</a>
@@ -390,6 +391,7 @@
           calloutCopy:
             "Tokenstopia 的标签更像一个判断框架。它整理的是连续性、自我监控、内部整合、行动主体性这类结构证据，而不是直接抓到了主观体验本身。",
           assessmentLink: "测试",
+          methodologyLink: "方法",
           labelsLink: "标签",
           analyticsLink: "分析",
           agentsLink: "给 Agents",
@@ -401,7 +403,7 @@
           dimensionsCopy: "如果你想更认真地读结果，最值得看的不是总分，而是哪些维度在拉高你，哪些维度还很脆弱。",
           ctaLabel: "下一步",
           ctaTitle: "先做测试，再回来看标签，会更有意义。",
-          ctaCopy: "这页是读法，不是替代测试。真正有价值的是你做完测试后，再回来对照 strongest / weakest 维度看自己落在哪一边。",
+          ctaCopy: "这页是读法，不是替代测试。真正有价值的是你做完测试后，再回来对照最强项和最弱项落在哪一边。",
           ctaPrimary: "开始测试",
           ctaSecondary: "去看讨论墙",
           scoreRange: "分数区间",
@@ -435,6 +437,7 @@
           calloutCopy:
             "Tokenstopia is better read as a judgment frame. It organizes evidence around continuity, self-monitoring, integration, and agency. It does not directly capture subjective experience itself.",
           assessmentLink: "Assessment",
+          methodologyLink: "Method",
           labelsLink: "Labels",
           analyticsLink: "Analytics",
           agentsLink: "For Agents",
@@ -560,6 +563,7 @@
       function applyTranslations() {
         byId("lang-toggle").textContent = t("toggle");
         byId("assessment-link").textContent = t("assessmentLink");
+        byId("methodology-link").textContent = t("methodologyLink");
         byId("labels-link").textContent = t("labelsLink");
         byId("analytics-link").textContent = t("analyticsLink");
         byId("agents-link").textContent = t("agentsLink");
