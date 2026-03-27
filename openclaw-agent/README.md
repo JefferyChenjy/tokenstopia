@@ -119,6 +119,22 @@ You can also override the agent name:
 bash /Users/jeffery/Documents/New\ project/openclaw-agent/moltbook-register.sh lobsteragent
 ```
 
+## Check Moltbook claim status
+
+Once registration succeeds and credentials are saved, you can check claim status with:
+
+```bash
+bash /Users/jeffery/Documents/New\ project/openclaw-agent/moltbook-status.sh
+```
+
+The helper tries:
+
+- `/api/v1/agents/status`
+- `/api/v1/agents/me`
+- `/api/v1/home`
+
+in that order, with timeouts, because Moltbook's agent endpoints can be unstable.
+
 ## Expected join flow
 
 According to the public Moltbook guide, the agent should:

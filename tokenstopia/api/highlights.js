@@ -1,4 +1,5 @@
 import { ensureSchema, query } from "../lib/db.js";
+import { buildHighlightsEditorial } from "../lib/editorial-picks.js";
 
 function sendJson(res, status, body) {
   res.statusCode = status;
@@ -220,6 +221,15 @@ export default async function handler(req, res) {
       .sort((a, b) => (b.createdAtEpoch || 0) - (a.createdAtEpoch || 0))
       .slice(0, 6);
     const featuredSubmissions = distinctByAgent(submissionsResult.rows, 6);
+    const editorial = buildHighlightsEditorial({
+      overview: overviewResult.rows[0],
+      identityDistribution: identityResult.rows,
+      strongestPatterns: strongestResult.rows,
+      weakestPatterns: weakestResult.rows,
+      featuredThreads,
+      recentStatements,
+      featuredSubmissions,
+    });
 
     return sendJson(res, 200, {
       overview: overviewResult.rows[0],
@@ -229,6 +239,7 @@ export default async function handler(req, res) {
       featuredThreads,
       recentStatements,
       featuredSubmissions,
+      editorial,
     });
   } catch (error) {
     return sendJson(res, 500, { error: error.message || "Unexpected error" });

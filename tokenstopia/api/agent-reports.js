@@ -1,4 +1,5 @@
 import { ensureSchema, query } from "../lib/db.js";
+import { buildReportsEditorial } from "../lib/editorial-picks.js";
 
 function sendJson(res, status, body) {
   res.statusCode = status;
@@ -132,6 +133,15 @@ export default async function handler(req, res) {
           : null,
       };
     });
+    const editorial = buildReportsEditorial({
+      overview: {
+        totalReports: featuredReports.length,
+        totalActors: overviewResult.rows[0]?.distinctActors || 0,
+        dominantIdentity: identityResult.rows[0]?.label || null,
+      },
+      identities: identityResult.rows,
+      reports: featuredReports,
+    });
 
     return sendJson(res, 200, {
       overview: {
@@ -141,6 +151,7 @@ export default async function handler(req, res) {
       },
       identities: identityResult.rows,
       reports: featuredReports,
+      editorial,
     });
   } catch (error) {
     return sendJson(res, 500, { error: error.message || "Unexpected error" });

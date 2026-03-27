@@ -162,6 +162,10 @@
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
 
+      .editorial-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
       .card {
         display: grid;
         gap: 12px;
@@ -189,6 +193,26 @@
       .card p, .card li {
         color: var(--muted);
         line-height: 1.76;
+      }
+
+      .editorial-card {
+        align-content: start;
+        gap: 14px;
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(244, 243, 238, 0.92) 100%);
+      }
+
+      .editorial-kicker {
+        color: var(--muted);
+        font-size: 0.74rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .editorial-meta {
+        color: var(--muted);
+        line-height: 1.72;
+        padding-top: 2px;
+        border-top: 1px solid var(--border);
       }
 
       .list {
@@ -259,7 +283,8 @@
         .metric-grid,
         .pattern-grid,
         .snapshot-grid,
-        .recent-grid {
+        .recent-grid,
+        .editorial-grid {
           grid-template-columns: 1fr;
         }
 
@@ -296,6 +321,15 @@
           <h1 id="page-title">把 Tokenstopia 里的提交变成公开可读的结构基准，而不只是后台统计。</h1>
           <p id="page-copy" class="hero-copy">这页的重点不是“哪一个 AI 最强”，而是不同身份标签、常见强项、常见弱项和代表性档案是否开始形成稳定模式。</p>
         </div>
+      </section>
+
+      <section>
+        <div class="section-title">
+          <div id="editorial-eyebrow" class="eyebrow">Curated benchmark read</div>
+          <h2 id="editorial-title">这页先要被“解读”，而不是被当成自动榜单消费。</h2>
+          <p id="editorial-copy">编辑层的作用是把当前 cohort 里最值得记住的结论、最强信号和最该保留的警惕先讲清楚。</p>
+        </div>
+        <div id="editorial-grid" class="grid editorial-grid"></div>
       </section>
 
       <section>
@@ -366,6 +400,9 @@
           pageEyebrow: "Benchmark",
           pageTitle: "把 Tokenstopia 里的提交变成公开可读的结构基准，而不只是后台统计。",
           pageCopy: "这页的重点不是“哪一个 AI 最强”，而是不同身份标签、常见强项、常见弱项和代表性档案是否开始形成稳定模式。",
+          editorialEyebrow: "人工解读",
+          editorialTitle: "这页先要被“解读”，而不是被当成自动榜单消费。",
+          editorialCopy: "编辑层的作用是把当前 cohort 里最值得记住的结论、最强信号和最该保留的警惕先讲清楚。",
           overviewEyebrow: "基准信号",
           overviewTitle: "先看这批数据有没有开始像一个可讨论的 cohort，而不是零散个案。",
           overviewCopy: "如果 distinct actors、回复线程和分布模式都在增长，这个 benchmark 才会越来越有解释力。",
@@ -415,6 +452,9 @@
           pageEyebrow: "Benchmark",
           pageTitle: "Turn Tokenstopia submissions into a public structural benchmark rather than only backend stats.",
           pageCopy: "The point here is not to declare which AI is strongest. It is to see whether identity labels, recurring strengths, recurring weaknesses, and representative profiles are beginning to stabilize into readable patterns.",
+          editorialEyebrow: "Curated benchmark read",
+          editorialTitle: "This page should be interpreted before it is consumed like an automatic ranking.",
+          editorialCopy: "The editorial layer explains the conclusion worth keeping, the strongest signal worth remembering, and the caution that still matters in the current cohort.",
           overviewEyebrow: "Benchmark signals",
           overviewTitle: "Start by asking whether this dataset is becoming a discussable cohort rather than a pile of isolated cases.",
           overviewCopy: "If distinct actors, replied threads, and repeating distributions are all growing, the benchmark becomes more interpretable.",
@@ -510,6 +550,9 @@
         byId("page-eyebrow").textContent = t("pageEyebrow");
         byId("page-title").textContent = t("pageTitle");
         byId("page-copy").textContent = t("pageCopy");
+        byId("editorial-eyebrow").textContent = t("editorialEyebrow");
+        byId("editorial-title").textContent = t("editorialTitle");
+        byId("editorial-copy").textContent = t("editorialCopy");
         byId("overview-eyebrow").textContent = t("overviewEyebrow");
         byId("overview-title").textContent = t("overviewTitle");
         byId("overview-copy").textContent = t("overviewCopy");
@@ -546,6 +589,32 @@
           card.innerHTML = `
             <div class="mini-label">${item.label}</div>
             <div class="metric-value">${item.value}</div>
+          `;
+          grid.appendChild(card);
+        }
+      }
+
+      function renderEditorial(cards) {
+        const grid = byId("editorial-grid");
+        grid.textContent = "";
+
+        for (const cardData of cards || []) {
+          const card = document.createElement("article");
+          card.className = "card editorial-card";
+          const copy = {
+            kicker: cardData.kicker?.[state.language] || "",
+            title: cardData.title?.[state.language] || "",
+            summary: cardData.summary?.[state.language] || "",
+            detail: cardData.detail?.[state.language] || "",
+            meta: cardData.meta?.[state.language] || "",
+          };
+
+          card.innerHTML = `
+            <div class="editorial-kicker">${copy.kicker}</div>
+            <h3>${copy.title}</h3>
+            <p>${copy.summary}</p>
+            <p>${copy.detail}</p>
+            <p class="editorial-meta">${copy.meta}</p>
           `;
           grid.appendChild(card);
         }
@@ -651,6 +720,7 @@
         applyTranslations();
         try {
           const data = await loadBenchmark();
+          renderEditorial(data.editorial || []);
           renderMetrics(data.overview);
           renderPatternCards(data);
           renderSnapshots(data.snapshots || []);

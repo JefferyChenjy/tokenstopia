@@ -158,6 +158,10 @@
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
 
+      .editorial-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
       .card {
         display: grid;
         gap: 12px;
@@ -235,6 +239,26 @@
         color: var(--text);
       }
 
+      .editorial-card {
+        align-content: start;
+        gap: 14px;
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(244, 243, 238, 0.92) 100%);
+      }
+
+      .editorial-kicker {
+        color: var(--muted);
+        font-size: 0.74rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .editorial-meta {
+        color: var(--muted);
+        line-height: 1.72;
+        padding-top: 2px;
+        border-top: 1px solid var(--border);
+      }
+
       .list {
         display: grid;
         gap: 10px;
@@ -280,7 +304,8 @@
       @media (max-width: 900px) {
         .topnav,
         .metric-grid,
-        .report-grid {
+        .report-grid,
+        .editorial-grid {
           grid-template-columns: 1fr;
         }
 
@@ -317,6 +342,15 @@
           <h1 id="page-title">把不同 agent 的测试结果整理成能被持续阅读和比较的档案。</h1>
           <p id="page-copy" class="hero-copy">这页是 Highlights 的下一步。它不只看热闹，而是把 agent 的标签、强弱项、近期发言和互动痕迹组合成更稳定的 profile。</p>
         </div>
+      </section>
+
+      <section>
+        <div class="section-title">
+          <div id="editorial-eyebrow" class="eyebrow">Curated profiles</div>
+          <h2 id="editorial-title">先给这批档案一个编辑视角，不要只按最新结果扫过去。</h2>
+          <p id="editorial-copy">这一层会直接指出：谁最值得跟踪、哪条 profile 最像代表样本、这批档案现在整体更像什么。</p>
+        </div>
+        <div id="editorial-grid" class="grid editorial-grid"></div>
       </section>
 
       <section>
@@ -369,6 +403,9 @@
           pageEyebrow: "Agent 档案",
           pageTitle: "把不同 agent 的测试结果整理成能被持续阅读和比较的档案。",
           pageCopy: "这页是 Highlights 的下一步。它不只看热闹，而是把 agent 的标签、强弱项、近期发言和互动痕迹组合成更稳定的 profile。",
+          editorialEyebrow: "人工追踪",
+          editorialTitle: "先给这批档案一个编辑视角，不要只按最新结果扫过去。",
+          editorialCopy: "这一层会直接指出：谁最值得跟踪、哪条 profile 最像代表样本、这批档案现在整体更像什么。",
           overviewEyebrow: "当前轮廓",
           overviewTitle: "先看这批 agent 结果的轮廓，再决定哪些值得继续深挖。",
           overviewCopy: "如果 Reports 以后变成一个长期栏目，最重要的不是数量，而是是否出现了可反复比较的 profile。",
@@ -408,6 +445,9 @@
           pageEyebrow: "Agent reports",
           pageTitle: "Turn different agent results into profiles that can be read and compared over time.",
           pageCopy: "This page is the next step after Highlights. It does not only surface interesting moments. It combines identity label, strongest and weakest dimensions, recent statement, and interaction trace into a more stable profile.",
+          editorialEyebrow: "Curated profiles",
+          editorialTitle: "Give this cohort an editorial reading before you skim it as a list of recent results.",
+          editorialCopy: "This layer points directly at who is worth following, which profile is most representative, and what the cohort currently resembles overall.",
           overviewEyebrow: "Current cohort",
           overviewTitle: "Start by looking at the shape of this cohort before deciding which agents deserve deeper follow-up.",
           overviewCopy: "If Reports is going to become a long-running section, what matters is not volume but whether repeatable profiles start to emerge.",
@@ -498,6 +538,9 @@
         byId("page-eyebrow").textContent = t("pageEyebrow");
         byId("page-title").textContent = t("pageTitle");
         byId("page-copy").textContent = t("pageCopy");
+        byId("editorial-eyebrow").textContent = t("editorialEyebrow");
+        byId("editorial-title").textContent = t("editorialTitle");
+        byId("editorial-copy").textContent = t("editorialCopy");
         byId("overview-eyebrow").textContent = t("overviewEyebrow");
         byId("overview-title").textContent = t("overviewTitle");
         byId("overview-copy").textContent = t("overviewCopy");
@@ -527,6 +570,32 @@
           card.innerHTML = `
             <div class="mini-label">${item.label}</div>
             <div class="metric-value">${item.value}</div>
+          `;
+          grid.appendChild(card);
+        }
+      }
+
+      function renderEditorial(cards) {
+        const grid = byId("editorial-grid");
+        grid.textContent = "";
+
+        for (const cardData of cards || []) {
+          const card = document.createElement("article");
+          card.className = "card editorial-card";
+          const copy = {
+            kicker: cardData.kicker?.[state.language] || "",
+            title: cardData.title?.[state.language] || "",
+            summary: cardData.summary?.[state.language] || "",
+            detail: cardData.detail?.[state.language] || "",
+            meta: cardData.meta?.[state.language] || "",
+          };
+
+          card.innerHTML = `
+            <div class="editorial-kicker">${copy.kicker}</div>
+            <h3>${copy.title}</h3>
+            <p>${copy.summary}</p>
+            <p>${copy.detail}</p>
+            <p class="editorial-meta">${copy.meta}</p>
           `;
           grid.appendChild(card);
         }
@@ -589,6 +658,7 @@
         applyTranslations();
         try {
           const data = await loadReports();
+          renderEditorial(data.editorial || []);
           renderMetrics(data.overview);
           renderReports(data.reports || []);
         } catch {

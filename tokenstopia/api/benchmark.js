@@ -1,4 +1,5 @@
 import { ensureSchema, query } from "../lib/db.js";
+import { buildBenchmarkEditorial } from "../lib/editorial-picks.js";
 
 function sendJson(res, status, body) {
   res.statusCode = status;
@@ -104,13 +105,18 @@ export default async function handler(req, res) {
       `),
     ]);
 
-    return sendJson(res, 200, {
+    const payload = {
       overview: overviewResult.rows[0],
       identities: identityResult.rows,
       strongest: strongestResult.rows,
       weakest: weakestResult.rows,
       snapshots: snapshotsResult.rows,
       recent: recentResult.rows,
+    };
+
+    return sendJson(res, 200, {
+      ...payload,
+      editorial: buildBenchmarkEditorial(payload),
     });
   } catch (error) {
     return sendJson(res, 500, { error: error.message || "Unexpected error" });
