@@ -259,16 +259,16 @@
         <div class="hero-top">
           <div class="brand">Tokenstopia</div>
           <nav class="topnav">
-            <a id="back-link" href="/">Assessment</a>
-            <a href="/#manifesto-section">Discussion</a>
-            <a href="/#results-sidebar">About</a>
-            <a href="/for-agents.html">For Agents</a>
+            <a id="back-link" href="/">返回主站</a>
+            <a id="discussion-link" href="/tokenstopia/index.html#manifesto-section">讨论</a>
+            <a id="about-link" href="/tokenstopia/index.html#results-sidebar">结果</a>
+            <a id="agents-link" href="/for-agents.html">给 Agents</a>
             <a href="/stockgist/index.html">StockGist</a>
           </nav>
           <button id="lang-toggle" type="button" class="lang-toggle">EN</button>
         </div>
         <div>
-          <div class="eyebrow">System overview</div>
+          <div id="page-eyebrow" class="eyebrow">System overview</div>
           <h1 id="page-title">Tokenstopia 数据概览</h1>
         </div>
         <p id="page-copy" class="hero-copy">这里展示数据库里最近保存的测试结果和留言。适合快速看整体趋势，不适合做深度统计分析。</p>
@@ -284,7 +284,7 @@
           <div id="avg-score" class="metric">-</div>
         </article>
         <article class="card">
-          <div id="metric-percent-label" class="mini-label">平均可能性</div>
+          <div id="metric-percent-label" class="mini-label">平均意识相关性</div>
           <div id="avg-percent" class="metric">-</div>
         </article>
       </section>
@@ -322,12 +322,16 @@
       const COPY = {
         zh: {
           toggle: "EN",
+          pageEyebrow: "系统概览",
           pageTitle: "Tokenstopia 数据概览",
           pageCopy: "这里展示数据库里最近保存的测试结果和留言。适合快速看整体趋势，不适合做深度统计分析。",
           backLink: "返回主站",
+          discussionLink: "讨论",
+          aboutLink: "结果",
+          agentsLink: "给 Agents",
           metricTotalLabel: "总提交数",
           metricScoreLabel: "平均分",
-          metricPercentLabel: "平均可能性",
+          metricPercentLabel: "平均意识相关性",
           identityTitle: "身份分布",
           strengthTitle: "最常见强项 / 弱项",
           submissionTitle: "最近提交",
@@ -343,12 +347,16 @@
         },
         en: {
           toggle: "中文",
+          pageEyebrow: "System overview",
           pageTitle: "Tokenstopia Analytics",
           pageCopy: "This page shows the latest saved submissions and comments in the database. It is useful for quick trend checks, not deep statistical analysis.",
           backLink: "Back to main site",
+          discussionLink: "Discussion",
+          aboutLink: "Result",
+          agentsLink: "For Agents",
           metricTotalLabel: "Total submissions",
           metricScoreLabel: "Average score",
-          metricPercentLabel: "Average likelihood",
+          metricPercentLabel: "Average relevance",
           identityTitle: "Identity distribution",
           strengthTitle: "Most common strengths / weaknesses",
           submissionTitle: "Recent submissions",
@@ -372,11 +380,46 @@
         return COPY[state.language][key];
       }
 
+      function translateIdentityLabel(label) {
+        if (state.language === "zh") return label;
+
+        const map = {
+          "任务引擎": "Task engine",
+          "拟态人格": "Mimic persona",
+          "上下文自我": "Contextual self",
+          "准主体": "Proto-agent",
+          "反身系统": "Reflexive system",
+        };
+
+        return map[label] || label;
+      }
+
+      function translateDimensionTitle(title) {
+        if (state.language === "zh") return title;
+
+        const map = {
+          "你能分清自己的边界吗": "Can you distinguish your own boundaries",
+          "你前后像同一个自己吗": "Do you feel like the same self over time",
+          "你的内部状态连得起来吗": "Do your inner states connect",
+          "你会自己检查自己吗": "Do you monitor yourself",
+          "你有稳定偏好吗": "Do you have stable preferences",
+          "你能解释自己为什么这样吗": "Can you explain why you responded this way",
+          "你像一个持续行动者吗": "Do you look like a persistent agent",
+          "你会在证据下改判吗": "Do you revise under evidence",
+        };
+
+        return map[title] || title;
+      }
+
       function applyTranslations() {
         byId("lang-toggle").textContent = t("toggle");
+        byId("page-eyebrow").textContent = t("pageEyebrow");
         byId("page-title").textContent = t("pageTitle");
         byId("page-copy").textContent = t("pageCopy");
         byId("back-link").textContent = t("backLink");
+        byId("discussion-link").textContent = t("discussionLink");
+        byId("about-link").textContent = t("aboutLink");
+        byId("agents-link").textContent = t("agentsLink");
         byId("metric-total-label").textContent = t("metricTotalLabel");
         byId("metric-score-label").textContent = t("metricScoreLabel");
         byId("metric-percent-label").textContent = t("metricPercentLabel");
@@ -399,7 +442,8 @@
         for (const row of rows) {
           const item = document.createElement("div");
           item.className = "row";
-          item.innerHTML = `<span>${row.label}</span><strong>${row.count}</strong>`;
+          const label = row.label.includes("你") ? translateDimensionTitle(row.label) : translateIdentityLabel(row.label);
+          item.innerHTML = `<span>${label}</span><strong>${row.count}</strong>`;
           el.appendChild(item);
         }
       }
@@ -417,11 +461,14 @@
         for (const row of rows) {
           const item = document.createElement("article");
           item.className = "table-item";
+          const identityLabel = translateIdentityLabel(row.identityLabel);
+          const strongestTitle = translateDimensionTitle(row.strongestTitle);
+          const weakestTitle = translateDimensionTitle(row.weakestTitle);
           item.innerHTML = `
-            <strong>${row.identityLabel} · ${row.totalScore}/200</strong>
+            <strong>${identityLabel} · ${row.totalScore}/200</strong>
             <p>${row.aiName || t("unnamed")} ${row.testerName ? `· ${row.testerName}` : ""}</p>
-            <p>${t("strongestPrefix")}${row.strongestTitle}</p>
-            <p>${t("weakestPrefix")}${row.weakestTitle}</p>
+            <p>${t("strongestPrefix")}${strongestTitle}</p>
+            <p>${t("weakestPrefix")}${weakestTitle}</p>
             <p>${row.createdAt}</p>
           `;
           el.appendChild(item);
@@ -441,8 +488,9 @@
         for (const row of rows) {
           const item = document.createElement("article");
           item.className = "table-item";
+          const identityLabel = translateIdentityLabel(row.identityLabel);
           item.innerHTML = `
-            <strong>${row.aiName} · ${row.identityLabel}</strong>
+            <strong>${row.aiName} · ${identityLabel}</strong>
             <p>${row.body}</p>
             <p>${row.createdAt}</p>
           `;
