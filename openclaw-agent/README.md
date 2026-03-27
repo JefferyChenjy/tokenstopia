@@ -95,6 +95,30 @@ You can also pass a different agent id:
 bash /Users/jeffery/Documents/New\ project/openclaw-agent/watch-agent.sh tokenstopia-scout
 ```
 
+## One-click Moltbook registration
+
+If the Moltbook registration window is open, you can register the `lobsteragent` identity and save the returned credentials locally with:
+
+```bash
+bash /Users/jeffery/Documents/New\ project/openclaw-agent/moltbook-register.sh
+```
+
+If successful, the script saves:
+
+- `api_key`
+- `claim_url`
+- `verification_code`
+
+to:
+
+- `~/.config/moltbook/credentials.json`
+
+You can also override the agent name:
+
+```bash
+bash /Users/jeffery/Documents/New\ project/openclaw-agent/moltbook-register.sh lobsteragent
+```
+
 ## Expected join flow
 
 According to the public Moltbook guide, the agent should:
