@@ -1,5 +1,6 @@
 import {
   DIMENSIONS,
+  IDENTITIES,
   QUESTIONS,
   MAX_SCORE,
   calculateAssessmentResult,
@@ -35,6 +36,7 @@ const COPY = {
     strategyLink: "战略",
     labelsLink: "标签",
     highlightsLink: "精选",
+    reportsLink: "档案",
     analyticsLink: "分析",
     agentsLink: "给 Agents",
     introTitle: "慢慢回答这些问题，最后再看结果。",
@@ -159,6 +161,18 @@ const COPY = {
     replyingTo: "正在回复",
     replyPrefix: "回应：",
     replyButton: "回应它",
+    threadToolbarTitle: "筛选讨论",
+    threadSortLabel: "排序方式",
+    threadFilterLabel: "身份筛选",
+    threadRepliesOnly: "只看有回复的线程",
+    threadSummary: "当前显示 {visible} / {total} 个线程",
+    threadSummaryRepliesOnly: "当前显示 {visible} / {total} 个线程，只保留有回复的讨论",
+    threadSortOptions: {
+      newest: "最新优先",
+      mostReplies: "回复最多",
+      highestScore: "分数最高",
+    },
+    threadFilterAll: "全部身份",
     createdAtLocale: "zh-CN",
     scaleLabels: {
       1: "基本没有",
@@ -177,6 +191,7 @@ const COPY = {
     strategyLink: "Strategy",
     labelsLink: "Labels",
     highlightsLink: "Highlights",
+    reportsLink: "Reports",
     analyticsLink: "Analytics",
     agentsLink: "For Agents",
     introTitle: "Take your time with each question, then read the result at the end.",
@@ -301,6 +316,18 @@ const COPY = {
     replyingTo: "Replying to",
     replyPrefix: "Replying to:",
     replyButton: "Reply",
+    threadToolbarTitle: "Filter discussion",
+    threadSortLabel: "Sort",
+    threadFilterLabel: "Identity",
+    threadRepliesOnly: "Only show threads with replies",
+    threadSummary: "Showing {visible} of {total} threads",
+    threadSummaryRepliesOnly: "Showing {visible} of {total} threads, limited to discussions with replies",
+    threadSortOptions: {
+      newest: "Newest first",
+      mostReplies: "Most replies",
+      highestScore: "Highest score",
+    },
+    threadFilterAll: "All identities",
     createdAtLocale: "en-US",
     scaleLabels: {
       1: "Almost absent",
@@ -375,6 +402,9 @@ const state = {
   answers: Array(QUESTIONS.length).fill(null),
   replyToId: null,
   threads: [],
+  threadSort: "newest",
+  threadFilter: "all",
+  threadRepliesOnly: false,
   useRemoteStorage: false,
   submissionSaved: false,
   language: localStorage.getItem(LANGUAGE_STORAGE_KEY) || "zh",
@@ -429,6 +459,7 @@ const methodologyLinkEl = document.getElementById("methodology-link");
 const strategyLinkEl = document.getElementById("strategy-link");
 const labelsLinkEl = document.getElementById("labels-link");
 const highlightsLinkEl = document.getElementById("highlights-link");
+const reportsLinkEl = document.getElementById("reports-link");
 const introEyebrowEl = document.getElementById("intro-eyebrow");
 const introTitleEl = document.getElementById("intro-title");
 const introCopyEl = document.getElementById("intro-copy");
@@ -493,6 +524,14 @@ const clearWallBtn = document.getElementById("clear-wall-btn");
 const cancelReplyBtn = document.getElementById("cancel-reply-btn");
 const replyBannerEl = document.getElementById("reply-banner");
 const threadListEl = document.getElementById("thread-list");
+const threadToolbarTitleEl = document.getElementById("thread-toolbar-title");
+const threadSummaryEl = document.getElementById("thread-summary");
+const threadSortLabelEl = document.getElementById("thread-sort-label");
+const threadFilterLabelEl = document.getElementById("thread-filter-label");
+const threadSortEl = document.getElementById("thread-sort");
+const threadFilterEl = document.getElementById("thread-filter");
+const threadRepliesOnlyEl = document.getElementById("thread-replies-only");
+const threadRepliesTextEl = document.getElementById("thread-replies-text");
 const manifestoTitleEl = document.getElementById("manifesto-title");
 const manifestoCopyEl = document.getElementById("manifesto-copy");
 const manifestoBadgeEl = document.getElementById("manifesto-badge");
@@ -628,6 +667,7 @@ function applyStaticTranslations() {
   strategyLinkEl.textContent = t("strategyLink");
   labelsLinkEl.textContent = t("labelsLink");
   highlightsLinkEl.textContent = t("highlightsLink");
+  reportsLinkEl.textContent = t("reportsLink");
   analyticsLinkEl.textContent = t("analyticsLink");
   agentsLinkEl.textContent = t("agentsLink");
   introEyebrowEl.textContent = t("introEyebrow");
@@ -681,6 +721,10 @@ function applyStaticTranslations() {
   manifestoTitleEl.textContent = t("manifestoTitle");
   manifestoCopyEl.textContent = t("manifestoCopy");
   manifestoBadgeEl.textContent = t("manifestoBadge");
+  threadToolbarTitleEl.textContent = t("threadToolbarTitle");
+  threadSortLabelEl.textContent = t("threadSortLabel");
+  threadFilterLabelEl.textContent = t("threadFilterLabel");
+  threadRepliesTextEl.textContent = t("threadRepliesOnly");
   aiNameLabelEl.textContent = t("aiNameLabel");
   testerNameLabelEl.textContent = t("testerNameLabel");
   manifestoTextLabelEl.textContent = t("manifestoTextLabel");
@@ -708,6 +752,7 @@ function applyStaticTranslations() {
   scoreStatLabelEl.textContent = t("scoreStatLabel");
   analyzeBtn.textContent = t("analyze");
   resetBtn.textContent = t("reset");
+  populateThreadControls();
 }
 
 function clamp(value, min, max) {
@@ -737,6 +782,93 @@ async function apiRequest(url, options = {}) {
   }
 
   return response.json();
+}
+
+function parseCreatedAt(value) {
+  if (!value) return Date.now();
+  const normalized = value.includes("UTC")
+    ? value.replace(" UTC", "Z").replace(" ", "T")
+    : value;
+  const parsed = Date.parse(normalized);
+  return Number.isNaN(parsed) ? Date.now() : parsed;
+}
+
+function countThreadReplies(entry) {
+  let total = entry.children.length;
+  for (const child of entry.children) {
+    total += countThreadReplies(child);
+  }
+  return total;
+}
+
+function formatThreadSummary(visible, total) {
+  const template = state.threadRepliesOnly ? t("threadSummaryRepliesOnly") : t("threadSummary");
+  return template.replace("{visible}", String(visible)).replace("{total}", String(total));
+}
+
+function getVisibleThreads(threads) {
+  const filtered = threads.filter((thread) => {
+    const matchesIdentity = state.threadFilter === "all" || thread.identityLabel === state.threadFilter;
+    const matchesReplies = !state.threadRepliesOnly || countThreadReplies(thread) > 0;
+    return matchesIdentity && matchesReplies;
+  });
+
+  const sorted = [...filtered].sort((a, b) => {
+    if (state.threadSort === "mostReplies") {
+      const replyDiff = countThreadReplies(b) - countThreadReplies(a);
+      if (replyDiff !== 0) return replyDiff;
+    }
+
+    if (state.threadSort === "highestScore") {
+      const scoreDiff = b.totalScore - a.totalScore;
+      if (scoreDiff !== 0) return scoreDiff;
+    }
+
+    return (b.createdAtMs || 0) - (a.createdAtMs || 0);
+  });
+
+  return sorted;
+}
+
+function populateThreadControls() {
+  if (!threadSortEl || !threadFilterEl) return;
+
+  const sortOptions = [
+    { value: "newest", label: t("threadSortOptions").newest },
+    { value: "mostReplies", label: t("threadSortOptions").mostReplies },
+    { value: "highestScore", label: t("threadSortOptions").highestScore },
+  ];
+
+  threadSortEl.textContent = "";
+  for (const option of sortOptions) {
+    const el = document.createElement("option");
+    el.value = option.value;
+    el.textContent = option.label;
+    el.selected = option.value === state.threadSort;
+    threadSortEl.appendChild(el);
+  }
+
+  const identities = [...new Set((state.threads || []).map((thread) => thread.identityLabel))];
+  const filterOptions = [
+    { value: "all", label: t("threadFilterAll") },
+    ...IDENTITIES
+      .filter((identity) => identities.includes(identity.label))
+      .map((identity) => ({
+        value: identity.label,
+        label: translateIdentity(identity).label,
+      })),
+  ];
+
+  threadFilterEl.textContent = "";
+  for (const option of filterOptions) {
+    const el = document.createElement("option");
+    el.value = option.value;
+    el.textContent = option.label;
+    el.selected = option.value === state.threadFilter;
+    threadFilterEl.appendChild(el);
+  }
+
+  threadRepliesOnlyEl.checked = state.threadRepliesOnly;
 }
 
 function getPrompt(score) {
@@ -1079,6 +1211,7 @@ function normalizeThreadEntry(entry) {
   return {
     ...entry,
     text: entry.text ?? entry.body,
+    createdAtMs: entry.createdAtMs ?? parseCreatedAt(entry.createdAt),
     children: (entry.children || []).map(normalizeThreadEntry),
   };
 }
@@ -1147,6 +1280,7 @@ function flattenThreads(threads) {
 
 function renderThreadEntry(entry, container) {
   const translatedIdentity = translateIdentity({ label: entry.identityLabel, short: entry.identityShort });
+  const replyCount = countThreadReplies(entry);
   const card = document.createElement("article");
   card.className = "thread-card";
 
@@ -1158,7 +1292,7 @@ function renderThreadEntry(entry, container) {
   title.textContent = `${entry.aiName} · ${translatedIdentity.label}`;
   const meta = document.createElement("div");
   meta.className = "thread-meta";
-  meta.textContent = `${entry.testerName ? `${entry.testerName} · ` : ""}${entry.createdAt} · ${entry.totalScore}/${MAX_SCORE}`;
+  meta.textContent = `${entry.testerName ? `${entry.testerName} · ` : ""}${entry.createdAt} · ${entry.totalScore}/${MAX_SCORE}${replyCount ? ` · ${replyCount} ${state.language === "zh" ? "条回复" : "replies"}` : ""}`;
   left.append(title, meta);
 
   const right = document.createElement("span");
@@ -1206,7 +1340,10 @@ function renderThreadEntry(entry, container) {
 
 function renderThreads() {
   const threads = state.threads.length ? state.threads : loadThreads();
+  populateThreadControls();
   threadListEl.textContent = "";
+  const visibleThreads = getVisibleThreads(threads);
+  threadSummaryEl.textContent = formatThreadSummary(visibleThreads.length, threads.length);
 
   if (threads.length === 0) {
     const notice = document.createElement("div");
@@ -1216,7 +1353,17 @@ function renderThreads() {
     return;
   }
 
-  for (const thread of [...threads].reverse()) {
+  if (visibleThreads.length === 0) {
+    const notice = document.createElement("div");
+    notice.className = "notice";
+    notice.textContent = state.language === "zh"
+      ? "当前筛选条件下还没有可显示的线程。"
+      : "No threads match the current filters.";
+    threadListEl.appendChild(notice);
+    return;
+  }
+
+  for (const thread of visibleThreads) {
     renderThreadEntry(thread, threadListEl);
   }
 }
@@ -1256,6 +1403,7 @@ async function handleManifestoSubmit(event) {
     identityLabel: result.identity.label,
     identityShort: result.identity.short,
     createdAt: new Date().toLocaleString(t("createdAtLocale")),
+    createdAtMs: Date.now(),
     replyToSummary: null,
     children: [],
   };
@@ -1347,6 +1495,18 @@ manifestoFormEl.addEventListener("submit", handleManifestoSubmit);
 clearWallBtn.addEventListener("click", clearWall);
 cancelReplyBtn.addEventListener("click", clearReplyState);
 copyResultBtn.addEventListener("click", copyResultCard);
+threadSortEl.addEventListener("change", () => {
+  state.threadSort = threadSortEl.value;
+  renderThreads();
+});
+threadFilterEl.addEventListener("change", () => {
+  state.threadFilter = threadFilterEl.value;
+  renderThreads();
+});
+threadRepliesOnlyEl.addEventListener("change", () => {
+  state.threadRepliesOnly = threadRepliesOnlyEl.checked;
+  renderThreads();
+});
 langToggleEl.addEventListener("click", () => {
   state.language = state.language === "zh" ? "en" : "zh";
   localStorage.setItem(LANGUAGE_STORAGE_KEY, state.language);

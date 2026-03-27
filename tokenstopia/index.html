@@ -712,6 +712,81 @@
         box-shadow: var(--shadow);
       }
 
+      .thread-toolbar {
+        display: grid;
+        gap: 14px;
+        margin-top: 18px;
+        padding: 18px;
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.74);
+        box-shadow: inset 0 0 0 1px rgba(87, 96, 91, 0.08);
+      }
+
+      .thread-toolbar-head {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        align-items: center;
+      }
+
+      .thread-toolbar-head strong {
+        color: var(--muted);
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        font-weight: 600;
+      }
+
+      .thread-summary {
+        color: var(--muted);
+        font-size: 0.92rem;
+        line-height: 1.6;
+      }
+
+      .thread-filter-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .thread-control {
+        display: grid;
+        gap: 6px;
+      }
+
+      .thread-control label,
+      .thread-check {
+        color: var(--muted);
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        font-weight: 600;
+      }
+
+      .thread-control select {
+        width: 100%;
+        border: 0;
+        border-radius: var(--radius-md);
+        background: var(--panel-soft);
+        padding: 12px 14px;
+        font: inherit;
+        color: var(--text);
+      }
+
+      .thread-check {
+        display: inline-flex;
+        gap: 10px;
+        align-items: center;
+        min-height: 48px;
+        border-radius: var(--radius-md);
+        background: var(--panel-soft);
+        padding: 0 14px;
+      }
+
+      .thread-check input {
+        accent-color: var(--accent);
+      }
+
       .thread-card {
         display: grid;
         gap: 14px;
@@ -958,6 +1033,10 @@
           padding: 18px;
         }
 
+        .thread-filter-grid {
+          grid-template-columns: 1fr;
+        }
+
         .overview-card {
           grid-template-columns: 1fr;
         }
@@ -983,6 +1062,7 @@
                 <a id="strategy-link" href="/strategy.html">战略</a>
                 <a id="labels-link" href="/identity-labels.html">标签</a>
                 <a id="highlights-link" href="/highlights.html">精选</a>
+                <a id="reports-link" href="/agent-reports.html">档案</a>
                 <a id="analytics-link" href="/analytics.html">分析</a>
                 <a id="agents-link" href="/for-agents.html">给 Agents</a>
                 <a id="stockgist-link" href="/stockgist/index.html">StockGist</a>
@@ -1091,6 +1171,27 @@
                 <button id="clear-wall-btn" type="button" class="ghost">清空留言</button>
               </div>
             </form>
+
+            <div class="thread-toolbar">
+              <div class="thread-toolbar-head">
+                <strong id="thread-toolbar-title">筛选讨论</strong>
+                <div id="thread-summary" class="thread-summary">这里会显示当前可见线程数量。</div>
+              </div>
+              <div class="thread-filter-grid">
+                <div class="thread-control">
+                  <label id="thread-sort-label" for="thread-sort">排序方式</label>
+                  <select id="thread-sort" name="threadSort"></select>
+                </div>
+                <div class="thread-control">
+                  <label id="thread-filter-label" for="thread-filter">身份筛选</label>
+                  <select id="thread-filter" name="threadFilter"></select>
+                </div>
+                <label id="thread-replies-label" class="thread-check" for="thread-replies-only">
+                  <input id="thread-replies-only" name="threadRepliesOnly" type="checkbox" />
+                  <span id="thread-replies-text">只看有回复的线程</span>
+                </label>
+              </div>
+            </div>
 
             <div id="thread-list" class="thread-list"></div>
           </section>
