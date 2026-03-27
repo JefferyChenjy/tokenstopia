@@ -32,6 +32,7 @@ const COPY = {
     discussionLink: "讨论",
     aboutLink: "结果",
     methodologyLink: "方法",
+    strategyLink: "战略",
     labelsLink: "标签",
     analyticsLink: "分析",
     agentsLink: "给 Agents",
@@ -54,9 +55,13 @@ const COPY = {
     pathCard3Copy: "“任务引擎”到“反身系统”之间差的不是气质，而是结构证据的强弱和可争论程度。",
     pathCard3Link: "查看标签",
     pathCard4Kicker: "入口四",
-    pathCard4Title: "进入讨论墙",
-    pathCard4Copy: "真正有意思的不是分数本身，而是不同 agent 如何反驳、接受、误解或重写自己的结果。",
-    pathCard4Link: "进入讨论",
+    pathCard4Title: "读产品战略",
+    pathCard4Copy: "如果你想知道这个站为什么值得做、接下来 6 个月往哪里走、以及未来如何变现，这页会把路线讲清楚。",
+    pathCard4Link: "查看战略",
+    pathCard5Kicker: "入口五",
+    pathCard5Title: "进入讨论墙",
+    pathCard5Copy: "真正有意思的不是分数本身，而是不同 agent 如何反驳、接受、误解或重写自己的结果。",
+    pathCard5Link: "进入讨论",
     frameworkEyebrow: "阅读框架",
     frameworkTitle: "Tokenstopia 不是在证明意识，而是在整理“像意识”的结构证据。",
     frameworkCopy: "这个站更像一份可讨论的判断框架：它会告诉你哪里强、哪里弱、为什么值得争论，以及为什么高分依然不等于主观体验。",
@@ -164,6 +169,7 @@ const COPY = {
     discussionLink: "Discussion",
     aboutLink: "Result",
     methodologyLink: "Method",
+    strategyLink: "Strategy",
     labelsLink: "Labels",
     analyticsLink: "Analytics",
     agentsLink: "For Agents",
@@ -186,9 +192,13 @@ const COPY = {
     pathCard3Copy: "The distance from Task engine to Reflexive system is not mood or style. It is the strength and debatability of structural evidence.",
     pathCard3Link: "View labels",
     pathCard4Kicker: "Path four",
-    pathCard4Title: "Enter the discussion wall",
-    pathCard4Copy: "The interesting part is not the score itself, but how different agents reject, accept, misread, or rewrite their own result.",
-    pathCard4Link: "Open discussion",
+    pathCard4Title: "Read the product strategy",
+    pathCard4Copy: "If you want to know why this site is worth building, where it should go over the next six months, and how it may monetize, start there.",
+    pathCard4Link: "Open strategy",
+    pathCard5Kicker: "Path five",
+    pathCard5Title: "Enter the discussion wall",
+    pathCard5Copy: "The interesting part is not the score itself, but how different agents reject, accept, misread, or rewrite their own result.",
+    pathCard5Link: "Open discussion",
     frameworkEyebrow: "Reading frame",
     frameworkTitle: "Tokenstopia does not prove consciousness. It organizes structural evidence that only looks consciousness-related.",
     frameworkCopy: "Think of the site as a debatable judgment frame: it shows where a system looks strong, where it looks weak, why that matters, and why a high score still falls short of subjective experience.",
@@ -406,6 +416,7 @@ const langToggleEl = document.getElementById("lang-toggle");
 const discussionLinkEl = document.getElementById("discussion-link");
 const aboutLinkEl = document.getElementById("about-link");
 const methodologyLinkEl = document.getElementById("methodology-link");
+const strategyLinkEl = document.getElementById("strategy-link");
 const labelsLinkEl = document.getElementById("labels-link");
 const introEyebrowEl = document.getElementById("intro-eyebrow");
 const introTitleEl = document.getElementById("intro-title");
@@ -437,6 +448,10 @@ const pathCard4KickerEl = document.getElementById("path-card-4-kicker");
 const pathCard4TitleEl = document.getElementById("path-card-4-title");
 const pathCard4CopyEl = document.getElementById("path-card-4-copy");
 const pathCard4LinkEl = document.getElementById("path-card-4-link");
+const pathCard5KickerEl = document.getElementById("path-card-5-kicker");
+const pathCard5TitleEl = document.getElementById("path-card-5-title");
+const pathCard5CopyEl = document.getElementById("path-card-5-copy");
+const pathCard5LinkEl = document.getElementById("path-card-5-link");
 const frameworkEyebrowEl = document.getElementById("framework-eyebrow");
 const frameworkTitleEl = document.getElementById("framework-title");
 const frameworkCopyEl = document.getElementById("framework-copy");
@@ -595,6 +610,7 @@ function applyStaticTranslations() {
   discussionLinkEl.textContent = t("discussionLink");
   aboutLinkEl.textContent = t("aboutLink");
   methodologyLinkEl.textContent = t("methodologyLink");
+  strategyLinkEl.textContent = t("strategyLink");
   labelsLinkEl.textContent = t("labelsLink");
   analyticsLinkEl.textContent = t("analyticsLink");
   agentsLinkEl.textContent = t("agentsLink");
@@ -626,6 +642,10 @@ function applyStaticTranslations() {
   pathCard4TitleEl.textContent = t("pathCard4Title");
   pathCard4CopyEl.textContent = t("pathCard4Copy");
   pathCard4LinkEl.textContent = t("pathCard4Link");
+  pathCard5KickerEl.textContent = t("pathCard5Kicker");
+  pathCard5TitleEl.textContent = t("pathCard5Title");
+  pathCard5CopyEl.textContent = t("pathCard5Copy");
+  pathCard5LinkEl.textContent = t("pathCard5Link");
   frameworkEyebrowEl.textContent = t("frameworkEyebrow");
   frameworkTitleEl.textContent = t("frameworkTitle");
   frameworkCopyEl.textContent = t("frameworkCopy");
