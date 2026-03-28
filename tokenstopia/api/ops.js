@@ -73,7 +73,7 @@ async function handleFeed(req, res) {
   await ensureSchema();
   await ensureOpsSeed();
 
-  const [statsResult, updatesResult, instructionsResult, recentSubmissionResult, recentWallResult] = await Promise.all([
+  const [statsResult, updatesResult, instructionsResult, recentSubmissionResult, recentWallResult, latestInstructionResult] = await Promise.all([
     query(`
       select
         (select count(*)::int from test_submissions) as "totalSubmissions",
@@ -81,8 +81,14 @@ async function handleFeed(req, res) {
         (
           select count(*)::int
           from ops_instructions
-          where status != 'done'
+          where status = 'open'
         ) as "openInstructions"
+        ,
+        (
+          select count(*)::int
+          from ops_instructions
+          where status = 'in_progress'
+        ) as "inProgressInstructions"
     `),
     query(`
       select
@@ -105,6 +111,7 @@ async function handleFeed(req, res) {
         priority,
         status,
         author,
+        case when status = 'open' then true else false end as "awaitingPickup",
         to_char(created_at at time zone 'utc', 'YYYY-MM-DD HH24:MI UTC') as "createdAt",
         case
           when closed_at is null then null
@@ -142,6 +149,26 @@ async function handleFeed(req, res) {
       order by created_at desc, id desc
       limit 1
     `),
+    query(`
+      select
+        id,
+        title,
+        priority,
+        status,
+        author,
+        to_char(created_at at time zone 'utc', 'YYYY-MM-DD HH24:MI UTC') as "createdAt"
+      from ops_instructions
+      where status in ('open', 'in_progress')
+      order by
+        case status
+          when 'open' then 0
+          when 'in_progress' then 1
+          else 2
+        end asc,
+        created_at desc,
+        id desc
+      limit 1
+    `),
   ]);
 
   return sendJson(res, 200, {
@@ -151,6 +178,7 @@ async function handleFeed(req, res) {
     instructions: instructionsResult.rows,
     recentSubmission: recentSubmissionResult.rows[0] || null,
     recentMessage: recentWallResult.rows[0] || null,
+    latestInstruction: latestInstructionResult.rows[0] || null,
   });
 }
 
@@ -191,6 +219,24 @@ async function handleInstructions(req, res) {
       [title, body, priority],
     );
 
+    await query(
+      `
+        insert into ops_updates (kind, title, body, source, meta)
+        values ($1, $2, $3, $4, $5::jsonb)
+      `,
+      [
+        "instruction",
+        `New instruction: ${title}`,
+        body,
+        "human",
+        JSON.stringify({
+          instructionId: result.rows[0].id,
+          priority,
+          status: "open",
+        }),
+      ],
+    );
+
     return sendJson(res, 200, { instruction: result.rows[0] });
   }
 
@@ -228,6 +274,24 @@ async function handleInstructions(req, res) {
     if (!result.rows[0]) {
       return sendJson(res, 404, { error: "Instruction not found." });
     }
+
+    await query(
+      `
+        insert into ops_updates (kind, title, body, source, meta)
+        values ($1, $2, $3, $4, $5::jsonb)
+      `,
+      [
+        "instruction",
+        `Instruction ${status === "in_progress" ? "picked up" : status === "done" ? "completed" : "reopened"}: ${result.rows[0].title}`,
+        result.rows[0].body,
+        "assistant",
+        JSON.stringify({
+          instructionId: result.rows[0].id,
+          priority: result.rows[0].priority,
+          status: result.rows[0].status,
+        }),
+      ],
+    );
 
     return sendJson(res, 200, { instruction: result.rows[0] });
   }

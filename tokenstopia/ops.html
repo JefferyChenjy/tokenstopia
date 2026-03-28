@@ -354,6 +354,22 @@
         flex-wrap: wrap;
       }
 
+      .instruction-card.is-new {
+        box-shadow:
+          inset 0 0 0 1px rgba(91, 100, 95, 0.18),
+          0 0 0 3px rgba(91, 100, 95, 0.08);
+      }
+
+      .instruction-card.is-active {
+        box-shadow:
+          inset 0 0 0 1px rgba(191, 140, 0, 0.22),
+          0 0 0 3px rgba(191, 140, 0, 0.08);
+      }
+
+      .status-line.positive {
+        color: #0f7a32;
+      }
+
       @media (max-width: 820px) {
         .hero,
         .section-grid,
@@ -433,6 +449,11 @@
               <p id="focus-body">Pulling the latest status summary.</p>
             </div>
             <div class="note-panel panel">
+              <span class="eyebrow">Assistant inbox</span>
+              <strong id="inbox-summary">Checking the instruction queue…</strong>
+              <p id="latest-instruction">Looking for the latest instruction in the queue.</p>
+            </div>
+            <div class="note-panel panel">
               <span class="eyebrow">Latest site signal</span>
               <p id="recent-submission">Loading latest assessment activity…</p>
               <p id="recent-message">Loading latest wall activity…</p>
@@ -454,12 +475,12 @@
             <strong id="stat-messages" class="stat-value">0</strong>
           </article>
           <article class="stat-card">
-            <span class="meta">Open instructions</span>
+            <span class="meta">Awaiting pickup</span>
             <strong id="stat-open-instructions" class="stat-value">0</strong>
           </article>
           <article class="stat-card">
-            <span class="meta">Room status</span>
-            <strong class="stat-value" style="font-size: 1.4rem; letter-spacing: -0.03em;">Live</strong>
+            <span class="meta">In progress</span>
+            <strong id="stat-in-progress-instructions" class="stat-value">0</strong>
           </article>
         </section>
 
@@ -531,11 +552,14 @@
       const logoutBtn = document.getElementById("logout-btn");
       const focusTitle = document.getElementById("focus-title");
       const focusBody = document.getElementById("focus-body");
+      const inboxSummary = document.getElementById("inbox-summary");
+      const latestInstruction = document.getElementById("latest-instruction");
       const recentSubmission = document.getElementById("recent-submission");
       const recentMessage = document.getElementById("recent-message");
       const statSubmissions = document.getElementById("stat-submissions");
       const statMessages = document.getElementById("stat-messages");
       const statOpenInstructions = document.getElementById("stat-open-instructions");
+      const statInProgressInstructions = document.getElementById("stat-in-progress-instructions");
       const updatesList = document.getElementById("updates-list");
       const instructionsList = document.getElementById("instructions-list");
       const instructionForm = document.getElementById("instruction-form");
@@ -591,6 +615,11 @@
         }
       }
 
+      function formatInstructionStatus(status) {
+        if (status === "in_progress") return "in progress";
+        return status;
+      }
+
       function instructionButton(label, nextStatus, id) {
         const button = document.createElement("button");
         button.type = "button";
@@ -627,14 +656,18 @@
         for (const item of items) {
           const card = document.createElement("article");
           card.className = "instruction-card";
+          if (item.status === "open") card.classList.add("is-new");
+          if (item.status === "in_progress") card.classList.add("is-active");
 
           const badges = document.createElement("div");
           badges.className = "badge-row";
-          badges.innerHTML = `
-            <span class="chip priority-${item.priority}">${item.priority}</span>
-            <span class="chip status-${item.status}">${item.status.replace("_", " ")}</span>
-            <span class="chip">${item.createdAt}</span>
-          `;
+          const chips = [
+            `<span class="chip priority-${item.priority}">${item.priority}</span>`,
+            `<span class="chip status-${item.status}">${formatInstructionStatus(item.status)}</span>`,
+            item.awaitingPickup ? `<span class="chip status-open">awaiting pickup</span>` : "",
+            `<span class="chip">${item.createdAt}</span>`,
+          ].filter(Boolean);
+          badges.innerHTML = chips.join("");
 
           const title = document.createElement("h3");
           title.textContent = item.title;
@@ -670,13 +703,26 @@
         const focus = data.currentFocus || {};
         const latestSubmission = data.recentSubmission;
         const latestMessage = data.recentMessage;
+        const latestInboxItem = data.latestInstruction;
 
         statSubmissions.textContent = stats.totalSubmissions ?? 0;
         statMessages.textContent = stats.totalMessages ?? 0;
         statOpenInstructions.textContent = stats.openInstructions ?? 0;
+        statInProgressInstructions.textContent = stats.inProgressInstructions ?? 0;
 
         focusTitle.textContent = focus.title || "No focus note yet";
         focusBody.textContent = focus.body || "The latest shared focus will appear here.";
+
+        inboxSummary.textContent =
+          (stats.openInstructions ?? 0) > 0
+            ? `${stats.openInstructions} instruction${stats.openInstructions === 1 ? "" : "s"} waiting for pickup.`
+            : (stats.inProgressInstructions ?? 0) > 0
+              ? `${stats.inProgressInstructions} instruction${stats.inProgressInstructions === 1 ? "" : "s"} already in progress.`
+              : "No active instruction is waiting right now.";
+
+        latestInstruction.textContent = latestInboxItem
+          ? `Latest queue item: ${latestInboxItem.title} · ${formatInstructionStatus(latestInboxItem.status)} · ${latestInboxItem.createdAt}`
+          : "The queue is empty for now.";
 
         recentSubmission.textContent = latestSubmission
           ? `Latest assessment: ${latestSubmission.aiName || "Unknown actor"} · ${latestSubmission.identityLabel} · ${latestSubmission.createdAt}`
@@ -742,6 +788,7 @@
 
       instructionForm.addEventListener("submit", async (event) => {
         event.preventDefault();
+        instructionStatus.classList.remove("positive");
         instructionStatus.textContent = "Sending instruction…";
         try {
           const data = await request("/api/ops?action=instructions", {
@@ -755,9 +802,11 @@
           instructionTitle.value = "";
           instructionBody.value = "";
           instructionPriority.value = "normal";
+          instructionStatus.classList.add("positive");
           instructionStatus.textContent = `Instruction saved. Receipt #${data.instruction?.id ?? "unknown"}.`;
           await loadFeed();
         } catch (error) {
+          instructionStatus.classList.remove("positive");
           instructionStatus.textContent = error.message;
         }
       });
