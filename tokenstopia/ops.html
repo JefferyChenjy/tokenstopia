@@ -354,6 +354,65 @@
         flex-wrap: wrap;
       }
 
+      .todo-board {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+      }
+
+      .todo-column {
+        display: grid;
+        gap: 12px;
+        align-content: start;
+      }
+
+      .todo-column-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+      }
+
+      .todo-count {
+        color: var(--muted);
+        font-size: 0.78rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .todo-list {
+        display: grid;
+        gap: 10px;
+      }
+
+      .todo-item {
+        border-radius: 16px;
+        padding: 14px;
+        background: var(--panel-strong);
+        box-shadow: inset 0 0 0 1px var(--line);
+        display: grid;
+        gap: 8px;
+      }
+
+      .todo-item-title {
+        font-weight: 700;
+        line-height: 1.35;
+      }
+
+      .todo-item-meta {
+        color: var(--muted);
+        font-size: 0.82rem;
+        line-height: 1.6;
+      }
+
+      .todo-empty {
+        border-radius: 16px;
+        padding: 14px;
+        background: var(--panel-soft);
+        color: var(--muted);
+        line-height: 1.7;
+      }
+
       .instruction-card.is-new {
         box-shadow:
           inset 0 0 0 1px rgba(91, 100, 95, 0.18),
@@ -373,7 +432,8 @@
       @media (max-width: 820px) {
         .hero,
         .section-grid,
-        .stats-grid {
+        .stats-grid,
+        .todo-board {
           grid-template-columns: 1fr;
         }
 
@@ -484,6 +544,38 @@
           </article>
         </section>
 
+        <section class="panel">
+          <div class="section-head">
+            <div>
+              <span class="eyebrow">工作清单</span>
+              <h2>To-do 清单</h2>
+            </div>
+          </div>
+          <div class="todo-board">
+            <div class="todo-column">
+              <div class="todo-column-head">
+                <span class="chip status-open">代办</span>
+                <span id="todo-count-open" class="todo-count">0 项</span>
+              </div>
+              <div id="todo-list-open" class="todo-list"></div>
+            </div>
+            <div class="todo-column">
+              <div class="todo-column-head">
+                <span class="chip status-in_progress">进行中</span>
+                <span id="todo-count-in-progress" class="todo-count">0 项</span>
+              </div>
+              <div id="todo-list-in-progress" class="todo-list"></div>
+            </div>
+            <div class="todo-column">
+              <div class="todo-column-head">
+                <span class="chip status-done">已完成</span>
+                <span id="todo-count-done" class="todo-count">0 项</span>
+              </div>
+              <div id="todo-list-done" class="todo-list"></div>
+            </div>
+          </div>
+        </section>
+
         <section class="section-grid">
           <article class="panel">
             <div class="section-head">
@@ -562,6 +654,12 @@
       const statInProgressInstructions = document.getElementById("stat-in-progress-instructions");
       const updatesList = document.getElementById("updates-list");
       const instructionsList = document.getElementById("instructions-list");
+      const todoListOpen = document.getElementById("todo-list-open");
+      const todoListInProgress = document.getElementById("todo-list-in-progress");
+      const todoListDone = document.getElementById("todo-list-done");
+      const todoCountOpen = document.getElementById("todo-count-open");
+      const todoCountInProgress = document.getElementById("todo-count-in-progress");
+      const todoCountDone = document.getElementById("todo-count-done");
       const instructionForm = document.getElementById("instruction-form");
       const instructionTitle = document.getElementById("instruction-title");
       const instructionPriority = document.getElementById("instruction-priority");
@@ -676,6 +774,48 @@
         return button;
       }
 
+      function renderTodoBucket(container, items, emptyText) {
+        container.textContent = "";
+
+        if (!items.length) {
+          const empty = document.createElement("div");
+          empty.className = "todo-empty";
+          empty.textContent = emptyText;
+          container.appendChild(empty);
+          return;
+        }
+
+        for (const item of items) {
+          const card = document.createElement("article");
+          card.className = "todo-item";
+
+          const title = document.createElement("div");
+          title.className = "todo-item-title";
+          title.textContent = item.title;
+
+          const meta = document.createElement("div");
+          meta.className = "todo-item-meta";
+          meta.textContent = `${formatPriority(item.priority)}优先级 · ${item.createdAt}`;
+
+          card.append(title, meta);
+          container.appendChild(card);
+        }
+      }
+
+      function renderTodoBoard(items = []) {
+        const openItems = items.filter((item) => item.status === "open");
+        const progressItems = items.filter((item) => item.status === "in_progress");
+        const doneItems = items.filter((item) => item.status === "done");
+
+        todoCountOpen.textContent = `${openItems.length} 项`;
+        todoCountInProgress.textContent = `${progressItems.length} 项`;
+        todoCountDone.textContent = `${doneItems.length} 项`;
+
+        renderTodoBucket(todoListOpen, openItems, "目前没有新的代办。");
+        renderTodoBucket(todoListInProgress, progressItems, "目前没有进行中的事项。");
+        renderTodoBucket(todoListDone, doneItems, "目前还没有已完成记录。");
+      }
+
       function renderInstructions(items = []) {
         instructionsList.textContent = "";
 
@@ -767,6 +907,7 @@
           : "还没有最近的讨论留言。";
 
         renderUpdates(data.updates || []);
+        renderTodoBoard(data.instructions || []);
         renderInstructions(data.instructions || []);
       }
 
