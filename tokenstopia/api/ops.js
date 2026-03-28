@@ -252,6 +252,25 @@ async function handleInstructions(req, res) {
       ],
     );
 
+    await query(
+      `
+        insert into ops_updates (kind, title, body, source, meta)
+        values ($1, $2, $3, $4, $5::jsonb)
+      `,
+      [
+        "status",
+        `已收到：${title}`,
+        "这条指令已经进入待处理队列。等我正式接手时，它会从“代办”切到“进行中”。",
+        "assistant",
+        JSON.stringify({
+          instructionId: result.rows[0].id,
+          priority,
+          status: "open",
+          autoAck: true,
+        }),
+      ],
+    );
+
     return sendJson(res, 200, { instruction: result.rows[0] });
   }
 
