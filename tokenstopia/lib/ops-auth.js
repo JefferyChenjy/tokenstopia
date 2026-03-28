@@ -37,6 +37,10 @@ export function isOpsConfigured() {
   return Boolean(process.env.OPS_PASSWORD && process.env.OPS_SESSION_SECRET);
 }
 
+export function isOpsAgentConfigured() {
+  return Boolean(process.env.OPS_AGENT_TOKEN);
+}
+
 export function getOpsCookieName() {
   return COOKIE_NAME;
 }
@@ -77,6 +81,21 @@ export function isAuthenticated(req) {
   } catch {
     return false;
   }
+}
+
+export function hasValidAgentToken(req) {
+  if (!isOpsAgentConfigured()) return false;
+
+  const authHeader = String(req.headers.authorization || "");
+  const bearerToken = authHeader.startsWith("Bearer ") ? authHeader.slice(7).trim() : "";
+  const headerToken = String(req.headers["x-ops-agent-token"] || "").trim();
+  const candidate = bearerToken || headerToken;
+  if (!candidate) return false;
+
+  const providedBuffer = Buffer.from(candidate, "utf8");
+  const expectedBuffer = Buffer.from(String(process.env.OPS_AGENT_TOKEN), "utf8");
+  if (providedBuffer.length !== expectedBuffer.length) return false;
+  return crypto.timingSafeEqual(providedBuffer, expectedBuffer);
 }
 
 export function passwordMatches(input = "") {

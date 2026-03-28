@@ -1,4 +1,4 @@
-Open the private Tokenstopia Ops room and check for any active instructions.
+Use the local `ops-feed.sh` helper to read the private Tokenstopia Ops queue and check for any active instructions.
 
 Your goal:
 1. Identify whether there are any `open` or `in_progress` tasks waiting in the Ops queue.
@@ -16,3 +16,4 @@ Important:
 - Be concise.
 - Do not invent tasks that are not present.
 - If there are no active tasks, say that the queue is clear.
+- If `OPS_AGENT_TOKEN` is missing or the helper fails, explain the blocker clearly instead of guessing.

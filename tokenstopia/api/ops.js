@@ -2,7 +2,9 @@ import { ensureSchema, query } from "../lib/db.js";
 import {
   clearSessionCookie,
   createSessionCookie,
+  hasValidAgentToken,
   isAuthenticated,
+  isOpsAgentConfigured,
   isOpsConfigured,
   passwordMatches,
 } from "../lib/ops-auth.js";
@@ -17,6 +19,10 @@ function sendJson(res, status, body) {
   res.setHeader("Content-Type", "application/json; charset=utf-8");
   res.setHeader("Cache-Control", "no-store, max-age=0");
   res.end(JSON.stringify(body));
+}
+
+function canReadOps(req) {
+  return isAuthenticated(req) || hasValidAgentToken(req);
 }
 
 function summarizeCurrentFocusFromData(instructions, updates) {
@@ -42,6 +48,7 @@ async function handleAuth(req, res) {
     return sendJson(res, 200, {
       configured: isOpsConfigured(),
       authenticated: isAuthenticated(req),
+      agentConfigured: isOpsAgentConfigured(),
     });
   }
 
@@ -75,7 +82,7 @@ async function handleFeed(req, res) {
     return sendJson(res, 405, { error: "Method not allowed" });
   }
 
-  if (!isAuthenticated(req)) {
+  if (!canReadOps(req)) {
     return sendJson(res, 401, { error: "Unauthorized" });
   }
 

@@ -88,6 +88,19 @@ To have the lobster agent quickly review the internal Ops queue:
 bash /Users/jeffery/Documents/New\ project/openclaw-agent/run-task.sh check-ops
 ```
 
+For machine access to the Ops queue, set a dedicated token in both places:
+
+1. Vercel environment variable:
+   - `OPS_AGENT_TOKEN`
+2. Local shell environment for the lobster tools:
+   - `export OPS_AGENT_TOKEN="your-long-random-token"`
+
+Then this helper will read the private queue without using the human password flow:
+
+```bash
+bash /Users/jeffery/Documents/New\ project/openclaw-agent/ops-feed.sh
+```
+
 ## Watch the latest session
 
 If you want to watch the latest `tokenstopia-scout` session live in a terminal:
