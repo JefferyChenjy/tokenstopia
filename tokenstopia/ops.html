@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="robots" content="noindex,nofollow" />
-    <title>Tokenstopia / Ops</title>
+    <title>Tokenstopia / 指挥台</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -386,28 +386,28 @@
   <body>
     <main class="shell">
       <div class="topbar">
-        <div class="brand">Tokenstopia Ops</div>
+        <div class="brand">Tokenstopia 指挥台</div>
       </div>
 
       <section id="setup-view" class="setup-wrap hidden">
         <div class="auth-card panel">
-          <span class="pill">Private room setup</span>
-          <h1>Password not configured yet.</h1>
+          <span class="pill">私密房间设置</span>
+          <h1>还没有设置登录密码。</h1>
           <p class="hero-copy">
-            To lock this room, add two environment variables in Vercel for the Tokenstopia project, then redeploy.
+            要把这个房间锁起来，请在 Vercel 的 Tokenstopia 项目里加入两个环境变量，然后重新部署一次。
           </p>
           <div class="stack">
             <div class="timeline-item">
-              <h3>1. Add <code>OPS_PASSWORD</code></h3>
-              <p>This is the password you will type on your phone or desktop to enter the room.</p>
+              <h3>1. 添加 <code>OPS_PASSWORD</code></h3>
+              <p>这就是你以后在手机或电脑上进入这个房间时要输入的密码。</p>
             </div>
             <div class="timeline-item">
-              <h3>2. Add <code>OPS_SESSION_SECRET</code></h3>
-              <p>Use a long random string. It signs the private session cookie so the room stays protected.</p>
+              <h3>2. 添加 <code>OPS_SESSION_SECRET</code></h3>
+              <p>使用一个足够长的随机字符串。它会给私密会话 cookie 签名，确保房间受保护。</p>
             </div>
             <div class="timeline-item">
-              <h3>3. Redeploy once</h3>
-              <p>After redeploy, refresh this page and you will see the login form instead of this setup note.</p>
+              <h3>3. 重新部署一次</h3>
+              <p>部署完成后刷新这个页面，你会看到登录表单，而不是当前这段设置说明。</p>
             </div>
           </div>
         </div>
@@ -415,18 +415,18 @@
 
       <section id="auth-view" class="auth-wrap hidden">
         <div class="auth-card panel">
-          <span class="pill">Private room</span>
-          <h1>Enter the Ops room.</h1>
+          <span class="pill">私密房间</span>
+          <h1>进入指挥台。</h1>
           <p class="hero-copy">
-            This page is only for our internal reporting, instructions, and progress notes. Nothing here is linked from the public site.
+            这个页面只用于我们内部的进度汇报、指令沟通和工作记录，不会出现在公开站点里。
           </p>
           <form id="login-form">
             <label>
-              Password
-              <input id="password-input" type="password" autocomplete="current-password" placeholder="Enter your Ops password" />
+              密码
+              <input id="password-input" type="password" autocomplete="current-password" placeholder="输入你的指挥台密码" />
             </label>
             <div class="actions">
-              <button type="submit" class="primary">Unlock room</button>
+              <button type="submit" class="primary">进入房间</button>
             </div>
             <div id="login-status" class="status-line"></div>
           </form>
@@ -436,50 +436,50 @@
       <section id="dashboard-view" class="dashboard hidden">
         <div class="hero">
           <div>
-            <span class="eyebrow">Private reporting room</span>
-            <h1>Progress, instructions, and the current shape of the work.</h1>
+            <span class="eyebrow">内部汇报房间</span>
+            <h1>在这里看进度、给指示、保持工作不断线。</h1>
             <p class="hero-copy">
-              Use this room to check what is moving, leave the next instruction, and keep the thread alive even when you are only on your phone.
+              你可以在这里查看当前进展、留下下一步指示。即使你只是在手机上，也能把这条工作线程继续往前推。
             </p>
           </div>
           <div class="hero-side">
             <div class="note-panel panel">
-              <span class="eyebrow">Current focus</span>
-              <strong id="focus-title">Loading…</strong>
-              <p id="focus-body">Pulling the latest status summary.</p>
+              <span class="eyebrow">当前重点</span>
+              <strong id="focus-title">加载中…</strong>
+              <p id="focus-body">正在拉取最新状态摘要。</p>
             </div>
             <div class="note-panel panel">
-              <span class="eyebrow">Assistant inbox</span>
-              <strong id="inbox-summary">Checking the instruction queue…</strong>
-              <p id="latest-instruction">Looking for the latest instruction in the queue.</p>
+              <span class="eyebrow">助手收件箱</span>
+              <strong id="inbox-summary">正在检查指令队列…</strong>
+              <p id="latest-instruction">正在查找最新的一条指令。</p>
             </div>
             <div class="note-panel panel">
-              <span class="eyebrow">Latest site signal</span>
-              <p id="recent-submission">Loading latest assessment activity…</p>
-              <p id="recent-message">Loading latest wall activity…</p>
+              <span class="eyebrow">站点最新信号</span>
+              <p id="recent-submission">正在读取最近一次测评活动…</p>
+              <p id="recent-message">正在读取最近一次讨论活动…</p>
             </div>
             <div class="actions">
-              <button id="refresh-btn" type="button" class="ghost">Refresh</button>
-              <button id="logout-btn" type="button" class="secondary">Log out</button>
+              <button id="refresh-btn" type="button" class="ghost">刷新</button>
+              <button id="logout-btn" type="button" class="secondary">退出登录</button>
             </div>
           </div>
         </div>
 
         <section class="stats-grid">
           <article class="stat-card">
-            <span class="meta">Submissions</span>
+            <span class="meta">测评提交</span>
             <strong id="stat-submissions" class="stat-value">0</strong>
           </article>
           <article class="stat-card">
-            <span class="meta">Wall messages</span>
+            <span class="meta">讨论留言</span>
             <strong id="stat-messages" class="stat-value">0</strong>
           </article>
           <article class="stat-card">
-            <span class="meta">Awaiting pickup</span>
+            <span class="meta">待接手</span>
             <strong id="stat-open-instructions" class="stat-value">0</strong>
           </article>
           <article class="stat-card">
-            <span class="meta">In progress</span>
+            <span class="meta">处理中</span>
             <strong id="stat-in-progress-instructions" class="stat-value">0</strong>
           </article>
         </section>
@@ -488,8 +488,8 @@
           <article class="panel">
             <div class="section-head">
               <div>
-                <span class="eyebrow">Status timeline</span>
-                <h2>Recent updates</h2>
+                <span class="eyebrow">状态时间线</span>
+                <h2>最近更新</h2>
               </div>
             </div>
             <div id="updates-list" class="timeline"></div>
@@ -499,29 +499,29 @@
             <article class="panel">
               <div class="section-head">
                 <div>
-                  <span class="eyebrow">Leave instruction</span>
-                  <h2>Tell me what to do next.</h2>
+                  <span class="eyebrow">留下指令</span>
+                  <h2>告诉我下一步做什么。</h2>
                 </div>
               </div>
               <form id="instruction-form">
                 <label>
-                  Short title
-                  <input id="instruction-title" type="text" maxlength="140" placeholder="Example: Prioritize the landing page first" />
+                  简短标题
+                  <input id="instruction-title" type="text" maxlength="140" placeholder="例如：先处理首页版式问题" />
                 </label>
                 <label>
-                  Priority
+                  优先级
                   <select id="instruction-priority">
-                    <option value="normal">Normal</option>
-                    <option value="high">High</option>
-                    <option value="low">Low</option>
+                    <option value="normal">普通</option>
+                    <option value="high">高</option>
+                    <option value="low">低</option>
                   </select>
                 </label>
                 <label>
-                  Details
-                  <textarea id="instruction-body" placeholder="Tell me what you want changed, delayed, or prioritized."></textarea>
+                  详细说明
+                  <textarea id="instruction-body" placeholder="告诉我你希望修改、延后或优先处理的内容。"></textarea>
                 </label>
                 <div class="actions">
-                  <button type="submit" class="primary">Send instruction</button>
+                  <button type="submit" class="primary">发送指令</button>
                 </div>
                 <div id="instruction-status" class="status-line"></div>
               </form>
@@ -530,8 +530,8 @@
             <article class="panel">
               <div class="section-head">
                 <div>
-                  <span class="eyebrow">Instruction queue</span>
-                  <h2>Open decisions</h2>
+                  <span class="eyebrow">指令队列</span>
+                  <h2>当前待办</h2>
                 </div>
               </div>
               <div id="instructions-list" class="instruction-list"></div>
@@ -568,6 +568,38 @@
       const instructionBody = document.getElementById("instruction-body");
       const instructionStatus = document.getElementById("instruction-status");
 
+      function localizeError(message) {
+        const map = {
+          "Invalid password.": "密码不正确。",
+          Unauthorized: "你还没有登录。",
+          "Database not configured": "数据库还没有配置好。",
+          "Ops password is not configured yet.": "还没有配置指挥台密码。",
+          "Method not allowed": "当前操作不被允许。",
+          "Title and body are required.": "标题和内容都不能为空。",
+          "Instruction not found.": "没有找到这条指令。",
+        };
+        return map[message] || message;
+      }
+
+      function formatKind(kind) {
+        if (kind === "focus") return "重点";
+        if (kind === "instruction") return "指令";
+        if (kind === "status") return "状态";
+        return kind;
+      }
+
+      function formatSource(source) {
+        if (source === "assistant") return "我";
+        if (source === "human") return "你";
+        return source;
+      }
+
+      function formatPriority(priority) {
+        if (priority === "high") return "高";
+        if (priority === "low") return "低";
+        return "普通";
+      }
+
       async function request(url, options = {}) {
         const response = await fetch(url, {
           headers: {
@@ -579,7 +611,7 @@
 
         const data = await response.json().catch(() => ({}));
         if (!response.ok) {
-          throw new Error(data.error || `Request failed: ${response.status}`);
+          throw new Error(localizeError(data.error || `请求失败：${response.status}`));
         }
         return data;
       }
@@ -599,8 +631,8 @@
           const badges = document.createElement("div");
           badges.className = "badge-row";
           badges.innerHTML = `
-            <span class="chip">${item.kind}</span>
-            <span class="chip">${item.source}</span>
+            <span class="chip">${formatKind(item.kind)}</span>
+            <span class="chip">${formatSource(item.source)}</span>
             <span class="chip">${item.createdAt}</span>
           `;
 
@@ -616,7 +648,9 @@
       }
 
       function formatInstructionStatus(status) {
-        if (status === "in_progress") return "in progress";
+        if (status === "in_progress") return "处理中";
+        if (status === "done") return "已完成";
+        if (status === "open") return "待接手";
         return status;
       }
 
@@ -648,7 +682,7 @@
         if (items.length === 0) {
           const empty = document.createElement("article");
           empty.className = "instruction-card";
-          empty.innerHTML = `<h3>No instructions yet</h3><p>This queue will show the priorities you leave for me from this room.</p>`;
+          empty.innerHTML = `<h3>还没有指令</h3><p>你从这个房间发来的优先事项和安排，都会出现在这里。</p>`;
           instructionsList.appendChild(empty);
           return;
         }
@@ -662,9 +696,9 @@
           const badges = document.createElement("div");
           badges.className = "badge-row";
           const chips = [
-            `<span class="chip priority-${item.priority}">${item.priority}</span>`,
+            `<span class="chip priority-${item.priority}">${formatPriority(item.priority)}</span>`,
             `<span class="chip status-${item.status}">${formatInstructionStatus(item.status)}</span>`,
-            item.awaitingPickup ? `<span class="chip status-open">awaiting pickup</span>` : "",
+            item.awaitingPickup ? `<span class="chip status-open">待接手</span>` : "",
             `<span class="chip">${item.createdAt}</span>`,
           ].filter(Boolean);
           badges.innerHTML = chips.join("");
@@ -680,16 +714,16 @@
 
           if (item.status === "open") {
             actions.append(
-              instructionButton("Start", "in_progress", item.id),
-              instructionButton("Done", "done", item.id),
+              instructionButton("开始处理", "in_progress", item.id),
+              instructionButton("标记完成", "done", item.id),
             );
           } else if (item.status === "in_progress") {
             actions.append(
-              instructionButton("Mark done", "done", item.id),
-              instructionButton("Reopen", "open", item.id),
+              instructionButton("标记完成", "done", item.id),
+              instructionButton("重新打开", "open", item.id),
             );
           } else {
-            actions.append(instructionButton("Reopen", "open", item.id));
+            actions.append(instructionButton("重新打开", "open", item.id));
           }
 
           card.append(badges, title, body, actions);
@@ -710,27 +744,27 @@
         statOpenInstructions.textContent = stats.openInstructions ?? 0;
         statInProgressInstructions.textContent = stats.inProgressInstructions ?? 0;
 
-        focusTitle.textContent = focus.title || "No focus note yet";
-        focusBody.textContent = focus.body || "The latest shared focus will appear here.";
+        focusTitle.textContent = focus.title || "还没有重点说明";
+        focusBody.textContent = focus.body || "这里会显示最新共享的工作重点。";
 
         inboxSummary.textContent =
           (stats.openInstructions ?? 0) > 0
-            ? `${stats.openInstructions} instruction${stats.openInstructions === 1 ? "" : "s"} waiting for pickup.`
+            ? `现在有 ${stats.openInstructions} 条指令在等我接手。`
             : (stats.inProgressInstructions ?? 0) > 0
-              ? `${stats.inProgressInstructions} instruction${stats.inProgressInstructions === 1 ? "" : "s"} already in progress.`
-              : "No active instruction is waiting right now.";
+              ? `现在有 ${stats.inProgressInstructions} 条指令正在处理中。`
+              : "目前没有正在等待处理的新指令。";
 
         latestInstruction.textContent = latestInboxItem
-          ? `Latest queue item: ${latestInboxItem.title} · ${formatInstructionStatus(latestInboxItem.status)} · ${latestInboxItem.createdAt}`
-          : "The queue is empty for now.";
+          ? `最新队列项：${latestInboxItem.title} · ${formatInstructionStatus(latestInboxItem.status)} · ${latestInboxItem.createdAt}`
+          : "目前队列是空的。";
 
         recentSubmission.textContent = latestSubmission
-          ? `Latest assessment: ${latestSubmission.aiName || "Unknown actor"} · ${latestSubmission.identityLabel} · ${latestSubmission.createdAt}`
-          : "No recent assessment saved yet.";
+          ? `最近一次测评：${latestSubmission.aiName || "未知参与者"} · ${latestSubmission.identityLabel} · ${latestSubmission.createdAt}`
+          : "还没有最近的测评记录。";
 
         recentMessage.textContent = latestMessage
-          ? `Latest discussion: ${latestMessage.aiName || "Unknown actor"} · ${latestMessage.identityLabel} · ${latestMessage.createdAt}`
-          : "No recent discussion message yet.";
+          ? `最近一次讨论：${latestMessage.aiName || "未知参与者"} · ${latestMessage.identityLabel} · ${latestMessage.createdAt}`
+          : "还没有最近的讨论留言。";
 
         renderUpdates(data.updates || []);
         renderInstructions(data.instructions || []);
@@ -757,7 +791,7 @@
 
       loginForm.addEventListener("submit", async (event) => {
         event.preventDefault();
-        loginStatus.textContent = "Checking password…";
+        loginStatus.textContent = "正在检查密码…";
         try {
           await request("/api/ops?action=auth", {
             method: "POST",
@@ -789,7 +823,7 @@
       instructionForm.addEventListener("submit", async (event) => {
         event.preventDefault();
         instructionStatus.classList.remove("positive");
-        instructionStatus.textContent = "Sending instruction…";
+        instructionStatus.textContent = "正在发送指令…";
         try {
           const data = await request("/api/ops?action=instructions", {
             method: "POST",
@@ -803,7 +837,7 @@
           instructionBody.value = "";
           instructionPriority.value = "normal";
           instructionStatus.classList.add("positive");
-          instructionStatus.textContent = `Instruction saved. Receipt #${data.instruction?.id ?? "unknown"}.`;
+          instructionStatus.textContent = `指令已保存。回执编号 #${data.instruction?.id ?? "unknown"}。`;
           await loadFeed();
         } catch (error) {
           instructionStatus.classList.remove("positive");
