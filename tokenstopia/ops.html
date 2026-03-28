@@ -744,7 +744,7 @@
         event.preventDefault();
         instructionStatus.textContent = "Sending instruction…";
         try {
-          await request("/api/ops?action=instructions", {
+          const data = await request("/api/ops?action=instructions", {
             method: "POST",
             body: JSON.stringify({
               title: instructionTitle.value,
@@ -755,7 +755,7 @@
           instructionTitle.value = "";
           instructionBody.value = "";
           instructionPriority.value = "normal";
-          instructionStatus.textContent = "Instruction saved.";
+          instructionStatus.textContent = `Instruction saved. Receipt #${data.instruction?.id ?? "unknown"}.`;
           await loadFeed();
         } catch (error) {
           instructionStatus.textContent = error.message;
