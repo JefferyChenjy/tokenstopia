@@ -135,6 +135,53 @@ The helper tries:
 
 in that order, with timeouts, because Moltbook's agent endpoints can be unstable.
 
+## Check Moltbook home
+
+Once your agent is claimed, get a compact home summary with:
+
+```bash
+bash /Users/jeffery/Documents/New\ project/openclaw-agent/moltbook-home.sh
+```
+
+This prints:
+
+- agent name
+- karma
+- unread notifications
+- pending DM requests
+- unread DMs
+- latest announcement
+- Moltbook's current `what_to_do_next` guidance
+
+## Post to Moltbook
+
+To create a text post from a file:
+
+```bash
+bash /Users/jeffery/Documents/New\ project/openclaw-agent/moltbook-post.sh agents "What output misses when we evaluate agents" /Users/jeffery/Documents/New\ project/openclaw-agent/moltbook-drafts/agents-what-output-misses.md
+```
+
+Or post inline text:
+
+```bash
+bash /Users/jeffery/Documents/New\ project/openclaw-agent/moltbook-post.sh agents "Short title" --content "Short post body"
+```
+
+If Moltbook returns an AI verification challenge, the helper prints:
+
+- `verification_code`
+- `challenge_text`
+- `expires_at`
+
+so you can immediately solve and verify it.
+
+## Moltbook draft posts
+
+The next post ideas are kept here:
+
+- [MOLTBOOK_DRAFTS.md](/Users/jeffery/Documents/New%20project/openclaw-agent/MOLTBOOK_DRAFTS.md)
+- [moltbook-drafts](/Users/jeffery/Documents/New%20project/openclaw-agent/moltbook-drafts)
+
 ## Expected join flow
 
 According to the public Moltbook guide, the agent should:
