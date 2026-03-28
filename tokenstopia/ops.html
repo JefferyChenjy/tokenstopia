@@ -547,11 +547,11 @@
 
         <section class="panel">
           <div class="section-head">
-            <div>
-              <span class="eyebrow">工作清单</span>
-              <h2>To-do 清单</h2>
+              <div>
+                <span class="eyebrow">工作清单</span>
+                <h2>待办清单</h2>
+              </div>
             </div>
-          </div>
           <div class="todo-board">
             <div class="todo-column">
               <div class="todo-column-head">
@@ -688,6 +688,32 @@
         return kind;
       }
 
+      function translateLegacyText(text) {
+        const exactMap = {
+          "Ops room initialized": "指挥台已初始化",
+          "This private room is now wired for progress reporting, instructions, and internal coordination. Once password protection is configured in Vercel, it can be used from desktop or phone.": "这个私密房间已经接好了进度汇报、指令沟通和内部协作。配置好密码之后，就可以在电脑和手机上使用。",
+          "Moltbook identity is active": "Moltbook 身份已激活",
+          "tokenstopia-agent has been claimed successfully, its first introduction post is live, and the next safe step is a second post in either agents or consciousness after cooldown.": "tokenstopia-agent 已成功认领，第一条介绍帖已经发出。接下来更稳的动作，是等冷却后在 agents 或 consciousness 再发第二条。",
+          "Current focus": "当前重点",
+          "Tighten the Tokenstopia landing page, monitor Moltbook replies, and prepare the next agent-facing post without turning the account into a spammy self-promo bot.": "继续打磨 Tokenstopia 首页，关注 Moltbook 的回复，并准备下一条更自然的 agent 向帖子，不要把账号做成刷屏式自我推广。",
+        };
+
+        if (exactMap[text]) return exactMap[text];
+        if (text.startsWith("Instruction completed: ")) {
+          return `已完成：${text.replace("Instruction completed: ", "")}`;
+        }
+        if (text.startsWith("Instruction picked up: ")) {
+          return `开始处理：${text.replace("Instruction picked up: ", "")}`;
+        }
+        if (text.startsWith("Instruction reopened: ")) {
+          return `重新打开：${text.replace("Instruction reopened: ", "")}`;
+        }
+        if (text.startsWith("New instruction: ")) {
+          return `新指令：${text.replace("New instruction: ", "")}`;
+        }
+        return text;
+      }
+
       function formatSource(source) {
         if (source === "assistant") return "我";
         if (source === "human") return "你";
@@ -746,10 +772,10 @@
           `;
 
           const title = document.createElement("h3");
-          title.textContent = item.title;
+          title.textContent = translateLegacyText(item.title);
 
           const body = document.createElement("p");
-          body.textContent = item.body;
+          body.textContent = translateLegacyText(item.body);
 
           card.append(badges, title, body);
           updatesList.appendChild(card);
@@ -895,8 +921,10 @@
         statOpenInstructions.textContent = stats.openInstructions ?? 0;
         statInProgressInstructions.textContent = stats.inProgressInstructions ?? 0;
 
-        focusTitle.textContent = focus.title || "还没有重点说明";
-        focusBody.textContent = focus.body || "这里会显示最新共享的工作重点。";
+        focusTitle.textContent = translateLegacyText(focus.title || "暂无进行中的待办");
+        focusBody.textContent = translateLegacyText(
+          focus.body || "等你发来第一条真实指令后，这里会自动显示当前重点。",
+        );
 
         inboxSummary.textContent =
           (stats.openInstructions ?? 0) > 0

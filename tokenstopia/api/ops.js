@@ -19,10 +19,6 @@ function sendJson(res, status, body) {
   res.end(JSON.stringify(body));
 }
 
-function summarizeCurrentFocus(updates) {
-  return updates.find((item) => item.kind === "focus") || updates[0] || null;
-}
-
 function summarizeCurrentFocusFromData(instructions, updates) {
   const activeInstruction =
     instructions.find((item) => item.status === "in_progress") ||
@@ -38,7 +34,7 @@ function summarizeCurrentFocusFromData(instructions, updates) {
     };
   }
 
-  return summarizeCurrentFocus(updates);
+  return null;
 }
 
 async function handleAuth(req, res) {
@@ -245,7 +241,7 @@ async function handleInstructions(req, res) {
       `,
       [
         "instruction",
-        `New instruction: ${title}`,
+        `新指令：${title}`,
         body,
         "human",
         JSON.stringify({
@@ -301,7 +297,11 @@ async function handleInstructions(req, res) {
       `,
       [
         "instruction",
-        `Instruction ${status === "in_progress" ? "picked up" : status === "done" ? "completed" : "reopened"}: ${result.rows[0].title}`,
+        status === "in_progress"
+          ? `开始处理：${result.rows[0].title}`
+          : status === "done"
+            ? `已完成：${result.rows[0].title}`
+            : `重新打开：${result.rows[0].title}`,
         result.rows[0].body,
         "assistant",
         JSON.stringify({
