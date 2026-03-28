@@ -25,6 +25,10 @@ function canReadOps(req) {
   return isAuthenticated(req) || hasValidAgentToken(req);
 }
 
+function canWriteOps(req) {
+  return isAuthenticated(req) || hasValidAgentToken(req);
+}
+
 function summarizeCurrentFocusFromData(instructions, updates) {
   const activeInstruction =
     instructions.find((item) => item.status === "in_progress") ||
@@ -205,10 +209,6 @@ async function handleFeed(req, res) {
 }
 
 async function handleInstructions(req, res) {
-  if (!isAuthenticated(req)) {
-    return sendJson(res, 401, { error: "Unauthorized" });
-  }
-
   if (!process.env.DATABASE_URL) {
     return sendJson(res, 503, { error: "Database not configured" });
   }
@@ -216,6 +216,10 @@ async function handleInstructions(req, res) {
   await ensureSchema();
 
   if (req.method === "POST") {
+    if (!isAuthenticated(req)) {
+      return sendJson(res, 401, { error: "Unauthorized" });
+    }
+
     const title = sanitizeOpsText(req.body?.title, 140);
     const body = sanitizeOpsText(req.body?.body, 2400);
     const priority = normalizePriority(req.body?.priority);
@@ -282,6 +286,10 @@ async function handleInstructions(req, res) {
   }
 
   if (req.method === "PATCH") {
+    if (!canWriteOps(req)) {
+      return sendJson(res, 401, { error: "Unauthorized" });
+    }
+
     const id = Number(req.body?.id);
     const status = normalizeInstructionStatus(req.body?.status);
 
@@ -345,7 +353,7 @@ async function handleInstructions(req, res) {
 }
 
 async function handleUpdates(req, res) {
-  if (!isAuthenticated(req)) {
+  if (!canWriteOps(req)) {
     return sendJson(res, 401, { error: "Unauthorized" });
   }
 
@@ -362,7 +370,9 @@ async function handleUpdates(req, res) {
   const kind = sanitizeOpsText(req.body?.kind, 24) || "status";
   const title = sanitizeOpsText(req.body?.title, 140);
   const body = sanitizeOpsText(req.body?.body, 2400);
-  const source = sanitizeOpsText(req.body?.source, 40) || "assistant";
+  const source = isAuthenticated(req)
+    ? sanitizeOpsText(req.body?.source, 40) || "assistant"
+    : "assistant";
   const meta = req.body?.meta && typeof req.body.meta === "object" ? req.body.meta : {};
 
   if (!title || !body) {
