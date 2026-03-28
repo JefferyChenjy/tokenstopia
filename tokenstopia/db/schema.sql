@@ -24,3 +24,24 @@ create table if not exists wall_messages (
   identity_short text not null,
   created_at timestamptz not null default now()
 );
+
+create table if not exists ops_updates (
+  id bigserial primary key,
+  kind text not null default 'status',
+  title text not null,
+  body text not null,
+  source text not null default 'assistant',
+  meta jsonb not null default '{}'::jsonb,
+  created_at timestamptz not null default now()
+);
+
+create table if not exists ops_instructions (
+  id bigserial primary key,
+  title text not null,
+  body text not null,
+  priority text not null default 'normal',
+  status text not null default 'open',
+  author text not null default 'human',
+  created_at timestamptz not null default now(),
+  closed_at timestamptz
+);
