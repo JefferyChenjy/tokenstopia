@@ -7,7 +7,6 @@ import {
   passwordMatches,
 } from "../lib/ops-auth.js";
 import {
-  ensureOpsSeed,
   normalizeInstructionStatus,
   normalizePriority,
   sanitizeOpsText,
@@ -22,6 +21,24 @@ function sendJson(res, status, body) {
 
 function summarizeCurrentFocus(updates) {
   return updates.find((item) => item.kind === "focus") || updates[0] || null;
+}
+
+function summarizeCurrentFocusFromData(instructions, updates) {
+  const activeInstruction =
+    instructions.find((item) => item.status === "in_progress") ||
+    instructions.find((item) => item.status === "open");
+
+  if (activeInstruction) {
+    return {
+      title: activeInstruction.title,
+      body: activeInstruction.body,
+      kind: "instruction",
+      source: activeInstruction.author,
+      createdAt: activeInstruction.createdAt,
+    };
+  }
+
+  return summarizeCurrentFocus(updates);
 }
 
 async function handleAuth(req, res) {
@@ -71,7 +88,6 @@ async function handleFeed(req, res) {
   }
 
   await ensureSchema();
-  await ensureOpsSeed();
 
   const [statsResult, updatesResult, instructionsResult, recentSubmissionResult, recentWallResult, latestInstructionResult] = await Promise.all([
     query(`
@@ -171,11 +187,14 @@ async function handleFeed(req, res) {
     `),
   ]);
 
+  const instructions = instructionsResult.rows;
+  const updates = updatesResult.rows;
+
   return sendJson(res, 200, {
     stats: statsResult.rows[0],
-    currentFocus: summarizeCurrentFocus(updatesResult.rows),
-    updates: updatesResult.rows,
-    instructions: instructionsResult.rows,
+    currentFocus: summarizeCurrentFocusFromData(instructions, updates),
+    updates,
+    instructions,
     recentSubmission: recentSubmissionResult.rows[0] || null,
     recentMessage: recentWallResult.rows[0] || null,
     latestInstruction: latestInstructionResult.rows[0] || null,
@@ -343,6 +362,27 @@ async function handleUpdates(req, res) {
   return sendJson(res, 200, { update: result.rows[0] });
 }
 
+async function handleWorkspace(req, res) {
+  if (!isAuthenticated(req)) {
+    return sendJson(res, 401, { error: "Unauthorized" });
+  }
+
+  if (!process.env.DATABASE_URL) {
+    return sendJson(res, 503, { error: "Database not configured" });
+  }
+
+  await ensureSchema();
+
+  if (req.method !== "DELETE") {
+    return sendJson(res, 405, { error: "Method not allowed" });
+  }
+
+  await query(`delete from ops_updates`);
+  await query(`delete from ops_instructions`);
+
+  return sendJson(res, 200, { ok: true });
+}
+
 export default async function handler(req, res) {
   const action = String(req.query?.action || "").trim().toLowerCase();
 
@@ -351,6 +391,7 @@ export default async function handler(req, res) {
     if (action === "feed") return await handleFeed(req, res);
     if (action === "instructions") return await handleInstructions(req, res);
     if (action === "updates") return await handleUpdates(req, res);
+    if (action === "workspace") return await handleWorkspace(req, res);
     return sendJson(res, 400, { error: "Unknown ops action." });
   } catch (error) {
     return sendJson(res, 500, { error: error.message || "Unexpected error" });

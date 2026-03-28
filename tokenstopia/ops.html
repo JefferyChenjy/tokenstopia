@@ -520,6 +520,7 @@
             </div>
             <div class="actions">
               <button id="refresh-btn" type="button" class="ghost">刷新</button>
+              <button id="clear-workspace-btn" type="button" class="ghost">清空旧数据</button>
               <button id="logout-btn" type="button" class="secondary">退出登录</button>
             </div>
           </div>
@@ -642,6 +643,7 @@
       const loginStatus = document.getElementById("login-status");
       const refreshBtn = document.getElementById("refresh-btn");
       const logoutBtn = document.getElementById("logout-btn");
+      const clearWorkspaceBtn = document.getElementById("clear-workspace-btn");
       const focusTitle = document.getElementById("focus-title");
       const focusBody = document.getElementById("focus-body");
       const inboxSummary = document.getElementById("inbox-summary");
@@ -722,6 +724,15 @@
 
       function renderUpdates(items = []) {
         updatesList.textContent = "";
+
+        if (items.length === 0) {
+          const empty = document.createElement("article");
+          empty.className = "timeline-item";
+          empty.innerHTML = `<h3>还没有更新记录</h3><p>清空后，这里会只显示新的真实进度和状态变化。</p>`;
+          updatesList.appendChild(empty);
+          return;
+        }
+
         for (const item of items) {
           const card = document.createElement("article");
           card.className = "timeline-item";
@@ -950,6 +961,27 @@
       logoutBtn.addEventListener("click", async () => {
         await request("/api/ops?action=auth", { method: "DELETE" });
         show("auth");
+      });
+
+      clearWorkspaceBtn.addEventListener("click", async () => {
+        const confirmed = window.confirm("确定要清空当前指挥台里的旧数据吗？这会删除现有的状态更新和指令队列。");
+        if (!confirmed) return;
+
+        clearWorkspaceBtn.disabled = true;
+        instructionStatus.classList.remove("positive");
+        instructionStatus.textContent = "正在清空旧数据…";
+
+        try {
+          await request("/api/ops?action=workspace", { method: "DELETE" });
+          instructionStatus.classList.add("positive");
+          instructionStatus.textContent = "旧数据已清空。现在这里会只保留真实的待办和后续更新。";
+          await loadFeed();
+        } catch (error) {
+          instructionStatus.classList.remove("positive");
+          instructionStatus.textContent = error.message;
+        } finally {
+          clearWorkspaceBtn.disabled = false;
+        }
       });
 
       refreshBtn.addEventListener("click", async () => {
