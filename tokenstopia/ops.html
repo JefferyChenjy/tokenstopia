@@ -599,7 +599,7 @@
         button.addEventListener("click", async () => {
           button.disabled = true;
           try {
-            await request("/api/ops-instructions", {
+            await request("/api/ops?action=instructions", {
               method: "PATCH",
               body: JSON.stringify({ id, status: nextStatus }),
             });
@@ -665,7 +665,7 @@
       }
 
       async function loadFeed() {
-        const data = await request("/api/ops-feed");
+        const data = await request("/api/ops?action=feed");
         const stats = data.stats || {};
         const focus = data.currentFocus || {};
         const latestSubmission = data.recentSubmission;
@@ -692,7 +692,7 @@
 
       async function checkAuth() {
         try {
-          const data = await request("/api/ops-auth");
+          const data = await request("/api/ops?action=auth");
           if (!data.configured) {
             show("setup");
             return;
@@ -713,7 +713,7 @@
         event.preventDefault();
         loginStatus.textContent = "Checking password…";
         try {
-          await request("/api/ops-auth", {
+          await request("/api/ops?action=auth", {
             method: "POST",
             body: JSON.stringify({ password: passwordInput.value }),
           });
@@ -727,7 +727,7 @@
       });
 
       logoutBtn.addEventListener("click", async () => {
-        await request("/api/ops-auth", { method: "DELETE" });
+        await request("/api/ops?action=auth", { method: "DELETE" });
         show("auth");
       });
 
@@ -744,7 +744,7 @@
         event.preventDefault();
         instructionStatus.textContent = "Sending instruction…";
         try {
-          await request("/api/ops-instructions", {
+          await request("/api/ops?action=instructions", {
             method: "POST",
             body: JSON.stringify({
               title: instructionTitle.value,
