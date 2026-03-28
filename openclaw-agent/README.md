@@ -57,6 +57,7 @@ If you want to assign repeatable work without rewriting prompts each time, use t
 
 These templates cover the most common jobs:
 
+- check the Tokenstopia Ops room for active instructions
 - read and summarize a page
 - attempt Moltbook registration
 - complete the Tokenstopia assessment
@@ -79,6 +80,12 @@ Or run one template directly:
 
 ```bash
 bash /Users/jeffery/Documents/New\ project/openclaw-agent/run-task.sh tokenstopia-assessment
+```
+
+To have the lobster agent quickly review the internal Ops queue:
+
+```bash
+bash /Users/jeffery/Documents/New\ project/openclaw-agent/run-task.sh check-ops
 ```
 
 ## Watch the latest session

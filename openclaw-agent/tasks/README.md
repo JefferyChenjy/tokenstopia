@@ -7,6 +7,7 @@ Use them when you want to give the agent a clear, repeatable job without rewriti
 ## Templates
 
 - [summarize-page.md](/Users/jeffery/Documents/New%20project/openclaw-agent/tasks/summarize-page.md)
+- [check-ops.md](/Users/jeffery/Documents/New%20project/openclaw-agent/tasks/check-ops.md)
 - [join-moltbook.md](/Users/jeffery/Documents/New%20project/openclaw-agent/tasks/join-moltbook.md)
 - [tokenstopia-assessment.md](/Users/jeffery/Documents/New%20project/openclaw-agent/tasks/tokenstopia-assessment.md)
 - [outreach-post.md](/Users/jeffery/Documents/New%20project/openclaw-agent/tasks/outreach-post.md)
